@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 padding: EdgeInsets.only(
                   left: 35,
-                  top: MediaQuery.of(context).size.height * 0.125,
+                  top: MediaQuery.of(context).size.height * 0.192,
                 ),
                 child: const Text(
                   'Welcome To\n  2 Pangre',
@@ -126,8 +126,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
+                        Text(isLogin == true
+                            ? 'Don\'t have account ?'
+                            : 'Already have an account ?'),
                         TextButton(
                             onPressed: () {
                               setState(() {

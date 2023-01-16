@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:two_wheelers/views/onboarding_screen.dart';
+import 'package:two_wheelers/views/login_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(),
+      home: LoginScreen(),
     );
   }
 }

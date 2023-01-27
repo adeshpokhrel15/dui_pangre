@@ -9,6 +9,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       drawer: drawerWidgets(),
       appBar: AppBar(
+        shadowColor: Colors.white10,
         title: const Text('Main Page'),
       ),
       body: const Center(

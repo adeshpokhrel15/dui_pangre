@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:two_wheelers/common/utils.dart';
+import 'package:two_wheelers/common/app%20common/utils.dart';
 
 void httpErrorHandle({
   required http.Response response,

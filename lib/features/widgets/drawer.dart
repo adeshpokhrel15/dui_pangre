@@ -106,17 +106,15 @@ class drawerWidgets extends StatelessWidget {
                   title: const Text('Profile'),
                   onTap: () {},
                 ),
-                const ListTile(
-                  leading: Icon(Icons.shop_outlined),
-                  title: Text('Cart'),
+                ListTile(
+                  leading: const Icon(Icons.shop_outlined),
+                  title: const Text('Cart'),
+                  onTap: () {},
                 ),
-                const ListTile(
-                  leading: Icon(Icons.home_outlined),
-                  title: Text('Home'),
-                ),
-                const ListTile(
-                  leading: Icon(Icons.notifications_outlined),
-                  title: Text('Notification'),
+                ListTile(
+                  leading: const Icon(Icons.notifications_outlined),
+                  title: const Text('Notification'),
+                  onTap: () {},
                 ),
                 ListTile(
                   leading: const Icon(Icons.shop_outlined),
@@ -137,48 +135,55 @@ class drawerWidgets extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 80,
+                  height: 40,
                 ),
-                Container(
-                  height: 350,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Contact Support"),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: const [
-                          Text("Call us:"),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text("984125010"),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: const [
-                            Text("Mail us:"),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "bookshop@gmail.com",
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                MaterialButton(
+                    color: Colors.green,
+                    onPressed: () {},
+                    child: const Text(
+                      "Signed as Owner",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    )),
+                // Container(
+                //   height: 350,
+                //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       const Text("Contact Support"),
+                //       const SizedBox(
+                //         height: 10,
+                //       ),
+                //       Row(
+                //         children: const [
+                //           Text("Call us:"),
+                //           SizedBox(
+                //             width: 10,
+                //           ),
+                //           Text("984125010"),
+                //         ],
+                //       ),
+                //       const SizedBox(
+                //         height: 5,
+                //       ),
+                //       SingleChildScrollView(
+                //         scrollDirection: Axis.horizontal,
+                //         child: Row(
+                //           children: const [
+                //             Text("Mail us:"),
+                //             SizedBox(
+                //               width: 10,
+                //             ),
+                //             Text(
+                //               "duipangrenepal@gmail.com",
+                //               overflow: TextOverflow.ellipsis,
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // )
               ],
             )));
   }

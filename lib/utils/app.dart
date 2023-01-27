@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:two_wheelers/views/main_screen.dart';
 
 import '../views/intro_screen.dart';
 
@@ -7,9 +8,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: IntroScreen(),
+      home: MainPage(),
     );
   }
 }

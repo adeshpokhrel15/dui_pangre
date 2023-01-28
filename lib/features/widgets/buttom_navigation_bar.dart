@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../views/screens/main_screen.dart';
+import '../../views/screens/home_screen.dart';
 import '../../views/screens/setting_page.dart';
 
 class ButtomNavigationBar extends StatefulWidget {
@@ -18,7 +18,7 @@ class _ButtomNavigationBarState extends State<ButtomNavigationBar> {
     });
   }
 
-  final List<Widget> _pages = [const MainPage(), const SettingPage()];
+  final List<Widget> _pages = [const HomeScreen(), const SettingPage()];
 
   @override
   Widget build(BuildContext context) {

@@ -46,11 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void signInUser() {
-    // authService.signInUser(
-    //   context: context,
-    //   email: _emailController.text,
-    //   password: _passwordController.text,
-    // );
+    authService.signInUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 
   @override

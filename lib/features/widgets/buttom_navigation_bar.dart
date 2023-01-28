@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:two_wheelers/views/main_screen.dart';
-import 'package:two_wheelers/views/setting_page.dart';
+
+import '../../views/screens/main_screen.dart';
+import '../../views/screens/setting_page.dart';
 
 class ButtomNavigationBar extends StatefulWidget {
   const ButtomNavigationBar({super.key});

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:two_wheelers/utils/owner_field.dart';
 
 class drawerWidgets extends StatelessWidget {
   Widget listTile({
@@ -87,8 +88,12 @@ class drawerWidgets extends StatelessWidget {
                   height: 40,
                 ),
                 MaterialButton(
+                    height: 50,
                     color: Colors.green,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => OwnerField())));
+                    },
                     child: const Text(
                       "Signed as Owner",
                       style: TextStyle(fontSize: 20, color: Colors.white),

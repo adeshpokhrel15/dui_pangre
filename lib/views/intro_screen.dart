@@ -133,6 +133,6 @@ class IntroScreen extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('ON_BOARDING', false);
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+        context, MaterialPageRoute(builder: (context) => AuthScreen()));
   }
 }

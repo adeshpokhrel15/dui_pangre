@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:two_wheelers/features/data/data_source/auth_service.dart';
 
 import '../common/app common/global_variables.dart';
 import '../common/widgets common/custom_button.dart';
@@ -25,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final AuthService authService = AuthService();
   bool isLogin = true;
   @override
   void dispose() {
@@ -35,12 +37,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void signUpUser() {
-    // authService.signUpUser(
-    //   context: context,
-    //   email: _emailController.text,
-    //   password: _passwordController.text,
-    //   name: _nameController.text,
-    //);
+    authService.signUpUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+      name: _nameController.text,
+    );
   }
 
   void signInUser() {

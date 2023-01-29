@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:two_wheelers/features/widgets/home_screen/product_card_bottom.dart';
 
 import '../../../constant/constant.dart';
 import '../../../views/screens/product_details_screen.dart';
 import '../../components/card_body.dart';
+import '../../components/product_card_button.dart';
 import '../../components/size_config.dart';
 import '../../models/product_model.dart';
 
-class ProductSlider extends StatelessWidget {
-  const ProductSlider({
+class BestSellingSection extends StatelessWidget {
+  const BestSellingSection({
     Key? key,
   }) : super(key: key);
 
@@ -16,24 +16,24 @@ class ProductSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: SizeConfig.getScreenPropotionWidth(300.0),
+      height: SizeConfig.getScreenPropotionHeight(300),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return CardBody(
-            width: SizeConfig.getScreenPropotionWidth(200.0),
-            height: SizeConfig.getScreenPropotionHeight(300.0),
-            index: index,
+            width: SizeConfig.getScreenPropotionWidth(298),
+            height: SizeConfig.getScreenPropotionHeight(300),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProductDetailsScreen(
-                    product: demoProducts[index],
+                    product: bestSelling[index],
                   ),
                 ),
               );
             },
+            index: index,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -43,18 +43,18 @@ class ProductSlider extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),
                   child: Text(
-                    demoProducts[index].name,
+                    bestSelling[index].name,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.orange,
+                      color: kTextColor,
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),
                   child: Text(
-                    demoProducts[index].modelNo,
+                    bestSelling[index].modelNo,
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -62,27 +62,45 @@ class ProductSlider extends StatelessWidget {
                     ),
                   ),
                 ),
-                Center(
-                  child: Hero(
-                    tag: demoProducts[index].id,
-                    child: Image.asset(
-                      demoProducts[index].images[0],
-                      width: SizeConfig.getScreenPropotionWidth(100),
-                      height: SizeConfig.getScreenPropotionHeight(170),
-                      fit: BoxFit.cover,
-                    ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          bestSelling[index].description,
+                          style: const TextStyle(
+                            color: kTextLightColor,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Hero(
+                            tag: bestSelling[index].id,
+                            child: Image.asset(
+                              bestSelling[index].images[0],
+                              width: SizeConfig.getScreenPropotionWidth(100),
+                              height: SizeConfig.getScreenPropotionHeight(170),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
                   child: ProductCardBottom(
-                    product: demoProducts[index],
+                    product: bestSelling[index],
                   ),
                 )
               ],
             ),
           );
         },
-        itemCount: demoProducts.length,
+        itemCount: bestSelling.length,
       ),
     );
   }

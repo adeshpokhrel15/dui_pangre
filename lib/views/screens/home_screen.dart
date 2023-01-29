@@ -17,6 +17,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:two_wheelers/features/widgets/drawer.dart';
+import 'package:two_wheelers/features/widgets/home_screen/carousel_screen.dart';
+import 'package:two_wheelers/features/widgets/home_screen/top_category.dart';
 
 import '../../common/app common/global_variables.dart';
 
@@ -83,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 1,
                           ),
                         ),
-                        hintText: 'Search 2 Pangre',
+                        hintText: 'Search your vehicle',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,
@@ -104,6 +106,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       drawer: drawerWidgets(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: const [
+            Center(child: CategorySection()),
+            SizedBox(
+              height: 10,
+            ),
+            CarouselImage(),
+            SizedBox(
+              height: 10,
+            )
+          ],
+        ),
+      ),
     );
   }
 }

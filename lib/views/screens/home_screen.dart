@@ -1,9 +1,27 @@
+// import 'package:flutter/material.dart';
+// import 'package:two_wheelers/features/widgets/drawer.dart';
+
+// class HomeScreen extends StatelessWidget {
+//   const HomeScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("homescreen"),
+//       ),
+//       drawer: drawerWidgets(),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 import 'package:two_wheelers/features/widgets/drawer.dart';
 
 import '../../common/app common/global_variables.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String routeName = '/home';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -33,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(7),
                     elevation: 1,
                     child: TextFormField(
-                      // onFieldSubmitted: navigateToSearchScreen,
                       decoration: InputDecoration(
                         prefixIcon: InkWell(
                           onTap: () {},
@@ -66,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 1,
                           ),
                         ),
-                        hintText: 'Search in Dui Pangre',
+                        hintText: 'Search 2 Pangre',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,
@@ -87,11 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       drawer: drawerWidgets(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: const [],
-        ),
-      ),
     );
   }
 }

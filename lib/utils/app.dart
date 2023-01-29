@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:two_wheelers/utils/owner_field.dart';
+import 'package:two_wheelers/views/screens/home_screen.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -11,6 +11,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: OwnerField());
+    return const MaterialApp(
+        debugShowCheckedModeBanner: false, home: HomeScreen());
   }
 }

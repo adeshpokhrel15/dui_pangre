@@ -24,8 +24,8 @@ class drawerWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
+    return Drawer(
+        child: Container(
             color: Colors.white,
             child: ListView(
               children: [
@@ -87,17 +87,20 @@ class drawerWidgets extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                MaterialButton(
-                    height: 50,
-                    color: Colors.green,
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => OwnerField())));
-                    },
-                    child: const Text(
-                      "Signed as Owner",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    )),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: MaterialButton(
+                      height: 50,
+                      color: Colors.green,
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: ((context) => OwnerField())));
+                      },
+                      child: const Text(
+                        "Signed as Owner",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      )),
+                ),
                 // Container(
                 //   height: 350,
                 //   padding: const EdgeInsets.symmetric(horizontal: 20),

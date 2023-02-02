@@ -126,46 +126,6 @@ class _SettingPageState extends State<SettingPage> {
             child: const Padding(
               padding: EdgeInsets.only(left: 20.0, top: 2),
               child: Text(
-                'USER INFO',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            )),
-        listTile(
-          icon: Icons.height_outlined,
-          title: 'Height',
-          value: '5.8',
-        ),
-        listTile(
-          icon: Icons.fitness_center_rounded,
-          title: 'Weight',
-          value: '159 lb',
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        listTile(
-          icon: Icons.wc,
-          title: 'Gender',
-          value: 'Female',
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        listTile(
-          icon: Icons.calendar_month_outlined,
-          title: 'Age',
-          value: '28',
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-            height: 20,
-            color: Colors.grey,
-            width: double.infinity,
-            child: const Padding(
-              padding: EdgeInsets.only(left: 20.0, top: 2),
-              child: Text(
                 'Account Info',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,

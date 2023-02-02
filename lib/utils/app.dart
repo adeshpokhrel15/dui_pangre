@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:two_wheelers/views/screens/home_screen.dart';
 
-import '../views/screens/setting_page.dart';
+import '../features/widgets/buttom_navigation_bar.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -13,7 +12,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: SettingPage());
+    return MaterialApp(
+        debugShowCheckedModeBanner: false, home: BottomPageBar());
   }
 }

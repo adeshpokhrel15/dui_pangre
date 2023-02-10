@@ -152,7 +152,7 @@ class IntroScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10)),
                 onPressed: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => loginScreen()));
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
                 child: const Text('Click me'),
               ),

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "186246438799",
+    "project_id": "duipangre-ffe44",
+    "storage_bucket": "duipangre-ffe44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186246438799:android:9dac2440ead4e73dbdf5fa",
+        "android_client_info": {
+          "package_name": "com.example.two_wheelers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186246438799-p2tf7mjvl97hqlag6o7nlvm75qcstfan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtDYD2ktKuidIM0mtZjLrLZameYHAjmGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186246438799-p2tf7mjvl97hqlag6o7nlvm75qcstfan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../views/status_screen/statusScreen.dart';
+import '../views/screens/details/random.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -13,6 +13,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: StatusCheck());
+        debugShowCheckedModeBanner: false, home: RandomPage());
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:two_wheelers/views/screens/home_screen.dart';
+import 'package:two_wheelers/views/screens/details/random.dart';
 
 import '../../providers/auth_provider.dart';
 import '../onboarding screen/intro_screen.dart';
@@ -17,7 +17,7 @@ class StatusCheck extends StatelessWidget {
             if (data == null) {
               return const IntroScreen();
             } else {
-              return const HomeScreen();
+              return const RandomPage();
             }
           },
           error: (err, stack) => Text('$err'),

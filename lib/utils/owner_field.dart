@@ -217,7 +217,8 @@ class OwnerField extends StatelessWidget {
                                   citizenshipno: _citizenshipnumber.text.trim(),
                                   phonenumber: int.parse(
                                       phonenumberController.text.trim()),
-                                  bikeCC: bikeccController.text.trim(),
+                                  bikeCC:
+                                      int.parse(bikeccController.text.trim()),
                                   bikemodel: bikemodelController.text.trim(),
                                   bikecolor: bikecolorController.text.trim(),
                                   vehicledetail:

@@ -15,7 +15,7 @@ class PostProvider {
     required String userId,
     required String citizenshipno,
     required int phonenumber,
-    required String bikeCC,
+    required int bikeCC,
     required String bikemodel,
     required XFile licenceimageId,
     required String vehicledetail,

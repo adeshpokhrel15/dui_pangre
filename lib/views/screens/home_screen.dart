@@ -9,6 +9,7 @@ import '../../features/data/data_source/user_model_data_source.dart';
 import '../../features/models/vehicle_items.dart';
 import '../../features/widgets/home_screen/top_category.dart';
 import '../../features/widgets/search_bar.dart';
+import '../../providers/post_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -135,6 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final userData = ref.watch(userProvider);
+      final poststream = ref.watch(postStream);
       return SafeArea(
         child: Scaffold(
           backgroundColor: ColorPalette().scaffoldBg,

@@ -87,7 +87,8 @@ class LoginScreen extends StatelessWidget {
                         TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           controller: addressController,
-                          decoration: const InputDecoration(hintText: 'email'),
+                          decoration:
+                              const InputDecoration(hintText: 'address'),
                         ),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:two_wheelers/features/widgets/drawer.dart';
 import 'package:two_wheelers/views/screens/item_details.dart';
 
 import '../../constant/color_palette.dart';
+import '../../features/data/data_source/user_model_data_source.dart';
 import '../../features/models/vehicle_items.dart';
 import '../../features/widgets/home_screen/top_category.dart';
 import '../../features/widgets/search_bar.dart';
@@ -131,165 +133,171 @@ class _HomeScreenState extends State<HomeScreen> {
   int counter = -1;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: ColorPalette().scaffoldBg,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const drawerWidgets()));
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(7.0),
-                        height: 42.0,
-                        width: 42.0,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF1F242C),
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: const Icon(Icons.person,
-                            size: 12.0, color: Color(0xFF4D4F52)),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        //todo
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(7.0),
-                        height: 42.0,
-                        width: 42.0,
-                        decoration: const BoxDecoration(
-                            // image: const DecorationImage(
-                            //     image: AssetImage('assets/images/model.png'),
-                            //     fit: BoxFit.cover),
-                            // borderRadius: BorderRadius.circular(12.0),
-                            ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 15.0, top: 15.0),
-                width: (MediaQuery.of(context).size.width / 3) * 2 + 25.0,
-                child: Text('Rent the Vehicle for you...',
-                    style: GoogleFonts.sourceSansPro(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 40.0)),
-              ),
-              const SizedBox(height: 20.0),
-              const SearchBar(),
-              const SizedBox(height: 20.0),
-              const CategorySection(),
-              SizedBox(
-                  height: (MediaQuery.of(context).size.height / 2) - 50.0,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView(
-                    padding: const EdgeInsets.only(top: 5.0),
+    return Consumer(builder: (context, ref, child) {
+      final userData = ref.watch(userProvider);
+      return SafeArea(
+        child: Scaffold(
+          backgroundColor: ColorPalette().scaffoldBg,
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 10.0),
-                        child: Text(
-                          'Bikes',
-                          style: GoogleFonts.sourceSansPro(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DrawerWidgets()));
+                        },
                         child: Container(
-                          color: Colors.transparent,
-                          width: double.infinity,
-                          height: 225.0,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              ...bikeList.map((e) {
-                                return _buildVehicleItem(e);
-                              }).toList()
-                            ],
+                          padding: const EdgeInsets.all(7.0),
+                          height: 42.0,
+                          width: 42.0,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF1F242C),
+                            borderRadius: BorderRadius.circular(12.0),
                           ),
+                          child: const Icon(Icons.person,
+                              size: 12.0, color: Color(0xFF4D4F52)),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 10.0),
-                        child: Text(
-                          'Scooters',
-                          style: GoogleFonts.sourceSansPro(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      GestureDetector(
+                        onTap: () {
+                          //todo
+                        },
                         child: Container(
-                          color: Colors.transparent,
-                          width: MediaQuery.of(context).size.width - 10.0,
-                          height: 225.0,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              ...scooterList.map((e) {
-                                return _buildVehicleItem(e);
-                              }).toList()
-                            ],
-                          ),
+                          padding: const EdgeInsets.all(7.0),
+                          height: 42.0,
+                          width: 42.0,
+                          decoration: const BoxDecoration(
+                              // image: const DecorationImage(
+                              //     image: AssetImage('assets/images/model.png'),
+                              //     fit: BoxFit.cover),
+                              // borderRadius: BorderRadius.circular(12.0),
+                              ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 10.0),
-                        child: Text(
-                          'Special for you',
-                          style: GoogleFonts.sourceSansPro(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 18.0),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                        child: Container(
-                          color: Colors.transparent,
-                          width: MediaQuery.of(context).size.width - 10.0,
-                          height: 225.0,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              ...bestForYou.map((e) {
-                                return _buildVehicleItem(e);
-                              }).toList()
-                            ],
-                          ),
-                        ),
-                      ),
+                      )
                     ],
-                  ))
-            ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 15.0, top: 15.0),
+                  width: (MediaQuery.of(context).size.width / 3) * 2 + 25.0,
+                  child: Text('Rent the Vehicle for you...',
+                      style: GoogleFonts.sourceSansPro(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 40.0)),
+                ),
+                const SizedBox(height: 20.0),
+                const SearchBar(),
+                const SizedBox(height: 20.0),
+                const CategorySection(),
+                SizedBox(
+                    height: (MediaQuery.of(context).size.height / 2) - 50.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 10.0),
+                          child: Text(
+                            'Bikes',
+                            style: GoogleFonts.sourceSansPro(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 18.0),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: Container(
+                            color: Colors.transparent,
+                            width: double.infinity,
+                            height: 225.0,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                ...bikeList.map((e) {
+                                  return _buildVehicleItem(e);
+                                }).toList()
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 10.0),
+                          child: Text(
+                            'Scooters',
+                            style: GoogleFonts.sourceSansPro(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 18.0),
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: Container(
+                            color: Colors.transparent,
+                            width: MediaQuery.of(context).size.width - 10.0,
+                            height: 225.0,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                ...scooterList.map((e) {
+                                  return _buildVehicleItem(e);
+                                }).toList()
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 10.0),
+                          child: Text(
+                            'Special for you',
+                            style: GoogleFonts.sourceSansPro(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 18.0),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: Container(
+                            color: Colors.transparent,
+                            width: MediaQuery.of(context).size.width - 10.0,
+                            height: 225.0,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                ...bestForYou.map((e) {
+                                  return _buildVehicleItem(e);
+                                }).toList()
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ))
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildVehicleItem(VehicleItem vItem) {

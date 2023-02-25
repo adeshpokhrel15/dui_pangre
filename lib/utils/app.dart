@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:two_wheelers/views/onboarding%20screen/intro_screen.dart';
+
+import '../views/status_screen/statusScreen.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -12,6 +13,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: IntroScreen());
+        debugShowCheckedModeBanner: false, home: StatusCheck());
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../models/user_model/user_model.dart';
+import '../../models/user_model.dart';
 
 final userProvider = StreamProvider((ref) => UserProvider().getUsers());
 

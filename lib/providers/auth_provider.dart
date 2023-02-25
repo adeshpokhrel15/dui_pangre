@@ -41,6 +41,7 @@ class LoginSignUpProvider {
         'username': userName,
         'userId': responseUser.user!.uid,
         'address': address,
+        'userImage': url,
       });
 
       return 'success';

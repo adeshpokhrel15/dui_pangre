@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:two_wheelers/features/models/vehicle_items.dart';
 
-import '../../constant/color_palette.dart';
+import '../../../models/vehicle_items_model.dart';
+import '../managers/color_palette_manager.dart';
 
 class ItemDetails extends StatefulWidget {
   final VehicleItem vItem;

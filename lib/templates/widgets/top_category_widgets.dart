@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../models/category_model.dart';
 
-class CategorySection extends StatefulWidget {
-  const CategorySection({
+class TopCategorySection extends StatefulWidget {
+  const TopCategorySection({
     Key? key,
   }) : super(key: key);
 
   @override
-  _CategorySectionState createState() => _CategorySectionState();
+  _TopCategorySectionState createState() => _TopCategorySectionState();
 }
 
-class _CategorySectionState extends State<CategorySection> {
+class _TopCategorySectionState extends State<TopCategorySection> {
   int _activeCategory = 0;
 
   @override

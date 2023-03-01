@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:two_wheelers/features/models/post_model.dart';
+
+import '../models/post_model.dart';
 
 final postStream = StreamProvider((ref) => PostProvider().getPost());
 final postCRUDprovider = Provider((ref) => PostProvider());
@@ -15,7 +16,8 @@ class PostProvider {
     required String userId,
     required String citizenshipno,
     required int phonenumber,
-    required int bikeCC,
+    // required int bikeCC,
+    required String bikeCC,
     required String bikemodel,
     required XFile licenceimageId,
     required String vehicledetail,

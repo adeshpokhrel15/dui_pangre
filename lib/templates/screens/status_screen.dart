@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:two_wheelers/views/screens/details/random.dart';
+import 'package:two_wheelers/templates/widgets/buttom_navigation_bar.dart';
 
-import '../../providers/auth_provider.dart';
-import '../onboarding screen/intro_screen.dart';
+import '../../../providers/auth_provider.dart';
+import 'onboarding_screen.dart';
 
-class StatusCheck extends StatelessWidget {
-  const StatusCheck({super.key});
+class StatusScreen extends StatelessWidget {
+  const StatusScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +15,9 @@ class StatusCheck extends StatelessWidget {
       return auth.when(
           data: (data) {
             if (data == null) {
-              return const IntroScreen();
+              return const OnBoardingSreen();
             } else {
-              return const RandomPage();
+              return const BottomNavigationBarWidgets();
             }
           },
           error: (err, stack) => Text('$err'),

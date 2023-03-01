@@ -2,7 +2,8 @@ class Post {
   late String id;
   late String citizenshipno;
   late int phonenumber;
-  late int bikeCC;
+  // late int bikeCC;
+  late String bikeCC;
   late String bikemodel;
   late String licenceimageId;
   late String vehicledetail;

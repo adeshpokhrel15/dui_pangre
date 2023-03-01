@@ -36,6 +36,8 @@ class LoginSignUpProvider {
       final responseUser = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
+      // print(responseUser);
+
       dbUsers.add({
         'email': email,
         'username': userName,
@@ -60,6 +62,7 @@ class LoginSignUpProvider {
     try {
       final response = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      // print(response);
       return 'success';
     } on FirebaseException catch (e) {
       print(e);
@@ -71,6 +74,7 @@ class LoginSignUpProvider {
   Future<String> logOut() async {
     try {
       final response = await FirebaseAuth.instance.signOut();
+      // print(FirebaseAuth.instance);
       return 'success';
     } on FirebaseException catch (e) {
       print(e);

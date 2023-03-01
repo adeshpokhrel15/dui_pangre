@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:two_wheelers/features/data/data_source/user_model_data_source.dart';
-import 'package:two_wheelers/utils/owner_field.dart';
+
+import '../../data/user_model_data_source.dart';
+import '../../providers/auth_provider.dart';
+import '../screens/login_screen.dart';
+import '../utils/owner_field.dart';
 
 class DrawerWidgets extends StatelessWidget {
   final auth = FirebaseAuth.instance.currentUser!.uid;
@@ -37,27 +40,19 @@ class DrawerWidgets extends StatelessWidget {
       final userData = ref.watch(loginUserProvider);
       return Drawer(
           child: ListView(
+        shrinkWrap: true,
         children: [
           userData.when(
             data: (data) {
-              return ListView(children: [
+              return ListView(shrinkWrap: true, children: [
                 DrawerHeader(
                   decoration: BoxDecoration(
                     image: DecorationImage(image: NetworkImage(data.userImage)),
                   ),
                   child: ListView(
+                    shrinkWrap: true,
                     children: [
                       Text(data.email),
-                      const CircleAvatar(
-                        radius: 43,
-                        backgroundColor: Colors.white54,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.yellow,
-                          backgroundImage: NetworkImage(
-                              'https://th.bing.com/th/id/OIP.W2xIbYmLZhyVqZRp_dATDwAAAA?pid=ImgDet&w=300&h=284&rs=1'),
-                          radius: 40,
-                        ),
-                      ),
                       const SizedBox(
                         width: 20,
                       ),
@@ -96,8 +91,12 @@ class DrawerWidgets extends StatelessWidget {
             title: Text('FAQ'),
           ),
           InkWell(
-            onTap: () {
-              // ref.read(logSignProvider).LogOut();
+            onTap: () async {
+              String value = await ref.read(logSignProvider).logOut();
+              if (value == 'success') {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: ((context) => LoginScreen())));
+              }
             },
             child: const ListTile(
               leading: Icon(Icons.exit_to_app_outlined),

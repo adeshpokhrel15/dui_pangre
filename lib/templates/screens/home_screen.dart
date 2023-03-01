@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:two_wheelers/features/widgets/drawer.dart';
-import 'package:two_wheelers/views/screens/item_details.dart';
 
-import '../../constant/color_palette.dart';
-import '../../features/data/data_source/user_model_data_source.dart';
-import '../../features/models/vehicle_items.dart';
-import '../../features/widgets/home_screen/top_category.dart';
-import '../../features/widgets/search_bar.dart';
-import '../../providers/post_provider.dart';
+import '../../../data/user_model_data_source.dart';
+import '../../../models/vehicle_items_model.dart';
+import '../../../providers/post_provider.dart';
+import '../managers/color_palette_manager.dart';
+import '../widgets/drawer_widgets.dart';
+import '../widgets/search_bar_widgets.dart';
+import '../widgets/top_category_widgets.dart';
+import 'item_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -197,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 20.0),
                 const SearchBar(),
                 const SizedBox(height: 20.0),
-                const CategorySection(),
+                const TopCategorySection(),
                 SizedBox(
                     height: (MediaQuery.of(context).size.height / 2) - 50.0,
                     width: MediaQuery.of(context).size.width,

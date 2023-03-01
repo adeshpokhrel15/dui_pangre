@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:two_wheelers/templates/screens/status_screen.dart';
 
-import '../providers/auth_provider.dart';
-import '../providers/image_provider.dart';
-import '../providers/login_provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/image_provider.dart';
+import '../../providers/login_provider.dart';
+import '../widgets/buttom_navigation_bar.dart';
 
 class LoginScreen extends StatelessWidget {
   final usernameController = TextEditingController();
@@ -127,23 +129,40 @@ class LoginScreen extends StatelessWidget {
                             FocusScope.of(context).unfocus();
                             if (_form.currentState!.validate()) {
                               if (isLogin) {
-                                ref.read(logSignProvider).logIn(
+                                String value = await ref
+                                    .read(logSignProvider)
+                                    .logIn(
                                       email: mailController.text.trim(),
                                       password: passwordController.text.trim(),
                                     );
+                                if (value == 'success') {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: ((context) =>
+                                              const BottomNavigationBarWidgets())));
+                                }
                               } else {
                                 if (dbimage.image == null) {
                                   print('please select an image');
                                 }
-                                ref.read(logSignProvider).signUp(
+                                String value = await ref
+                                    .read(logSignProvider)
+                                    .signUp(
                                       userName: usernameController.text.trim(),
                                       email: mailController.text.trim(),
                                       password: passwordController.text.trim(),
                                       image: dbimage.image!,
                                       address: addressController.text.trim(),
                                     );
-                              }
 
+                                if (value == 'success') {
+                                  ref.read(loginProvider.notifier).toggle();
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: ((context) =>
+                                              const StatusScreen())));
+                                }
+                              }
                               // if (response != 'success') {
                               //   ref.read(loginProvider.notifier).toggle();
                               //   Get.showSnackbar(GetSnackBar(

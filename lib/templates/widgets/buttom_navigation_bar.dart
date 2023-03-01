@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:two_wheelers/views/screens/cart_screen.dart';
-import 'package:two_wheelers/views/screens/home_screen.dart';
-import 'package:two_wheelers/views/screens/setting_page.dart';
+
+import '../screens/cart_screen.dart';
+import '../screens/home_screen.dart';
+import '../screens/setting_screen.dart';
 
 var tstyle = TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 50);
 
-class BottomPageBar extends StatefulWidget {
+class BottomNavigationBarWidgets extends StatefulWidget {
+  const BottomNavigationBarWidgets({super.key});
+
   @override
-  _BottomPageBarState createState() => _BottomPageBarState();
+  _BottomNavigationBarWidgetsState createState() =>
+      _BottomNavigationBarWidgetsState();
 }
 
-class _BottomPageBarState extends State<BottomPageBar> {
+class _BottomNavigationBarWidgetsState
+    extends State<BottomNavigationBarWidgets> {
   var padding = const EdgeInsets.symmetric(horizontal: 18, vertical: 5);
   double gap = 10;
 

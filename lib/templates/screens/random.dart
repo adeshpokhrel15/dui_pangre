@@ -15,14 +15,16 @@ class RandomPage extends StatelessWidget {
         ),
         body: poststream.when(
           data: (data) {
-            return ListView.builder(itemBuilder: (context, index) {
-              return const ListTile(
-                title: Text("hello"),
-                //  subtitle: Text((data[index].citizenshipno)),
-
-                // subtitle: Text(data[index].bikemodel),
-              );
-            });
+            return ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(data[index].bikecolor),
+                    subtitle: Text(data[index].bikemodel),
+                    //  subtitle: Text((data[index].citizenshipno)),
+                    // subtitle: Text(data[index].bikemodel),
+                  );
+                });
           },
           error: (err, stack) => Text('$err'),
           loading: () => const CircularProgressIndicator(),

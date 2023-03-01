@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers/image_provider.dart';
-import '../providers/post_provider.dart';
+import '../../providers/image_provider.dart';
+import '../../providers/post_provider.dart';
 
 class OwnerField extends StatelessWidget {
   final TextEditingController _citizenshipnumber = TextEditingController();
@@ -199,6 +199,25 @@ class OwnerField extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+                Draggable(
+                  feedback: FloatingActionButton(
+                    onPressed: () {},
+                    backgroundColor: Colors.blue,
+                    child: const Icon(
+                      Icons.camera_alt_outlined,
+                      color: Colors.red,
+                    ),
+                  ),
+                  childWhenDragging: Container(),
+                  child: FloatingActionButton(
+                    onPressed: () async {},
+                    backgroundColor: Colors.red,
+                    child: const Icon(
+                      Icons.camera_alt_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
                 SizedBox(
                     height: 45,
                     child: MaterialButton(
@@ -218,7 +237,8 @@ class OwnerField extends StatelessWidget {
                                   phonenumber: int.parse(
                                       phonenumberController.text.trim()),
                                   bikeCC:
-                                      int.parse(bikeccController.text.trim()),
+                                      // int.parse(bikeccController.text.trim()),
+                                      bikeccController.text.trim(),
                                   bikemodel: bikemodelController.text.trim(),
                                   bikecolor: bikecolorController.text.trim(),
                                   vehicledetail:

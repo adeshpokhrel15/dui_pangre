@@ -116,11 +116,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:two_wheelers/templates/screens/login_screen.dart';
 
-import '../auth_screen.dart';
-
-class IntroScreen extends StatelessWidget {
-  const IntroScreen({super.key});
+class OnBoardingSreen extends StatelessWidget {
+  const OnBoardingSreen({super.key});
 
   @override
   Widget build(BuildContext context) {

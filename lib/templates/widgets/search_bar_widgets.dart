@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../constant/color_palette.dart';
+import '../managers/color_palette_manager.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({super.key});

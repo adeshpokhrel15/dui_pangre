@@ -76,16 +76,6 @@ class DrawerWidgets extends StatelessWidget {
             title: const Text('Cart'),
             onTap: () {},
           ),
-          ListTile(
-            leading: const Icon(Icons.notifications_outlined),
-            title: const Text('Notification'),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Icons.shop_outlined),
-            title: const Text('Review Cart'),
-            onTap: () {},
-          ),
           const ListTile(
             leading: Icon(Icons.format_quote_outlined),
             title: Text('FAQ'),
@@ -109,16 +99,31 @@ class DrawerWidgets extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: MaterialButton(
-                height: 50,
-                color: Colors.green,
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: ((context) => OwnerField())));
-                },
-                child: const Text(
-                  "Signed as Owner",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                )),
+              height: 50,
+              color: Colors.green,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: ((context) => OwnerField())),
+                );
+              },
+              // ButtonStyle configuration
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+
+              elevation: 5,
+              highlightElevation: 10,
+              hoverElevation: 10,
+              disabledElevation: 0,
+              splashColor: Colors.white,
+              highlightColor: Colors.white,
+              child: const Text(
+                "Signed as Owner",
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+              // You can also use other properties like backgroundColor, minimumSize, maximumSize, etc.
+            ),
           ),
           // Container(
           //   height: 350,

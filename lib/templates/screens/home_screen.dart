@@ -139,6 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
       final poststream = ref.watch(postStream);
       return SafeArea(
         child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 187, 182, 182),
+            elevation: 0,
+          ),
+          drawer: DrawerWidgets(),
           backgroundColor: ColorPalette().scaffoldBg,
           body: SingleChildScrollView(
             child: Column(
@@ -148,40 +153,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 5.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => DrawerWidgets()));
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(7.0),
-                          height: 42.0,
-                          width: 42.0,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF1F242C),
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: const Icon(Icons.person,
-                              size: 12.0, color: Color(0xFF4D4F52)),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          //todo
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(7.0),
-                          height: 42.0,
-                          width: 42.0,
-                          decoration: const BoxDecoration(
-                              // image: const DecorationImage(
-                              //     image: AssetImage('assets/images/model.png'),
-                              //     fit: BoxFit.cover),
-                              // borderRadius: BorderRadius.circular(12.0),
-                              ),
-                        ),
-                      )
+                    children: const [
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.of(context).push(MaterialPageRoute(
+                      //         builder: (context) => DrawerWidgets()));
+                      //   },
+                      //   child: Container(
+                      //     padding: const EdgeInsets.all(7.0),
+                      //     height: 42.0,
+                      //     width: 42.0,
+                      //     decoration: BoxDecoration(
+                      //       color: const Color(0xFF1F242C),
+                      //       borderRadius: BorderRadius.circular(12.0),
+                      //     ),
+                      //     child: const Icon(Icons.person,
+                      //         size: 12.0, color: Color(0xFF4D4F52)),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

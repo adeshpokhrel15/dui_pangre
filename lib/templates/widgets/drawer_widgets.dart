@@ -47,15 +47,37 @@ class DrawerWidgets extends StatelessWidget {
               return ListView(shrinkWrap: true, children: [
                 DrawerHeader(
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: NetworkImage(data.userImage)),
+                    image: DecorationImage(
+                      image: NetworkImage(data.userImage),
+                      fit: BoxFit
+                          .cover, // make sure the image covers the entire container
+                    ),
                   ),
-                  child: ListView(
-                    shrinkWrap: true,
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start, // align text to the left
+                    mainAxisAlignment:
+                        MainAxisAlignment.end, // move text to the bottom
                     children: [
-                      Text(data.email),
-                      const SizedBox(
-                        width: 20,
+                      Text(
+                        data.username,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                      Text(
+                        data.email,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                          height:
+                              10), // add some space between the text and the bottom of the container
                     ],
                   ),
                 ),

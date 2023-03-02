@@ -17,6 +17,7 @@ class OwnerField extends StatelessWidget {
   final TextEditingController bikecolorController = TextEditingController();
   final TextEditingController rentpriceController = TextEditingController();
   final TextEditingController phonenumberController = TextEditingController();
+  final TextEditingController vehiclenameController = TextEditingController();
   final _form = GlobalKey<FormState>();
 
   OwnerField({super.key});
@@ -46,11 +47,15 @@ class OwnerField extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        textField(hintText: 'Bike CC', controller: bikeccController),
+        textField(hintText: 'Vehicle Name', controller: vehiclenameController),
         const SizedBox(
           height: 10,
         ),
-        textField(hintText: 'Bike Model', controller: bikemodelController),
+        textField(hintText: 'Vehicle CC', controller: bikeccController),
+        const SizedBox(
+          height: 10,
+        ),
+        textField(hintText: 'Vehicle Model', controller: bikemodelController),
         const SizedBox(
           height: 10,
         ),
@@ -90,13 +95,13 @@ class OwnerField extends StatelessWidget {
           height: 10,
         ),
         textField(
-            controller: vehicledetailsController, hintText: 'Bike Details'),
+            controller: vehicledetailsController, hintText: 'Vehicle Details'),
         const SizedBox(
           height: 10,
         ),
         textField(
           controller: bikeccController,
-          hintText: 'Bike Color',
+          hintText: 'Vehicle Color',
         ),
         const SizedBox(
           height: 10,
@@ -158,6 +163,7 @@ class OwnerField extends StatelessWidget {
                     rentprice: int.parse(rentpriceController.text.trim()),
                     licenceimageId: dbimage1.image!,
                     bikepic: dbimage2.image!,
+                    vehiclename: vehiclenameController.text.trim(),
                   );
             },
             // ButtonStyle configuration

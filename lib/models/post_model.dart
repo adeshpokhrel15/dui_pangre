@@ -2,7 +2,6 @@ class Post {
   late String id;
   late String citizenshipno;
   late int phonenumber;
-  // late int bikeCC;
   late String bikeCC;
   late String bikemodel;
   late String licenceimageId;
@@ -11,6 +10,7 @@ class Post {
   late int rentprice;
   late String bikepic;
   late String userId;
+  late String vehiclename;
 
   Post({
     required this.citizenshipno,
@@ -24,6 +24,7 @@ class Post {
     required this.bikepic,
     required this.id,
     required this.userId,
+    required this.vehiclename,
   });
 
   // factory Post.fromJson(Map<String, dynamic> json) {

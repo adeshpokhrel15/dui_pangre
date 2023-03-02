@@ -24,6 +24,7 @@ class PostProvider {
     required String bikecolor,
     required int rentprice,
     required XFile bikepic,
+    required String vehiclename,
   }) async {
     try {
       final licenceimageFile =
@@ -55,6 +56,7 @@ class PostProvider {
         'rentprice': rentprice,
         'bikepic': url2,
         'userId': userId,
+        'vehicleName': vehiclename,
       });
 
       return 'success';
@@ -86,6 +88,7 @@ class PostProvider {
         bikepic: data['bikepic'],
         id: e.id,
         userId: data['userId'],
+        vehiclename: data['vehicleName'],
       );
     }).toList();
   }

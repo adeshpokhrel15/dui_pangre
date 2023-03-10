@@ -24,13 +24,19 @@ class _ItemDetailsState extends State<ItemDetails> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Consumer(builder: (context, ref, watch) {
-      final poststream = ref.watch(postStream);
+      // final poststream = ref.watch(postStream);
+      // final poststream = ref.watch(singlePostStream());
 
-      return Scaffold(
-          body: poststream.when(
-        data: (data) {
-          return ListView.builder(itemBuilder: (context, index) {
-            return Stack(
+      // return Scaffold(
+      //     body: poststream.when(
+      //   data: (data) {
+          // return ListView.builder(
+          //   itemCount: data.length,
+          //   itemBuilder: (context, index) {
+          //   return Stack(
+
+            return Scaffold(
+            body: Stack(
               children: [
                 Container(
                   height: screenHeight,
@@ -44,7 +50,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                       width: screenWidth,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage(data[index].bikepic),
+                              image: NetworkImage(widget.vItem.bikepic),
                               fit: BoxFit.cover)),
                     )),
                 Positioned(
@@ -108,7 +114,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                     blur: 4,
                     border: const Border.fromBorderSide(BorderSide.none),
                     borderRadius: BorderRadius.circular(30.0),
-                    color: Colors.black.withOpacity(0.6),
+                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
                     child: SizedBox(
                       height: 140.0,
                       width: screenWidth - 20.0,
@@ -124,14 +130,15 @@ class _ItemDetailsState extends State<ItemDetails> {
                               children: [
                                 //name
                                 Text(
-                                  'data[index].vehiclename',
+                                  widget.vItem.vehiclename,
                                   style: GoogleFonts.sourceSansPro(
                                       color: Colors.white,
                                       fontSize: 25.0,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  data[index].bikemodel,
+                                  widget.vItem.bikemodel,
+                                  // data[index].bikemodel,
                                   style: GoogleFonts.sourceSansPro(
                                       color: const Color(0xFFADADAD),
                                       fontSize: 17.0),
@@ -258,7 +265,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                   ),
                 ),
                 Positioned(
-                    top: screenHeight / 2 + 140.0,
+                    top: screenHeight / 2 + 120.0,
                     child: SizedBox(
                       height: screenHeight / 2 - 140.0,
                       width: screenWidth,
@@ -271,20 +278,32 @@ class _ItemDetailsState extends State<ItemDetails> {
                               Text(
                                 'Description',
                                 style: GoogleFonts.sourceSansPro(
-                                    color: const Color(0xFF999A9B),
+                                    color: const Color.fromARGB(
+                                        255, 202, 204, 206),
                                     fontSize: 17.0),
                               ),
                               const SizedBox(height: 10.0),
                               SizedBox(
                                 height: 50.0,
                                 width: screenWidth - 30.0,
-                                child: Text(
-                                  'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl nisl sit amet lorem. Sed euismod, nunc sit amet aliquam luctus, nisi nisl aliquam lorem, nec aliquam nisl',
-                                  style: GoogleFonts.sourceSansPro(
-                                      color: Colors.white, fontSize: 17.0),
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: widget.vItem.vehicledetail,
+                                        // text: data[index].vehicledetail,
+                                        style: GoogleFonts.sourceSansPro(
+                                          color: const Color.fromARGB(
+                                              255, 126, 124, 124),
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 10.0),
+
+                              //const SizedBox(height: 10.0),
                               // Text(
                               //   'Size',
                               //   style: GoogleFonts.sourceSansPro(
@@ -302,7 +321,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               //     ],
                               //   ),
                               // ),
-                              const SizedBox(height: 10.0),
+                              const SizedBox(height: 20.0),
                               SizedBox(
                                 width: screenWidth - 30.0,
                                 child: Row(
@@ -313,7 +332,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                       height: 50.0,
                                       child: Column(
                                         children: [
-                                          Text('Price',
+                                          Text('Price/hr',
                                               style: GoogleFonts.sourceSansPro(
                                                   color:
                                                       const Color(0xFF999A9B),
@@ -331,7 +350,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                         fontSize: 20.0),
                                               ),
                                               Text(
-                                                data[index]
+                                                // data[index]
+                                                widget.vItem
                                                     .rentprice
                                                     .toString(),
                                                 style:
@@ -384,54 +404,54 @@ class _ItemDetailsState extends State<ItemDetails> {
                       ),
                     ))
               ],
-            );
+            ),);
           });
-        },
-        error: (err, stack) => Text('Error: $err'),
-        loading: () => const CircularProgressIndicator(),
-      ));
-    });
+      //   },
+      //   error: (err, stack) => Text('Error: $err'),
+      //   loading: () => const CircularProgressIndicator(),
+      // ));
+    }
   }
 
-  Widget _buildSizeButton(String title, int index) {
-    return AnimatedContainer(
-      duration: const Duration(seconds: 4),
-      curve: Curves.easeIn,
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        child: Container(
-          height: 40.0,
-          width: 100.0,
-          decoration: BoxDecoration(
-              color: index == selectedIndex
-                  ? Colors.black
-                  : const Color(0xFF0D0F14),
-              borderRadius: BorderRadius.circular(10.0),
-              border: index == selectedIndex
-                  ? Border.all(
-                      color: ColorPalette().coffeeSelected,
-                      style: BorderStyle.solid,
-                      width: 1.0)
-                  : Border.all(
-                      color: Colors.black,
-                      style: BorderStyle.solid,
-                      width: 0.2)),
-          child: Center(
-            child: Text(
-              title,
-              style: GoogleFonts.sourceSansPro(
-                  color: index == selectedIndex
-                      ? ColorPalette().coffeeSelected
-                      : const Color(0xFFADADAD),
-                  fontSize: 15.0),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   Widget _buildSizeButton(String title, int index) {
+//     return AnimatedContainer(
+//       duration: const Duration(seconds: 4),
+//       curve: Curves.easeIn,
+//       child: GestureDetector(
+//         onTap: () {
+//           setState(() {
+//             selectedIndex = index;
+//           });
+//         },
+//         child: Container(
+//           height: 40.0,
+//           width: 100.0,
+//           decoration: BoxDecoration(
+//               color: index == selectedIndex
+//                   ? Colors.black
+//                   : const Color(0xFF0D0F14),
+//               borderRadius: BorderRadius.circular(10.0),
+//               border: index == selectedIndex
+//                   ? Border.all(
+//                       color: ColorPalette().coffeeSelected,
+//                       style: BorderStyle.solid,
+//                       width: 1.0)
+//                   : Border.all(
+//                       color: Colors.black,
+//                       style: BorderStyle.solid,
+//                       width: 0.2)),
+//           child: Center(
+//             child: Text(
+//               title,
+//               style: GoogleFonts.sourceSansPro(
+//                   color: index == selectedIndex
+//                       ? ColorPalette().coffeeSelected
+//                       : const Color(0xFFADADAD),
+//                   fontSize: 15.0),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -26,7 +26,7 @@ class OwnerField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (contet, ref, child) {
       final dbimage1 = ref.watch(imageProvider);
-      final dbimage2 = ref.watch(imageProvider);
+      final dbimage2 = ref.watch(imageProvider1);
       final auth = FirebaseAuth.instance.currentUser!.uid;
       var children2 = [
         const Center(
@@ -59,37 +59,84 @@ class OwnerField extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        InkWell(
-          onTap: () {
-            ref.read(imageProvider.notifier).getImage();
-          },
-          child: Container(
-            height: 140,
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(10),
+        Container(
+          height: 140,
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 1,
             ),
-            child: dbimage1.image == null
-                ? const Center(
-                    child: Text(
-                      "Please select License pic",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 70, 68, 68),
-                        fontSize: 16,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    ref.read(imageProvider.notifier).getImage();
+                  },
+                  child: Container(
+                    height: 140,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
                       ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  )
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.file(
-                      File(dbimage1.image!.path),
-                      fit: BoxFit.cover,
-                    ),
+                    child: dbimage2.image == null
+                        ? const Center(
+                            child: Text(
+                              "Please select Licence pic",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 70, 68, 68),
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.file(
+                              File(dbimage1.image!.path),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                   ),
+                ),
+              ],
+            ),
           ),
         ),
+        // InkWell(
+        //   onTap: () {
+        //     ref.read(imageProvider.notifier).getImage();
+        //   },
+        //   child: Container(
+        //     height: 140,
+        //     decoration: BoxDecoration(
+        //       border: Border.all(
+        //         width: 1,
+        //       ),
+        //       borderRadius: BorderRadius.circular(10),
+        //     ),
+        //     child: dbimage1.image == null
+        //         ? const Center(
+        //             child: Text(
+        //               "Please select License pic",
+        //               style: TextStyle(
+        //                 color: Color.fromARGB(255, 70, 68, 68),
+        //                 fontSize: 16,
+        //               ),
+        //             ),
+        //           )
+        //         : ClipRRect(
+        //             borderRadius: BorderRadius.circular(10),
+        //             child: Image.file(
+        //               File(dbimage1.image!.path),
+        //               fit: BoxFit.cover,
+        //             ),
+        //           ),
+        //   ),
+        // ),
 
         const SizedBox(
           height: 10,
@@ -100,7 +147,7 @@ class OwnerField extends StatelessWidget {
           height: 10,
         ),
         textField(
-          controller: bikeccController,
+          controller: bikecolorController,
           hintText: 'Vehicle Color',
         ),
         const SizedBox(
@@ -111,37 +158,54 @@ class OwnerField extends StatelessWidget {
           hintText: 'Rent Price',
         ),
         const SizedBox(height: 10),
-        InkWell(
-          onTap: () {
-            ref.read(imageProvider.notifier).getImage();
-          },
-          child: Container(
-            height: 140,
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(10),
+        Container(
+          height: 140,
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 1,
             ),
-            child: dbimage1.image == null
-                ? const Center(
-                    child: Text(
-                      "Please select Vehicle pic",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 70, 68, 68),
-                        fontSize: 16,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    ref.read(imageProvider1.notifier).getImage();
+                  },
+                  child: Container(
+                    height: 140,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
                       ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  )
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.file(
-                      File(dbimage2.image!.path),
-                      fit: BoxFit.cover,
-                    ),
+                    child: dbimage2.image == null
+                        ? const Center(
+                            child: Text(
+                              "Please select Vehicle pic",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 70, 68, 68),
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.file(
+                              File(dbimage2.image!.path),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                   ),
+                ),
+              ],
+            ),
           ),
         ),
+
         const SizedBox(
           height: 10,
         ),
@@ -151,8 +215,7 @@ class OwnerField extends StatelessWidget {
             color: Colors.green,
             onPressed: () async {
               _form.currentState!.save();
-
-              final response = await ref.read(postCRUDprovider).addPost(
+              String value = await ref.read(postCRUDprovider).addPost(
                     userId: auth,
                     citizenshipno: _citizenshipnumber.text.trim(),
                     phonenumber: int.parse(phonenumberController.text.trim()),

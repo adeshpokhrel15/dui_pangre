@@ -7,7 +7,9 @@ import 'package:image_picker/image_picker.dart';
 
 import '../models/post_model.dart';
 
-final postStream = StreamProvider((ref) => PostProvider().getPost());
+final postStream = StreamProvider((ref) => PostProvider().getPosts());
+// final singlePostStream = StreamProvider.autoDispose.family<Post, String>(
+//     (ref, id) => PostProvider().getPostById(id));
 final postCRUDprovider = Provider((ref) => PostProvider());
 
 class PostProvider {
@@ -67,11 +69,17 @@ class PostProvider {
     }
   }
 
-  Stream<List<Post>> getPost() {
+  Stream<List<Post>> getPosts() {
     final data = dbPost.snapshots().map((event) => _getFromSnap(event));
 
     return data;
   }
+  // Stream<Post> getPostById(String id) {
+  //   final data = dbPost.doc(id).snapshots().map((event) => _getFromSnap(event));
+  //   return data;
+  // }
+
+
 
   List<Post> _getFromSnap(QuerySnapshot querySnapshot) {
     return querySnapshot.docs.map((e) {

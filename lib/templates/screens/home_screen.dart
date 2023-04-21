@@ -16,6 +16,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String _selectedPriceOrder = 'Low to High';
+  final List<String> _priceOrderOptions = ['Low to High', 'High to Low'];
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
@@ -88,8 +91,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.transparent,
                         height: 42,
                         margin: const EdgeInsets.symmetric(horizontal: 10),
-                        child: const Icon(Icons.mic,
-                            color: Colors.black, size: 25),
+                        child: DropdownButton<String>(
+                          value: _selectedPriceOrder,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedPriceOrder = newValue!;
+                              // TODO: update the sorting order
+                            });
+                          },
+                          items: _priceOrderOptions
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ],
                   ),
@@ -283,198 +300,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ],
                                                 ),
                                               )
-
-                                              // Container(
-                                              //   padding: const EdgeInsets.only(
-                                              //     left: 15,
-                                              //     right: 10,
-                                              //     top: 10,
-                                              //   ),
-                                              //   margin:
-                                              //       const EdgeInsets.symmetric(
-                                              //           vertical: 8,
-                                              //           horizontal: 10),
-                                              //   decoration: BoxDecoration(
-                                              //     color: const Color.fromARGB(
-                                              //         255, 192, 187, 187),
-                                              //     borderRadius:
-                                              //         BorderRadius.circular(20),
-                                              //   ),
-                                              //   child: Column(
-                                              //     crossAxisAlignment:
-                                              //         CrossAxisAlignment.center,
-                                              //     children: [
-                                              //       Row(
-                                              //         mainAxisAlignment:
-                                              //             MainAxisAlignment
-                                              //                 .spaceBetween,
-                                              //         children: [
-                                              //           Container(
-                                              //             padding:
-                                              //                 const EdgeInsets
-                                              //                     .all(5),
-                                              //             decoration: BoxDecoration(
-                                              //                 color: const Color
-                                              //                         .fromARGB(
-                                              //                     255,
-                                              //                     50,
-                                              //                     94,
-                                              //                     131),
-                                              //                 borderRadius:
-                                              //                     BorderRadius
-                                              //                         .circular(
-                                              //                             20)),
-                                              //             child: Text(
-                                              //               '4.5',
-                                              //               style: GoogleFonts
-                                              //                   .sourceSansPro(
-                                              //                       fontWeight:
-                                              //                           FontWeight
-                                              //                               .bold,
-                                              //                       color: Colors
-                                              //                           .white,
-                                              //                       fontSize:
-                                              //                           13.0),
-                                              //             ),
-                                              //           ),
-                                              //           const Icon(
-                                              //             Icons.favorite_border,
-                                              //             color: Colors.red,
-                                              //           ),
-                                              //         ],
-                                              //       ),
-                                              //       InkWell(
-                                              //         onTap: () {},
-                                              //         child: Container(
-                                              //           margin: const EdgeInsets
-                                              //               .all(10),
-                                              //           height: 150,
-                                              //           width: 150,
-                                              //           decoration:
-                                              //               BoxDecoration(
-                                              //             borderRadius:
-                                              //                 BorderRadius
-                                              //                     .circular(20),
-                                              //             image:
-                                              //                 DecorationImage(
-                                              //               image: NetworkImage(
-                                              //                   data[index]
-                                              //                       .bikepic),
-                                              //               fit: BoxFit.cover,
-                                              //             ),
-                                              //           ),
-                                              //         ),
-                                              //       ),
-                                              //       Row(
-                                              //         mainAxisAlignment:
-                                              //             MainAxisAlignment
-                                              //                 .spaceBetween,
-                                              //         children: [
-                                              //           Container(
-                                              //             padding:
-                                              //                 const EdgeInsets
-                                              //                         .only(
-                                              //                     bottom: 8),
-                                              //             alignment: Alignment
-                                              //                 .centerLeft,
-                                              //             child: Text(
-                                              //               data[index]
-                                              //                   .vehiclename,
-                                              //               style: GoogleFonts
-                                              //                   .sourceSansPro(
-                                              //                       fontWeight:
-                                              //                           FontWeight
-                                              //                               .bold,
-                                              //                       color: const Color
-                                              //                               .fromARGB(
-                                              //                           255,
-                                              //                           14,
-                                              //                           13,
-                                              //                           13),
-                                              //                       fontSize:
-                                              //                           16.0),
-                                              //             ),
-                                              //           ),
-                                              //           Container(
-                                              //             padding:
-                                              //                 const EdgeInsets
-                                              //                         .only(
-                                              //                     bottom: 8),
-                                              //             alignment: Alignment
-                                              //                 .centerLeft,
-                                              //             child: Text(
-                                              //               data[index]
-                                              //                   .bikemodel,
-                                              //               style: GoogleFonts
-                                              //                   .sourceSansPro(
-                                              //                       fontWeight:
-                                              //                           FontWeight
-                                              //                               .bold,
-                                              //                       color: const Color
-                                              //                               .fromARGB(
-                                              //                           255,
-                                              //                           14,
-                                              //                           13,
-                                              //                           13),
-                                              //                       fontSize:
-                                              //                           16.0),
-                                              //             ),
-                                              //           ),
-                                              //         ],
-                                              //       ),
-                                              //       Row(
-                                              //         mainAxisAlignment:
-                                              //             MainAxisAlignment
-                                              //                 .spaceBetween,
-                                              //         children: [
-                                              //           Container(
-                                              //             padding:
-                                              //                 const EdgeInsets
-                                              //                         .only(
-                                              //                     bottom: 8),
-                                              //             alignment: Alignment
-                                              //                 .centerLeft,
-                                              //             child: Text(
-                                              //               'Rs.${data[index].rentprice.toString()}',
-                                              //               style: GoogleFonts
-                                              //                   .sourceSansPro(
-                                              //                       fontWeight:
-                                              //                           FontWeight
-                                              //                               .bold,
-                                              //                       color: const Color
-                                              //                               .fromARGB(
-                                              //                           255,
-                                              //                           14,
-                                              //                           13,
-                                              //                           13),
-                                              //                       fontSize:
-                                              //                           16.0),
-                                              //             ),
-                                              //           ),
-                                              //           Container(
-                                              //             height: 30.0,
-                                              //             width: 30.0,
-                                              //             decoration: BoxDecoration(
-                                              //                 color: ColorPalette()
-                                              //                     .coffeeSelected,
-                                              //                 borderRadius:
-                                              //                     BorderRadius
-                                              //                         .circular(
-                                              //                             10.0)),
-                                              //             child: const Center(
-                                              //               child: Icon(
-                                              //                 Icons.add,
-                                              //                 size: 11.0,
-                                              //                 color:
-                                              //                     Colors.white,
-                                              //               ),
-                                              //             ),
-                                              //           ),
-                                              //         ],
-                                              //       )
-                                              //     ],
-                                              //   ),
-                                              // ),
                                             ],
                                           ),
                                         );

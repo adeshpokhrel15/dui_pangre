@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:two_wheelers/templates/screens/home_screen.dart';
 
 import '../../providers/image_provider.dart';
 import '../../providers/post_provider.dart';
@@ -43,7 +44,6 @@ class OwnerField extends StatelessWidget {
           height: 10,
         ),
         textField(hintText: 'Phone number', controller: phonenumberController),
-
         const SizedBox(
           height: 10,
         ),
@@ -65,7 +65,7 @@ class OwnerField extends StatelessWidget {
             border: Border.all(
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(50),
           ),
           child: Center(
             child: Stack(
@@ -81,12 +81,12 @@ class OwnerField extends StatelessWidget {
                       border: Border.all(
                         width: 1,
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(50),
                     ),
                     child: dbimage2.image == null
                         ? const Center(
                             child: Text(
-                              "Please select Licence pic",
+                              "Please select Vehicle pic",
                               style: TextStyle(
                                 color: Color.fromARGB(255, 70, 68, 68),
                                 fontSize: 16,
@@ -106,38 +106,6 @@ class OwnerField extends StatelessWidget {
             ),
           ),
         ),
-        // InkWell(
-        //   onTap: () {
-        //     ref.read(imageProvider.notifier).getImage();
-        //   },
-        //   child: Container(
-        //     height: 140,
-        //     decoration: BoxDecoration(
-        //       border: Border.all(
-        //         width: 1,
-        //       ),
-        //       borderRadius: BorderRadius.circular(10),
-        //     ),
-        //     child: dbimage1.image == null
-        //         ? const Center(
-        //             child: Text(
-        //               "Please select License pic",
-        //               style: TextStyle(
-        //                 color: Color.fromARGB(255, 70, 68, 68),
-        //                 fontSize: 16,
-        //               ),
-        //             ),
-        //           )
-        //         : ClipRRect(
-        //             borderRadius: BorderRadius.circular(10),
-        //             child: Image.file(
-        //               File(dbimage1.image!.path),
-        //               fit: BoxFit.cover,
-        //             ),
-        //           ),
-        //   ),
-        // ),
-
         const SizedBox(
           height: 10,
         ),
@@ -164,7 +132,7 @@ class OwnerField extends StatelessWidget {
             border: Border.all(
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(50),
           ),
           child: Center(
             child: Stack(
@@ -180,12 +148,12 @@ class OwnerField extends StatelessWidget {
                       border: Border.all(
                         width: 1,
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(50),
                     ),
                     child: dbimage2.image == null
                         ? const Center(
                             child: Text(
-                              "Please select Vehicle pic",
+                              "Please select Bluebook pic",
                               style: TextStyle(
                                 color: Color.fromARGB(255, 70, 68, 68),
                                 fontSize: 16,
@@ -205,7 +173,6 @@ class OwnerField extends StatelessWidget {
             ),
           ),
         ),
-
         const SizedBox(
           height: 10,
         ),
@@ -215,6 +182,20 @@ class OwnerField extends StatelessWidget {
             color: Colors.green,
             onPressed: () async {
               _form.currentState!.save();
+              FocusScope.of(context).unfocus();
+              AlertDialog(
+                title: const Text('Success'),
+                content: const Text('Your post has been added'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: ((context) => const HomeScreen())));
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
               String value = await ref.read(postCRUDprovider).addPost(
                     userId: auth,
                     citizenshipno: _citizenshipnumber.text.trim(),
@@ -249,43 +230,6 @@ class OwnerField extends StatelessWidget {
             // You can also use other properties like minimumSize, maximumSize, etc.
           ),
         ),
-        // SizedBox(
-        //     height: 45,
-        //     child: MaterialButton(
-        //         color: Colors.green,
-        //         onPressed: () async {
-        //           _form.currentState!.save();
-        //           if (dbimage.image == null) {
-        //             ScaffoldMessenger.of(context).showSnackBar(
-        //                 const SnackBar(
-        //                     content: Text("Please select image")));
-        //           } else {
-        //             final response = await ref
-        //                 .read(postCRUDprovider)
-        //                 .addPost(
-        //                   userId: auth,
-        //                   citizenshipno: _citizenshipnumber.text.trim(),
-        //                   phonenumber: int.parse(
-        //                       phonenumberController.text.trim()),
-        //                   bikeCC:
-        //                       // int.parse(bikeccController.text.trim()),
-        //                       bikeccController.text.trim(),
-        //                   bikemodel: bikemodelController.text.trim(),
-        //                   bikecolor: bikecolorController.text.trim(),
-        //                   vehicledetail:
-        //                       vehicledetailsController.text.trim(),
-        //                   rentprice: int.parse(
-        //                       rentpriceController.text.trim()),
-        //                   licenceimageId: dbimage.image!,
-        //                   bikepic: dbimage.image!,
-        //                 );
-        //           }
-        //           //   final response = await ref
-        //         },
-        //         child: const Text(
-        //           "Submit",
-        //           style: TextStyle(fontSize: 16),
-        //         )))
       ];
       return SafeArea(
         child: Scaffold(
@@ -308,44 +252,20 @@ class OwnerField extends StatelessWidget {
     required TextEditingController controller,
   }) {
     return TextFormField(
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+
+        return null;
+      },
       controller: controller,
+      textCapitalization: TextCapitalization.words,
       decoration: InputDecoration(
-        hintText: hintText,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        filled: true,
-        fillColor: const Color.fromARGB(255, 235, 233, 233),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.green,
-            width: 2,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
           ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 2,
-          ),
-        ),
-        errorStyle: const TextStyle(
-          color: Colors.red,
-          fontSize: 14,
-        ),
-        hintStyle: const TextStyle(
-          color: Color.fromARGB(198, 39, 38, 38),
-          fontSize: 16,
-        ),
-        labelStyle: const TextStyle(
-          color: Color.fromARGB(255, 0, 0, 0),
-          fontSize: 16,
-        ),
-      ),
+          hintText: hintText),
     );
   }
 }

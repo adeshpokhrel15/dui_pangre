@@ -6,4 +6,5 @@ class ColorPalette {
   final Color coffeeSelected = const Color(0xFFD17741);
   final Color coffeeUnselected = const Color(0xFF525559);
   final Color gradientTopLeft = const Color(0xFF262B34);
+  final Color gradientBottomRight = const Color.fromARGB(255, 226, 91, 29);
 }

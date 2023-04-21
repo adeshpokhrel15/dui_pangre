@@ -21,17 +21,23 @@ class LoginSignUpProvider {
     required String password,
     required String userName,
     required String address,
-    required XFile image, //image type is File type
+    required XFile image1, //image type is File type
+    required XFile image2,
   }) async {
     try {
-      final imageFile = File(image.path); //converting the image to File type
+      final imageFile1 = File(image1.path); //converting the image to File type
+      final imageFile2 = File(image2.path);
       final imageID = DateTime.now().toString();
-      final ref = FirebaseStorage.instance.ref().child(
+      final ref1 = FirebaseStorage.instance.ref().child(
           'userImages/$imageID'); //path to push the image to firebase storage
+      final ref2 = FirebaseStorage.instance.ref().child(
+          'bluebookImage/$imageID'); //path to push the image to firebase storage
 
-      await ref.putFile(imageFile); //pushing the image to firebase storage
+      await ref1.putFile(imageFile1);
+      await ref2.putFile(imageFile2); //pushing the image to firebase storage
 
-      final url = await ref.getDownloadURL(); //getting the url of the image
+      final url1 = await ref1.getDownloadURL(); //getting the url of the image
+      final url2 = await ref2.getDownloadURL();
 
       final responseUser = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -43,7 +49,8 @@ class LoginSignUpProvider {
         'username': userName,
         'userId': responseUser.user!.uid,
         'address': address,
-        'userImage': url,
+        'userImage1': url1,
+        'userImage2': url2,
       });
 
       return 'success';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:two_wheelers/templates/screens/login_screen.dart';
 import 'package:two_wheelers/templates/widgets/buttom_navigation_bar.dart';
 
 import '../../../providers/auth_provider.dart';
-import 'onboarding_screen.dart';
 
 class StatusScreen extends StatelessWidget {
   const StatusScreen({super.key});
@@ -15,7 +15,7 @@ class StatusScreen extends StatelessWidget {
       return auth.when(
           data: (data) {
             if (data == null) {
-              return const OnBoardingSreen();
+              return const LoginScreen();
             } else {
               return const BottomNavigationBarWidgets();
             }

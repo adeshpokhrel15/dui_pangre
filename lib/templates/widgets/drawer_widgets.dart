@@ -62,7 +62,7 @@ class DrawerWidgets extends StatelessWidget {
                           child: CircleAvatar(
                             radius:
                                 50, // adjust the radius as per your requirement
-                            backgroundImage: NetworkImage(data.userImage),
+                            backgroundImage: NetworkImage(data.userImage1),
                           ),
                         ),
                         const SizedBox(height: 2),
@@ -153,8 +153,8 @@ class DrawerWidgets extends StatelessWidget {
             onTap: () async {
               String value = await ref.read(logSignProvider).logOut();
               if (value == 'success') {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: ((context) => LoginScreen())));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: ((context) => const LoginScreen())));
               }
             },
             child: const ListTile(

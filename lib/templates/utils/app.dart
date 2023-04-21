@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:two_wheelers/templates/screens/home_screen.dart';
-
-import '../../chat_head.dart';
-import '../screens/status_screen.dart';
+import 'package:two_wheelers/templates/screens/status_screen.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

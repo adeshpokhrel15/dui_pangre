@@ -1,47 +1,66 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../managers/color_palette_manager.dart';
-
-class SearchBar extends StatefulWidget {
-  const SearchBar({super.key});
+class SearchPage extends StatefulWidget {
+  final String query;
+  const SearchPage({Key? key, required this.query}) : super(key: key);
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchPageState extends State<SearchPage> {
+  List searchResult = [];
+  final TextEditingController _searchController = TextEditingController();
+
+  void searchFromFirebase(String query) async {
+    final result = await FirebaseFirestore.instance
+        .collection('posts')
+        .where('vehicleName', isEqualTo: query)
+        .get();
+
+    setState(() {
+      searchResult = result.docs.map((e) => e.data()).toList();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.text = widget.query;
+    searchFromFirebase(widget.query);
+    _searchController.addListener(() {
+      searchFromFirebase(_searchController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-      child: Container(
-        padding: const EdgeInsets.all(10.0),
-        height: 50.0,
-        width: MediaQuery.of(context).size.width - 30.0,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: ColorPalette().searchBarFill),
-        child: TextField(
-          decoration: InputDecoration(
-              filled: true,
-              hintText: 'Find your vehicle ...',
-              contentPadding: const EdgeInsets.fromLTRB(10.0, 2.0, 5.0, 12.0),
-              hintStyle:
-                  GoogleFonts.sourceSansPro(color: const Color(0xFF525559)),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: TextField(
+            controller: _searchController,
+            decoration: const InputDecoration(
+              hintText: 'Search for Vehicles',
               border: InputBorder.none,
-              fillColor: ColorPalette().searchBarFill,
-              prefixIcon: const Padding(
-                padding: EdgeInsets.only(right: 8.0, left: 8.0),
-                child: Icon(
-                  Icons.search,
-                  color: Color(0xFF525559),
-                ),
-              ),
-              prefixIconConstraints:
-                  const BoxConstraints(maxHeight: 20.0, maxWidth: 40.0),
-              prefixIconColor: const Color(0xFF525559)),
-          style: GoogleFonts.sourceSansPro(color: const Color(0xFF525559)),
+            ),
+          ),
+        ),
+        body: ListView.builder(
+          itemCount: searchResult.length,
+          itemBuilder: (context, index) {
+            final result = searchResult[index];
+            return ListTile(
+              title: Text(result['vehicheName']),
+            );
+          },
         ),
       ),
     );

@@ -34,116 +34,96 @@ class DrawerWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
     final loginUserProvider =
         FutureProvider((ref) => UserProvider().getLoginUserData(auth));
     return Consumer(builder: (context, ref, child) {
       final userData = ref.watch(loginUserProvider);
-      return Drawer(
-          child: ListView(
+      return Scaffold(
+          body: ListView(
         shrinkWrap: true,
         children: [
           userData.when(
             data: (data) {
               return ListView(shrinkWrap: true, children: [
                 SizedBox(
-                  height: 200,
-                  child: DrawerHeader(
-                    // decoration: BoxDecoration(
-                    //   image: DecorationImage(
-                    //     image: NetworkImage(data.userImage),
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    // ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Center(
-                          child: CircleAvatar(
-                            radius:
-                                50, // adjust the radius as per your requirement
-                            backgroundImage: NetworkImage(data.userImage1),
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Center(
-                          child: Text(
-                            data.username,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 26, 24, 24),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                  // height: 230,
+                  child: Stack(children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Colors.purple,
+                        borderRadius:
+                            BorderRadius.only(bottomLeft: Radius.circular(30)),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: h * 0.1, left: 28),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.12,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 4,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        spreadRadius: 2,
+                                        blurRadius: 10,
+                                        color: Colors.black.withOpacity(0.1),
+                                        offset: const Offset(0, 10))
+                                  ],
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        data.userImage1,
+                                      ))),
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Center(
-                          child: Text(
-                            data.email,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 27, 26, 26),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 18.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 40,
+                                  ),
+                                  Text(
+                                    data.username,
+                                    style: const TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    data.email,
+                                    style: const TextStyle(
+                                        fontSize: 11, color: Colors.white),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    )
+                  ]),
                 ),
-
-                // DrawerHeader(
-                //   decoration: BoxDecoration(
-                //     image: DecorationImage(
-                //       image: NetworkImage(data.userImage),
-                //       fit: BoxFit
-                //           .cover, // make sure the image covers the entire container
-                //     ),
-                //   ),
-                //   child: Column(
-                //     crossAxisAlignment:
-                //         CrossAxisAlignment.start, // align text to the left
-                //     mainAxisAlignment:
-                //         MainAxisAlignment.end, // move text to the bottom
-                //     children: [
-                //       Text(
-                //         data.username,
-                //         style: const TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //       Text(
-                //         data.email,
-                //         style: const TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //       const SizedBox(
-                //           height:
-                //               10), // add some space between the text and the bottom of the container
-                //     ],
-                //   ),
-                // ),
               ]);
             },
             error: (err, stack) => Text('$err'),
             // ignore: prefer_const_constructors
             loading: () => Center(child: CircularProgressIndicator()),
           ),
-
-          ListTile(
-            leading: const Icon(Icons.person_outlined),
-            title: const Text('Profile'),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Icons.shop_outlined),
-            title: const Text('Cart'),
-            onTap: () {},
+          const SizedBox(
+            height: 10,
           ),
           const ListTile(
             leading: Icon(Icons.format_quote_outlined),
@@ -176,7 +156,7 @@ class DrawerWidgets extends StatelessWidget {
                 );
               },
               // ButtonStyle configuration
-              shape: RoundedRectangleBorder(
+               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -194,46 +174,6 @@ class DrawerWidgets extends StatelessWidget {
               // You can also use other properties like backgroundColor, minimumSize, maximumSize, etc.
             ),
           ),
-          // Container(
-          //   height: 350,
-          //   padding: const EdgeInsets.symmetric(horizontal: 20),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       const Text("Contact Support"),
-          //       const SizedBox(
-          //         height: 10,
-          //       ),
-          //       Row(
-          //         children: const [
-          //           Text("Call us:"),
-          //           SizedBox(
-          //             width: 10,
-          //           ),
-          //           Text("984125010"),
-          //         ],
-          //       ),
-          //       const SizedBox(
-          //         height: 5,
-          //       ),
-          //       SingleChildScrollView(
-          //         scrollDirection: Axis.horizontal,
-          //         child: Row(
-          //           children: const [
-          //             Text("Mail us:"),
-          //             SizedBox(
-          //               width: 10,
-          //             ),
-          //             Text(
-          //               "duipangrenepal@gmail.com",
-          //               overflow: TextOverflow.ellipsis,
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // )
         ],
       ));
     });

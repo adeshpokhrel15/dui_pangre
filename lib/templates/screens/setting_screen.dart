@@ -245,8 +245,8 @@ class _SettingPageState extends State<SettingPage> {
               onPressed: () async {
                 String value = await ref.read(logSignProvider).logOut();
                 if (value == 'success') {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: ((context) => LoginScreen())));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: ((context) => const LoginScreen())));
                 }
               },
               shape: RoundedRectangleBorder(

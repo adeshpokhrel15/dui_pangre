@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:two_wheelers/templates/widgets/drawer_widgets.dart';
 
-import '../screens/cart_screen.dart';
 import '../screens/home_screen.dart';
-import '../screens/setting_screen.dart';
 
 var tstyle = TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 50);
 
@@ -17,11 +16,11 @@ class BottomNavigationBarWidgets extends StatefulWidget {
 
 class _BottomNavigationBarWidgetsState
     extends State<BottomNavigationBarWidgets> {
-  var padding = const EdgeInsets.symmetric(horizontal: 18, vertical: 5);
-  double gap = 10;
+  var padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 5);
+  double gap = 6;
 
   int _index = 0;
-  List pages = [const HomeScreen(), const CartScreen(), const SettingPage()];
+  List pages = [const HomeScreen(), DrawerWidgets()];
   PageController controller = PageController();
 
   @override
@@ -29,7 +28,7 @@ class _BottomNavigationBarWidgetsState
     return Scaffold(
       extendBody: true,
       body: PageView.builder(
-          itemCount: 4,
+          itemCount: 2,
           controller: controller,
           onPageChanged: (page) {
             setState(() {
@@ -72,18 +71,7 @@ class _BottomNavigationBarWidgetsState
                 ),
                 GButton(
                   gap: gap,
-                  icon: Icons.shopping_cart,
-                  iconColor: Colors.black,
-                  iconActiveColor: Colors.pink,
-                  text: 'Cart',
-                  textColor: Colors.pink,
-                  backgroundColor: Colors.pink.withOpacity(0.2),
-                  iconSize: 24,
-                  padding: padding,
-                ),
-                GButton(
-                  gap: gap,
-                  icon: Icons.settings,
+                  icon: Icons.people,
                   iconColor: Colors.black,
                   iconActiveColor: Colors.grey,
                   text: 'Settings',

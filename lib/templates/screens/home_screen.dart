@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../providers/post_provider.dart';
 import '../managers/global_variables.dart';
 import '../widgets/courser_image.dart';
+import '../widgets/search_bar_widgets.dart';
 import 'item_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,8 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Material(
                             borderRadius: BorderRadius.circular(7),
                             elevation: 1,
-                            child: TextFormField(
+                            child: TextField(
                               // onFieldSubmitted: navigateToSearchScreen,
+                              onSubmitted: (query) {
+                                SearchPage(query: query);
+                              },
                               decoration: InputDecoration(
                                 prefixIcon: InkWell(
                                   onTap: () {},
@@ -87,27 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      Container(
-                        color: Colors.transparent,
-                        height: 42,
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        child: DropdownButton<String>(
-                          value: _selectedPriceOrder,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _selectedPriceOrder = newValue!;
-                              // TODO: update the sorting order
-                            });
-                          },
-                          items: _priceOrderOptions
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -118,7 +101,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SingleChildScrollView(
                     child: Column(children: [
                       const CarouselImage(),
-                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: Text(
+                              'Price',
+                              style: GoogleFonts.sourceSansPro(
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF0E0D0D),
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            color: Colors.transparent,
+                            height: 42,
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
+                            child: DropdownButton<String>(
+                              value: _selectedPriceOrder,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedPriceOrder = newValue!;
+                                  // TODO: update the sorting order
+                                });
+                              },
+                              items: _priceOrderOptions
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
                       SafeArea(
                         child: SizedBox(
                             height: 520,

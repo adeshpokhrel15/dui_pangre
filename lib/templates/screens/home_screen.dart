@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../providers/post_provider.dart';
 import '../managers/global_variables.dart';
 import '../widgets/courser_image.dart';
-import '../widgets/search_bar_widgets.dart';
 import 'item_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,10 +22,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
 
-  List? searchResult = null;
-  List priceResult= [];
-
-
+  List? searchResult;
+  List priceResult = [];
 
   String _selectedPriceOrder = 'Low to High';
   final List<String> _priceOrderOptions = ['Low to High', 'High to Low'];
@@ -36,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
         .collection('posts')
         .where('vehicleName', isEqualTo: query.toLowerCase())
         .get();
-
 
     setState(() {
       searchResult = result.docs;
@@ -136,271 +132,274 @@ class _HomeScreenState extends State<HomeScreen> {
               body: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: Column(children: [
-                    const CarouselImage(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12.0),
-                          child: Text(
-                            'Price',
-                            style: GoogleFonts.sourceSansPro(
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFF0E0D0D),
-                              fontSize: 16.0,
+                  child: SingleChildScrollView(
+                    child: Column(children: [
+                      const CarouselImage(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: Text(
+                              'Price',
+                              style: GoogleFonts.sourceSansPro(
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF0E0D0D),
+                                fontSize: 16.0,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          color: Colors.transparent,
-                          height: 42,
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          child: DropdownButton<String>(
-                            value: _selectedPriceOrder,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedPriceOrder = newValue!;
-                                
-                              });
-                            },
-                            items: _priceOrderOptions
-                                .map<DropdownMenuItem<String>>(
-                                    (String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
+                          Container(
+                            color: Colors.transparent,
+                            height: 42,
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
+                            child: DropdownButton<String>(
+                              value: _selectedPriceOrder,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedPriceOrder = newValue!;
+                                });
+                              },
+                              items: _priceOrderOptions
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SafeArea(
-                      child: SizedBox(
-                          height: 463,
-                          child: searchResult != null
-                              ? searchResult!.isNotEmpty ? ListView.builder(
-                                  itemCount: searchResult!.length,
-                                  itemBuilder: (context, index) {
-                                    final result = searchResult![index].data();
-                                    return ListTile(
-                                      title: Text(result['vehicleName']),
-                                    );
-                                  },
-                                ): Text('No content found')
-                              : poststream.when(
-                                  data: (data) {
-                                    
-                                    if (_selectedPriceOrder == 'Low to High')
-                                    {
-
-                                    data.sort((a, b) => a.rentprice.compareTo(b.rentprice));
-                                    }
-                                    else{
-                                    data.sort((a, b) => b.rentprice.compareTo(a.rentprice));
-                                    }
-                                    
-                                    return GridView.builder(
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 5,
-                                          mainAxisExtent: 300,
-                                        ),
-                                        itemCount: data.length,
+                        ],
+                      ),
+                      SafeArea(
+                        child: SizedBox(
+                            height: 463,
+                            child: searchResult != null
+                                ? searchResult!.isNotEmpty
+                                    ? ListView.builder(
+                                        itemCount: searchResult!.length,
                                         itemBuilder: (context, index) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ItemDetails(
-                                                            vItem:
-                                                                data[index],
-                                                          )));
-                                            },
-                                            child: Column(
-                                              children: [
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 15,
-                                                    vertical: 10,
+                                          final result =
+                                              searchResult![index].data();
+                                          return ListTile(
+                                            title: Text(result['vehicleName']),
+                                          );
+                                        },
+                                      )
+                                    : const Text('No content found')
+                                : poststream.when(
+                                    data: (data) {
+                                      if (_selectedPriceOrder ==
+                                          'Low to High') {
+                                        data.sort((a, b) =>
+                                            a.rentprice.compareTo(b.rentprice));
+                                      } else {
+                                        data.sort((a, b) =>
+                                            b.rentprice.compareTo(a.rentprice));
+                                      }
+
+                                      return GridView.builder(
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 5,
+                                            mainAxisExtent: 300,
+                                          ),
+                                          itemCount: data.length,
+                                          itemBuilder: (context, index) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ItemDetails(
+                                                              vItem:
+                                                                  data[index],
+                                                            )));
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 10,
                                                   ),
-                                                  margin: const EdgeInsets
-                                                      .symmetric(
-                                                    vertical: 8,
-                                                    horizontal: 10,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    color: const Color(
-                                                        0xFFC0BBBB),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Container(
-                                                            padding:
+                                                  Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 10,
+                                                    ),
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                      vertical: 8,
+                                                      horizontal: 10,
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                      color: const Color(
+                                                          0xFFC0BBBB),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(5),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: const Color(
+                                                                    0xFF325E83),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                              ),
+                                                              child: Text(
+                                                                '4.5',
+                                                                style: GoogleFonts
+                                                                    .sourceSansPro(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      13.0,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const Icon(
+                                                              Icons
+                                                                  .favorite_border,
+                                                              color: Colors.red,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {},
+                                                          child: Container(
+                                                            margin:
                                                                 const EdgeInsets
-                                                                    .all(5),
+                                                                    .all(10),
+                                                            height: 150,
+                                                            width: 150,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: const Color(
-                                                                  0xFF325E83),
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
                                                                           20),
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: NetworkImage(
+                                                                    data[index]
+                                                                        .bikepic),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
                                                             ),
-                                                            child: Text(
-                                                              '4.5',
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              data[index]
+                                                                  .vehiclename,
                                                               style: GoogleFonts
                                                                   .sourceSansPro(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize:
-                                                                    13.0,
+                                                                color: const Color(
+                                                                    0xFF0E0D0D),
+                                                                fontSize: 16.0,
                                                               ),
                                                             ),
-                                                          ),
-                                                          const Icon(
-                                                            Icons
-                                                                .favorite_border,
-                                                            color: Colors.red,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {},
-                                                        child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .all(10),
-                                                          height: 150,
-                                                          width: 150,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
-                                                            image:
-                                                                DecorationImage(
-                                                              image: NetworkImage(
-                                                                  data[index]
-                                                                      .bikepic),
-                                                              fit: BoxFit
-                                                                  .cover,
+                                                            Text(
+                                                              data[index]
+                                                                  .bikemodel,
+                                                              style: GoogleFonts
+                                                                  .sourceSansPro(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: const Color(
+                                                                    0xFF0E0D0D),
+                                                                fontSize: 16.0,
+                                                              ),
                                                             ),
-                                                          ),
+                                                          ],
                                                         ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                            data[index]
-                                                                .vehiclename,
-                                                            style: GoogleFonts
-                                                                .sourceSansPro(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: const Color(
-                                                                  0xFF0E0D0D),
-                                                              fontSize: 16.0,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            data[index]
-                                                                .bikemodel,
-                                                            style: GoogleFonts
-                                                                .sourceSansPro(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: const Color(
-                                                                  0xFF0E0D0D),
-                                                              fontSize: 16.0,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 8),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                            'Rs.${data[index].rentprice.toString()}',
-                                                            style: GoogleFonts
-                                                                .sourceSansPro(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: const Color(
-                                                                  0xFF0E0D0D),
-                                                              fontSize: 16.0,
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            height: 30.0,
-                                                            width: 30.0,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: const Color(
-                                                                  0xFFA28764),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
-                                                            ),
-                                                            child:
-                                                                const Center(
-                                                              child: Icon(
-                                                                Icons.add,
-                                                                size: 11.0,
-                                                                color: Colors
-                                                                    .white,
+                                                        const SizedBox(
+                                                            height: 8),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              'Rs.${data[index].rentprice.toString()}',
+                                                              style: GoogleFonts
+                                                                  .sourceSansPro(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: const Color(
+                                                                    0xFF0E0D0D),
+                                                                fontSize: 16.0,
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  error: (err, stack) => Text("$err"),
-                                  loading: () =>
-                                      const CircularProgressIndicator())),
-                    ),
-                  ]))));
+                                                            Container(
+                                                              height: 30.0,
+                                                              width: 30.0,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: const Color(
+                                                                    0xFFA28764),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                              child:
+                                                                  const Center(
+                                                                child: Icon(
+                                                                  Icons.add,
+                                                                  size: 11.0,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    },
+                                    error: (err, stack) => Text("$err"),
+                                    loading: () =>
+                                        const CircularProgressIndicator())),
+                      ),
+                    ]),
+                  ))));
     });
   }
 }

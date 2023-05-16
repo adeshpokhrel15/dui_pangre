@@ -16,6 +16,7 @@ class ItemDetails extends StatefulWidget {
 class _ItemDetailsState extends State<ItemDetails> {
   int selectedIndex = 0;
   final Color _iconColor = Colors.grey;
+   bool isAvailable=true;
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +137,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                 color: Colors.grey,
                                                 fontSize: 14.0),
                                           ),
+                                      
+                                          
                                         ],
                                       ),
                                       const SizedBox(width: 25.0),
@@ -185,7 +188,38 @@ class _ItemDetailsState extends State<ItemDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 30.0, top: 30.0),
+                        padding: const EdgeInsets.only(left:35.0),
+                        child: Row(
+                          children: [
+                           
+                                       Text(
+                                         'Status: ',
+                                         style: GoogleFonts.sourceSansPro(
+                                           color: Colors.white,
+                                           fontSize: 15.0,
+                                         ),
+                                       ),
+                                       SizedBox(
+                                         width: 10,
+                                         child: Icon(
+                                           Icons.circle,
+                                           color: isAvailable ? Colors.green : Colors.red, // set color based on availability
+                                           size: 12,
+                                         ),
+                                       ),
+                                      const SizedBox(width: 5),
+                                       Text(
+                                         isAvailable ? 'Available' : 'Not Available', // display text based on availability
+                                         style: GoogleFonts.sourceSansPro(
+                                           color: Colors.white,
+                                           fontSize: 15.0,
+                                         ),
+                                       ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30.0, top: 10.0),
                         child: Text(
                           'Description',
                           style: GoogleFonts.sourceSansPro(

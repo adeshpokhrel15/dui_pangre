@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:two_wheelers/templates/screens/status_screen.dart';
 
 class MyApp extends StatefulWidget {
@@ -11,7 +12,20 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: StatusScreen());
+    return KhaltiScope(
+        publicKey: "test_public_key_30e12814fed64afa9a7d4a92a219aeb",
+        builder: (context, navigatorKey) {
+          return MaterialApp(
+              navigatorKey: navigatorKey,
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('ne', 'NP'),
+              ],
+              localizationsDelegates: const [
+                KhaltiLocalizations.delegate,
+              ],
+              debugShowCheckedModeBanner: false,
+              home: const StatusScreen());
+        });
   }
 }

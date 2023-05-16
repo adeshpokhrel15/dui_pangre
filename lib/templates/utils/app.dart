@@ -13,7 +13,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return KhaltiScope(
-        publicKey: "test_public_key_30e12814fed64afa9a7d4a92a219aeb",
+        publicKey: "test_public_key_35f900550bf448f1af2856f22adf3c75",
         builder: (context, navigatorKey) {
           return MaterialApp(
               navigatorKey: navigatorKey,

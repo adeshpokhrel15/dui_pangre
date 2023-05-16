@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 
 import '../../models/post_model.dart';
 
@@ -340,7 +341,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                       const SizedBox(height: 20.0),
                       Center(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {payWithKhaltiInApp();},
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   const Color.fromARGB(255, 255, 140, 0)),
@@ -366,26 +367,56 @@ class _ItemDetailsState extends State<ItemDetails> {
       ));
     });
   }
+    payWithKhaltiInApp() {
+    KhaltiScope.of(context).pay(
+      config: PaymentConfig(
+        amount: 1000, //in paisa
+        productIdentity: 'Product Id',
+        productName: 'Product Name',
+        mobileReadOnly: false,
+      ),
+      preferences: [
+        PaymentPreference.khalti,
+        
+      ],
+      onSuccess: onSuccess,
+      onFailure: onFailure,
+      onCancel: onCancel,
+    );
+  }
+
+  void onSuccess(PaymentSuccessModel success) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Payment Successful'),
+      
+          actions: [
+            SimpleDialogOption(
+                child: const Text('OK'),
+                onPressed: () {
+                  setState(() {
+                    // referenceId = success.idx;
+                  });
+
+                  Navigator.pop(context);
+                })
+          ],
+        );
+      },
+    );
+  }
+
+  void onFailure(PaymentFailureModel failure) {
+    debugPrint(
+      failure.toString(),
+    );
+  }
+
+  void onCancel() {
+    debugPrint('Cancelled');
+  }
 }
 
-// class VehicleItem {
-//   final String image;
-//   final String title;
-//   final String description;
-//   final String pickuplocation;
-//   final String deliverylocation;
-//   final String deliveryDate;
-//   final String weight;
-//   final String price;
 
-//   VehicleItem({
-//     required this.image,
-//     required this.title,
-//     required this.description,
-//     required this.pickuplocation,
-//     required this.deliverylocation,
-//     required this.deliveryDate,
-//     required this.weight,
-//     required this.price,
-//   });
-//}

@@ -17,7 +17,7 @@ class ItemDetails extends StatefulWidget {
 class _ItemDetailsState extends State<ItemDetails> {
   int selectedIndex = 0;
   final Color _iconColor = Colors.grey;
-   bool isAvailable=true;
+  // bool isAvailable = true;
 
   @override
   Widget build(BuildContext context) {
@@ -138,8 +138,6 @@ class _ItemDetailsState extends State<ItemDetails> {
                                                 color: Colors.grey,
                                                 fontSize: 14.0),
                                           ),
-                                      
-                                          
                                         ],
                                       ),
                                       const SizedBox(width: 25.0),
@@ -189,33 +187,37 @@ class _ItemDetailsState extends State<ItemDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left:35.0),
+                        padding: const EdgeInsets.only(left: 35.0),
                         child: Row(
                           children: [
-                           
-                                       Text(
-                                         'Status: ',
-                                         style: GoogleFonts.sourceSansPro(
-                                           color: Colors.white,
-                                           fontSize: 15.0,
-                                         ),
-                                       ),
-                                       SizedBox(
-                                         width: 10,
-                                         child: Icon(
-                                           Icons.circle,
-                                           color: isAvailable ? Colors.green : Colors.red, // set color based on availability
-                                           size: 12,
-                                         ),
-                                       ),
-                                      const SizedBox(width: 5),
-                                       Text(
-                                         isAvailable ? 'Available' : 'Not Available', // display text based on availability
-                                         style: GoogleFonts.sourceSansPro(
-                                           color: Colors.white,
-                                           fontSize: 15.0,
-                                         ),
-                                       ),
+                            Text(
+                              'Status: ',
+                              style: GoogleFonts.sourceSansPro(
+                                color: Colors.white,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                              child: Icon(
+                                Icons.circle,
+                                color: widget.vItem.isreserved
+                                    ? Colors
+                                        .red// set color based on availability
+                                    : Colors.green,
+                                size: 12,
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              widget.vItem.isreserved
+                                  ? 'Reserved'
+                                  : 'Available', // display text based on availability
+                              style: GoogleFonts.sourceSansPro(
+                                color: Colors.white,
+                                fontSize: 15.0,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -341,7 +343,9 @@ class _ItemDetailsState extends State<ItemDetails> {
                       const SizedBox(height: 20.0),
                       Center(
                         child: ElevatedButton(
-                          onPressed: () {payWithKhaltiInApp();},
+                          onPressed: () {
+                            payWithKhaltiInApp();
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   const Color.fromARGB(255, 255, 140, 0)),
@@ -367,7 +371,8 @@ class _ItemDetailsState extends State<ItemDetails> {
       ));
     });
   }
-    payWithKhaltiInApp() {
+
+  payWithKhaltiInApp() {
     KhaltiScope.of(context).pay(
       config: PaymentConfig(
         amount: 1000, //in paisa
@@ -377,7 +382,6 @@ class _ItemDetailsState extends State<ItemDetails> {
       ),
       preferences: [
         PaymentPreference.khalti,
-        
       ],
       onSuccess: onSuccess,
       onFailure: onFailure,
@@ -386,12 +390,14 @@ class _ItemDetailsState extends State<ItemDetails> {
   }
 
   void onSuccess(PaymentSuccessModel success) {
+    setState(() {
+      widget.vItem.isreserved = false; 
+    });
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text('Payment Successful'),
-      
           actions: [
             SimpleDialogOption(
                 child: const Text('OK'),
@@ -418,5 +424,3 @@ class _ItemDetailsState extends State<ItemDetails> {
     debugPrint('Cancelled');
   }
 }
-
-

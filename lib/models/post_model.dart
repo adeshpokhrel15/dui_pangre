@@ -11,6 +11,7 @@ class Post {
   late String bikepic;
   late String userId;
   late String vehiclename;
+  late bool isreserved;
 
   Post({
     required this.citizenshipno,
@@ -25,6 +26,7 @@ class Post {
     required this.id,
     required this.userId,
     required this.vehiclename,
+     this.isreserved = false,
   });
 
   // factory Post.fromJson(Map<String, dynamic> json) {

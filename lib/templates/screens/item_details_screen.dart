@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
@@ -5,10 +6,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 
 import '../../models/post_model.dart';
+import '../../providers/post_provider.dart';
 
 class ItemDetails extends StatefulWidget {
   final Post vItem;
-  const ItemDetails({super.key, required this.vItem});
+  final PostProvider postProvider;
+  const ItemDetails({
+    Key? key,
+    required this.vItem,
+    required this.postProvider,
+  }) : super(key: key);
 
   @override
   State<ItemDetails> createState() => _ItemDetailsState();
@@ -260,46 +267,6 @@ class _ItemDetailsState extends State<ItemDetails> {
                           ),
                         ),
                       ),
-                      // const SizedBox(height: 20.0),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 30.0, top: 5.0),
-                      //   child: Text(
-                      //     'Delivery location',
-                      //     style: GoogleFonts.sourceSansPro(
-                      //         color: Colors.white, fontSize: 22.0),
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 30.0, top: 20.0),
-                      //   child: SizedBox(
-                      //     width: screenWidth - 60.0,
-                      //     child: Text(
-                      //       'deliverylocation',
-                      //       style: GoogleFonts.sourceSansPro(
-                      //           color: Colors.grey, fontSize: 16.0),
-                      //     ),
-                      //   ),
-                      // ),
-                      // const SizedBox(height: 20.0),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 30.0, top: 5.0),
-                      //   child: Text(
-                      //     'Delivery Date',
-                      //     style: GoogleFonts.sourceSansPro(
-                      //         color: Colors.white, fontSize: 22.0),
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 30.0, top: 20.0),
-                      //   child: SizedBox(
-                      //     width: screenWidth - 60.0,
-                      //     child: Text(
-                      //       'deliveryDate',
-                      //       style: GoogleFonts.sourceSansPro(
-                      //           color: Colors.grey, fontSize: 16.0),
-                      //     ),
-                      //   ),
-                      // ),
                       const SizedBox(height: 20.0),
                       Padding(
                         padding: const EdgeInsets.only(left: 30.0, top: 5.0),
@@ -388,31 +355,36 @@ class _ItemDetailsState extends State<ItemDetails> {
       onCancel: onCancel,
     );
   }
+ void onSuccess(PaymentSuccessModel success) async {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Payment Successful'),
+        actions: [
+          SimpleDialogOption(
+            child: const Text('OK'),
+            onPressed: () async {
+              // Update Firestore document
+              final infoToUpdate = {
+                'isReserved': true,
+              };
+              await widget.postProvider.updatePost(widget.vItem.id, infoToUpdate);
 
-  void onSuccess(PaymentSuccessModel success) {
-    setState(() {
-      widget.vItem.isreserved = false; 
-    });
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Payment Successful'),
-          actions: [
-            SimpleDialogOption(
-                child: const Text('OK'),
-                onPressed: () {
-                  setState(() {
-                    // referenceId = success.idx;
-                  });
+              // Update the local widget data
+              setState(() {
+                widget.vItem.isreserved = true;
+              });
 
-                  Navigator.pop(context);
-                })
-          ],
-        );
-      },
-    );
-  }
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   void onFailure(PaymentFailureModel failure) {
     debugPrint(

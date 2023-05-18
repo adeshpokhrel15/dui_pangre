@@ -216,6 +216,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             ItemDetails(
                                                               vItem:
                                                                   data[index],
+                                                              postProvider:
+                                                                  ref.read(
+                                                                      postCRUDprovider),
                                                             )));
                                               },
                                               child: Column(

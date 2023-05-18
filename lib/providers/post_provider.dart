@@ -1,3 +1,5 @@
+
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,76 +10,105 @@ import 'package:image_picker/image_picker.dart';
 import '../models/post_model.dart';
 
 final postStream = StreamProvider((ref) => PostProvider().getPosts());
-// final singlePostStream = StreamProvider.autoDispose.family<Post, String>(
-//     (ref, id) => PostProvider().getPostById(id));
+
 final postCRUDprovider = Provider((ref) => PostProvider());
 
 class PostProvider {
   CollectionReference dbPost = FirebaseFirestore.instance.collection('posts');
-  Future<String> addPost({
-    required String userId,
-    required String citizenshipno,
-    required int phonenumber,
-    // required int bikeCC,
-    required String bikeCC,
-    required String bikemodel,
-    required XFile licenceimageId,
-    required String vehicledetail,
-    required String bikecolor,
-    required int rentprice,
-    required XFile bikepic,
-    required String vehiclename,
-  }) async {
+  CollectionReference dbReserved = FirebaseFirestore.instance.collection('isreserved');
+
+Future<String> addPost({
+  required String userId,
+  required String citizenshipno,
+  required int phonenumber,
+  required String bikeCC,
+  required String bikemodel,
+  required XFile licenceimageId,
+  required String vehicledetail,
+  required String bikecolor,
+  required int rentprice,
+  required XFile bikepic,
+  required String vehiclename,
+  bool isReserved = false,
+}) async {
+  try {
+    final licenceimageFile = File(licenceimageId.path);
+    final bikeimageFile = File(bikepic.path);
+    final licenceimageID = DateTime.now().toString();
+    final bikeimageID = DateTime.now().toString();
+    final ref1 = FirebaseStorage.instance.ref().child('licenceImages/$licenceimageID');
+    final ref2 = FirebaseStorage.instance.ref().child('bikeImages/$bikeimageID');
+
+    await ref1.putFile(licenceimageFile);
+    await ref2.putFile(bikeimageFile);
+
+    final url1 = await ref1.getDownloadURL();
+    final url2 = await ref2.getDownloadURL();
+
+    final newPost = {
+      'citizenshipno': citizenshipno,
+      'phonenumber': phonenumber,
+      'bikeCC': bikeCC,
+      'bikemodel': bikemodel,
+      'licenceimageId': url1,
+      'vehicledetail': vehicledetail,
+      'bikecolor': bikecolor,
+      'rentprice': rentprice,
+      'bikepic': url2,
+      'userId': userId,
+      'vehicleName': vehiclename,
+      'isReserved': isReserved,
+    };
+
+    await dbPost.add(newPost);
+
+    if (isReserved) {
+      await dbReserved.add(newPost);
+    }
+
+    return 'success';
+  } catch (e) {
+    print('Failed to add post: $e');
+    return '';
+  }
+}
+  Future<void> updatePost(String postId, Map<String, dynamic> updatedData) async {
     try {
-      final licenceimageFile =
-          File(licenceimageId.path); //converting the image to File type
-      final bikeimageFile =
-          File(bikepic.path); //converting the image to File type
-      final licenceimageID = DateTime.now().toString();
-      final bikeimageID = DateTime.now().toString();
-      final ref1 = FirebaseStorage.instance.ref().child(
-          'licenceImages/$licenceimageID'); //path to push the image to firebase storage
-      final ref2 = FirebaseStorage.instance.ref().child(
-          'bikeImages/$bikeimageID'); //path to push the image to firebase storage
+      final postDoc = dbPost.doc(postId);
+      final postSnapshot = await postDoc.get();
 
-      await ref1
-          .putFile(licenceimageFile); //pushing the image to firebase storage
-      await ref2.putFile(bikeimageFile); //pushing the image to firebase storage
+      if (postSnapshot.exists) {
+        final data = postSnapshot.data() as Map<String, dynamic>;
+        final isReserved = data['isReserved'] ?? false;
 
-      final url1 = await ref1.getDownloadURL(); //getting the url of the image
-      final url2 = await ref2.getDownloadURL(); //getting the url of the image
+        if (isReserved) {
+          await postDoc.update(updatedData); // Update the post in the original collection
 
-      dbPost.add({
-        'citizenshipno': citizenshipno,
-        'phonenumber': phonenumber,
-        'bikeCC': bikeCC,
-        'bikemodel': bikemodel,
-        'licenceimageId': url1,
-        'vehicledetail': vehicledetail,
-        'bikecolor': bikecolor,
-        'rentprice': rentprice,
-        'bikepic': url2,
-        'userId': userId,
-        'vehicleName': vehiclename,
-      });
+          // Move the post to the new collection
+          final newPostData = {
+            ...data, // Include all existing post data
+            ...updatedData, // Include the updated fields
+            'isReserved': false, // Update the status to false
+          };
 
-      return 'success';
-    } on FirebaseException catch (e) {
-      print(e);
+          await dbReserved.doc(postId).set(newPostData);
 
-      return '';
+          print('Post updated successfully and moved to new collection');
+        } else {
+          print('Post is not reserved. Cannot update and move to new collection');
+        }
+      } else {
+        print('Post not found');
+      }
+    } catch (e) {
+      print('Failed to update post: $e');
     }
   }
-
-  Stream<List<Post>> getPosts() {
+    Stream<List<Post>> getPosts() {
     final data = dbPost.snapshots().map((event) => _getFromSnap(event));
 
     return data;
   }
-  // Stream<Post> getPostById(String id) {
-  //   final data = dbPost.doc(id).snapshots().map((event) => _getFromSnap(event));
-  //   return data;
-  // }
 
 
 
@@ -100,4 +131,6 @@ class PostProvider {
       );
     }).toList();
   }
+
+
 }

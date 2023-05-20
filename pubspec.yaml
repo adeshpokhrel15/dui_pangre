@@ -45,7 +45,9 @@ dependencies:
   image_picker: ^0.8.6 #for selecting image
   clippy_flutter: ^1.1.1
   marquee: ^2.2.3
+  firebase_messaging: ^14.6.1
   khalti_flutter: ^2.0.0
+  awesome_notifications: ^0.7.4+1
 
 dev_dependencies:
   flutter_test:

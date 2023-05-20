@@ -24,6 +24,8 @@ class ItemDetails extends StatefulWidget {
 class _ItemDetailsState extends State<ItemDetails> {
   int selectedIndex = 0;
   final Color _iconColor = Colors.grey;
+  TextEditingController pickupLocationController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
   // bool isAvailable = true;
 
   @override
@@ -47,7 +49,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                 width: screenWidth,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(widget.vItem.bikepic),
+                        image: NetworkImage(widget.vItem.licenceimageId),
                         fit: BoxFit.cover)),
               )),
           Positioned(
@@ -210,7 +212,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 Icons.circle,
                                 color: widget.vItem.isreserved
                                     ? Colors
-                                        .red// set color based on availability
+                                        .red // set color based on availability
                                     : Colors.green,
                                 size: 12,
                               ),
@@ -311,7 +313,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            payWithKhaltiInApp();
+                            showOrderBottomSheet();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
@@ -355,36 +357,73 @@ class _ItemDetailsState extends State<ItemDetails> {
       onCancel: onCancel,
     );
   }
- void onSuccess(PaymentSuccessModel success) async {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Payment Successful'),
-        actions: [
-          SimpleDialogOption(
-            child: const Text('OK'),
-            onPressed: () async {
-              // Update Firestore document
-              final infoToUpdate = {
-                'isReserved': true,
-              };
-              await widget.postProvider.updatePost(widget.vItem.id, infoToUpdate);
 
-              // Update the local widget data
-              setState(() {
-                widget.vItem.isreserved = true;
-              });
-
-              Navigator.pop(context);
-            },
+  void showOrderBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 500,
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: pickupLocationController,
+                decoration: const InputDecoration(
+                  labelText: 'Pickup Location',
+                ),
+              ),
+              TextField(
+                controller: priceController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Price',
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close the bottom sheet
+                  payWithKhaltiInApp();
+                },
+                child: const Text('Pay with Khalti'),
+              ),
+            ],
           ),
-        ],
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 
+  void onSuccess(PaymentSuccessModel success) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Payment Successful'),
+          actions: [
+            SimpleDialogOption(
+              child: const Text('OK'),
+              onPressed: () async {
+                // Update Firestore document
+                final infoToUpdate = {
+                  'isReserved': true,
+                };
+                await widget.postProvider
+                    .updatePost(widget.vItem.id, infoToUpdate);
+
+                // Update the local widget data
+                setState(() {
+                  widget.vItem.isreserved = true;
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void onFailure(PaymentFailureModel failure) {
     debugPrint(

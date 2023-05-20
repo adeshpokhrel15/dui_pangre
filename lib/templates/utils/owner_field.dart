@@ -30,11 +30,24 @@ class OwnerField extends StatelessWidget {
       final dbimage2 = ref.watch(imageProvider1);
       final auth = FirebaseAuth.instance.currentUser!.uid;
       var children2 = [
-        const Center(
-          child: Text(
-            "Welcome Owner",
-            style: TextStyle(fontSize: 20, color: Colors.black26),
-          ),
+        Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+            const Center(
+              child: Text(
+                "Welcome Owner",
+                style: TextStyle(fontSize: 20, color: Colors.black26),
+              ),
+            ),
+          ],
         ),
         const SizedBox(
           height: 20,
@@ -182,6 +195,7 @@ class OwnerField extends StatelessWidget {
             color: Colors.green,
             onPressed: () async {
               _form.currentState!.save();
+              _form.currentState!.validate();
               FocusScope.of(context).unfocus();
               AlertDialog(
                 title: const Text('Success'),

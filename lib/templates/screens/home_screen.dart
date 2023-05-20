@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   DecorationImage(
                                                                 image: NetworkImage(
                                                                     data[index]
-                                                                        .bikepic),
+                                                                        .licenceimageId),
                                                                 fit: BoxFit
                                                                     .cover,
                                                               ),

@@ -125,6 +125,26 @@ class DrawerWidgets extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
+           const ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+          ),
+           const ListTile(
+            leading: Icon(Icons.notifications),
+            title: Text('Notification'),
+          ),
+           const ListTile(
+            leading: Icon(Icons.account_circle_outlined),
+            title: Text('Account'),
+          ),
+           const ListTile(
+            leading: Icon(Icons.privacy_tip_outlined),
+            title: Text('Privacy'),
+          ),
+           const ListTile(
+            leading: Icon(Icons.help_outline_outlined),
+            title: Text('Help and Support'),
+          ),
           const ListTile(
             leading: Icon(Icons.format_quote_outlined),
             title: Text('FAQ'),

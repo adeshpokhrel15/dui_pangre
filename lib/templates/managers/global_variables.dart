@@ -20,11 +20,9 @@ class GlobalVariables {
 
   // STATIC IMAGES
   static const List<String> carouselImages = [
-    'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/WLA/TS/D37847648_Accessories_savingdays_Jan22_Cat_PC_1500.jpg',
-    'https://images-eu.ssl-images-amazon.com/images/G/31/img2021/Vday/bwl/English.jpg',
-    'https://images-eu.ssl-images-amazon.com/images/G/31/img22/Wireless/AdvantagePrime/BAU/14thJan/D37196025_IN_WL_AdvantageJustforPrime_Jan_Mob_ingress-banner_1242x450.jpg',
-    'https://images-na.ssl-images-amazon.com/images/G/31/Symbol/2020/00NEW/1242_450Banners/PL31_copy._CB432483346_.jpg',
-    'https://images-na.ssl-images-amazon.com/images/G/31/img21/shoes/September/SSW/pc-header._CB641971330_.jpg',
+    'https://th.bing.com/th/id/OIP.B6_agOaV4xNBom3ouVoSggHaE7?pid=ImgDet&rs=1',
+    'https://th.bing.com/th/id/R.8a279e60939ce87c476341ed8ab8d62a?rik=AMKOJa1l3RB2yw&riu=http%3a%2f%2fwww.pattayaunlimited.com%2fwp-content%2fuploads%2f2009%2f08%2fpattaya-motorcycle-hire.jpg&ehk=F1lVlXYATZddO%2fBEkz6RvO%2fpIh9Wp6l9O4xnBvmiO5Q%3d&risl=&pid=ImgRaw&r=0',
+    'https://th.bing.com/th/id/R.318bcde38de3e0472d7bddf4e450ce1f?rik=EpkBnNi3KR3WhA&pid=ImgRaw&r=0',
   ];
 
   static const List<Map<String, String>> categoryImages = [

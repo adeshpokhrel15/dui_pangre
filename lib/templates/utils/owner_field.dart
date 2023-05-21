@@ -190,60 +190,158 @@ class OwnerField extends StatelessWidget {
           height: 10,
         ),
         SizedBox(
-          height: 56,
-          child: MaterialButton(
-            color: Colors.green,
-            onPressed: () async {
-              _form.currentState!.save();
-              _form.currentState!.validate();
-              FocusScope.of(context).unfocus();
-              AlertDialog(
-                title: const Text('Success'),
-                content: const Text('Your post has been added'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: ((context) => const HomeScreen())));
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-              String value = await ref.read(postCRUDprovider).addPost(
-                    userId: auth,
-                    citizenshipno: _citizenshipnumber.text.trim(),
-                    phonenumber: int.parse(phonenumberController.text.trim()),
-                    bikeCC: bikeccController.text.trim(),
-                    bikemodel: bikemodelController.text.trim(),
-                    bikecolor: bikecolorController.text.trim(),
-                    vehicledetail: vehicledetailsController.text.trim(),
-                    rentprice: int.parse(rentpriceController.text.trim()),
-                    licenceimageId: dbimage1.image!,
-                    bikepic: dbimage2.image!,
-                    vehiclename: vehiclenameController.text.trim(),
-                  );
-            },
-            // ButtonStyle configuration
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+  height: 56,
+  child: MaterialButton(
+    color: Colors.green,
+    onPressed: () async {
+      _form.currentState!.save();
+      _form.currentState!.validate();
+      FocusScope.of(context).unfocus();
 
-            elevation: 5,
-            highlightElevation: 10,
-            hoverElevation: 10,
-            disabledElevation: 0,
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const AlertDialog(
+            title: const Text('Loading'),
 
-            splashColor: Colors.white,
-            highlightColor: Colors.white,
-            child: const Text(
-              "Submit",
-              style: TextStyle(fontSize: 16, color: Colors.white),
-            ),
-            // You can also use other properties like minimumSize, maximumSize, etc.
-          ),
-        ),
+          );
+        },
+      );
+
+      try {
+        String value = await ref.read(postCRUDprovider).addPost(
+          userId: auth,
+          citizenshipno: _citizenshipnumber.text.trim(),
+          phonenumber: int.parse(phonenumberController.text.trim()),
+          bikeCC: bikeccController.text.trim(),
+          bikemodel: bikemodelController.text.trim(),
+          bikecolor: bikecolorController.text.trim(),
+          vehicledetail: vehicledetailsController.text.trim(),
+          rentprice: int.parse(rentpriceController.text.trim()),
+          licenceimageId: dbimage1.image!,
+          bikepic: dbimage2.image!,
+          vehiclename: vehiclenameController.text.trim(),
+        );
+
+        Navigator.of(context).pop(); // Close the loading dialog
+
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Success'),
+              content: const Text('Your post has been added'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ));
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } catch (error) {
+        Navigator.of(context).pop(); // Close the loading dialog
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: Text('An error occurred: $error'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    },
+    // ButtonStyle configuration
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    elevation: 5,
+    highlightElevation: 10,
+    hoverElevation: 10,
+    disabledElevation: 0,
+    splashColor: Colors.white,
+    highlightColor: Colors.white,
+    child: const Text(
+      "Submit",
+      style: TextStyle(fontSize: 16, color: Colors.white),
+    ),
+    // You can also use other properties like minimumSize, maximumSize, etc.
+  ),
+),
+
+        // SizedBox(
+        //   height: 56,
+        //   child: MaterialButton(
+        //     color: Colors.green,
+        //     onPressed: () async {
+        //       _form.currentState!.save();
+        //       _form.currentState!.validate();
+        //       FocusScope.of(context).unfocus();
+        //       AlertDialog(
+        //         title: const Text('Success'),
+        //         content: const Text('Your post has been added'),
+        //         actions: [
+        //           TextButton(
+        //             onPressed: () {
+        //               Navigator.of(context).pushReplacement(MaterialPageRoute(
+        //                   builder: ((context) => const HomeScreen())));
+        //             },
+        //             child: const Text('OK'),
+        //           ),
+        //         ],
+        //       );
+        //       String value = await ref.read(postCRUDprovider).addPost(
+        //             userId: auth,
+        //             citizenshipno: _citizenshipnumber.text.trim(),
+        //             phonenumber: int.parse(phonenumberController.text.trim()),
+        //             bikeCC: bikeccController.text.trim(),
+        //             bikemodel: bikemodelController.text.trim(),
+        //             bikecolor: bikecolorController.text.trim(),
+        //             vehicledetail: vehicledetailsController.text.trim(),
+        //             rentprice: int.parse(rentpriceController.text.trim()),
+        //             licenceimageId: dbimage1.image!,
+        //             bikepic: dbimage2.image!,
+        //             vehiclename: vehiclenameController.text.trim(),
+        //           );
+        //     },
+        //     // ButtonStyle configuration
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(10),
+        //     ),
+        //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+
+        //     elevation: 5,
+        //     highlightElevation: 10,
+        //     hoverElevation: 10,
+        //     disabledElevation: 0,
+
+        //     splashColor: Colors.white,
+        //     highlightColor: Colors.white,
+        //     child: const Text(
+        //       "Submit",
+        //       style: TextStyle(fontSize: 16, color: Colors.white),
+        //     ),
+        //     // You can also use other properties like minimumSize, maximumSize, etc.
+        //   ),
+        // ),
       ];
       return SafeArea(
         child: Scaffold(

@@ -7,6 +7,7 @@ import '../../../providers/post_provider.dart';
 import '../managers/global_variables.dart';
 import '../widgets/courser_image.dart';
 import 'item_details_screen.dart';
+import 'package:two_wheelers/models/post_model.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -31,12 +32,23 @@ class _HomeScreenState extends State<HomeScreen> {
   void searchFromFirebase(String query) async {
     final result = await FirebaseFirestore.instance
         .collection('posts')
-        .where('vehicleName', isEqualTo: query.toLowerCase())
+        .where('vehicleName', isEqualTo: query)
         .get();
 
-    setState(() {
-      searchResult = result.docs;
+    // setState(() {
+    //   searchResult = result.docs;
+    // });
+    var temp = result.docs;
+    List<Post> res = [];
+    temp.forEach((element) {
+      res.add(Post.fromJson(element.data() as Map<String, dynamic>));
     });
+
+    setState(() {
+      searchResult = res;
+    });
+
+    // print(searchResult);
   }
 
   @override
@@ -177,16 +189,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 463,
                             child: searchResult != null
                                 ? searchResult!.isNotEmpty
-                                    ? ListView.builder(
-                                        itemCount: searchResult!.length,
-                                        itemBuilder: (context, index) {
-                                          final result =
-                                              searchResult![index].data();
-                                          return ListTile(
-                                            title: Text(result['vehicleName']),
-                                          );
-                                        },
-                                      )
+                                    ? GestureDetector(
+                                      onTap: (){
+                                         Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ItemDetails(
+                                                              vItem: searchResult!.first,
+                                                              postProvider:
+                                                                  ref.read(
+                                                                      postCRUDprovider),
+                                                            )));
+                                      },
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: searchResult!.length,
+                                          itemBuilder: (context, index) {
+                                            final result = searchResult![index];
+                                            //   return ListTile(
+                                            //     title: Text(result['vehicleName']),
+                                            //   );
+                                            // },)
+                                            return ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: searchResult!.length,
+                                                itemBuilder: (context, index) {
+                                                  return itemdetails(
+                                                      searchResult as List<Post>,
+                                                      index);
+                                                });
+                                          }),
+                                    )
                                     : const Text('No content found')
                                 : poststream.when(
                                     data: (data) {
@@ -221,179 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       postCRUDprovider),
                                                             )));
                                               },
-                                              child: Column(
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 15,
-                                                      vertical: 10,
-                                                    ),
-                                                    margin: const EdgeInsets
-                                                        .symmetric(
-                                                      vertical: 8,
-                                                      horizontal: 10,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      color: const Color(
-                                                          0xFFC0BBBB),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Container(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(5),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: const Color(
-                                                                    0xFF325E83),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20),
-                                                              ),
-                                                              child: Text(
-                                                                '4.5',
-                                                                style: GoogleFonts
-                                                                    .sourceSansPro(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      13.0,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            const Icon(
-                                                              Icons
-                                                                  .favorite_border,
-                                                              color: Colors.red,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {},
-                                                          child: Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .all(10),
-                                                            height: 150,
-                                                            width: 150,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20),
-                                                              image:
-                                                                  DecorationImage(
-                                                                image: NetworkImage(
-                                                                    data[index]
-                                                                        .licenceimageId),
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              data[index]
-                                                                  .vehiclename,
-                                                              style: GoogleFonts
-                                                                  .sourceSansPro(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: const Color(
-                                                                    0xFF0E0D0D),
-                                                                fontSize: 16.0,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              data[index]
-                                                                  .bikemodel,
-                                                              style: GoogleFonts
-                                                                  .sourceSansPro(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: const Color(
-                                                                    0xFF0E0D0D),
-                                                                fontSize: 16.0,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 8),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Rs.${data[index].rentprice.toString()}',
-                                                              style: GoogleFonts
-                                                                  .sourceSansPro(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: const Color(
-                                                                    0xFF0E0D0D),
-                                                                fontSize: 16.0,
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              height: 30.0,
-                                                              width: 30.0,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: const Color(
-                                                                    0xFFA28764),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10.0),
-                                                              ),
-                                                              child:
-                                                                  const Center(
-                                                                child: Icon(
-                                                                  Icons.add,
-                                                                  size: 11.0,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
+                                              child: itemdetails(data, index),
                                             );
                                           });
                                     },
@@ -404,5 +265,138 @@ class _HomeScreenState extends State<HomeScreen> {
                     ]),
                   ))));
     });
+  }
+
+  Column itemdetails(List<Post> data, int index) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 10,
+          ),
+          margin: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 10,
+          ),
+          decoration: BoxDecoration(
+            color: const Color(0xFFC0BBBB),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Row(
+              //   mainAxisAlignment:
+              //       MainAxisAlignment
+              //           .spaceBetween,
+              //   children: [
+              //     Container(
+              //       padding:
+              //           const EdgeInsets
+              //               .all(5),
+              //       decoration:
+              //           BoxDecoration(
+              //         color: const Color(
+              //             0xFF325E83),
+              //         borderRadius:
+              //             BorderRadius
+              //                 .circular(
+              //                     20),
+              //       ),
+              //       child: Text(
+              //         '4.5',
+              //         style: GoogleFonts
+              //             .sourceSansPro(
+              //           fontWeight:
+              //               FontWeight
+              //                   .bold,
+              //           color: Colors
+              //               .white,
+              //           fontSize:
+              //               13.0,
+              //         ),
+              //       ),
+              //     ),
+              //     const Icon(
+              //       Icons
+              //           .favorite_border,
+              //       color: Colors.red,
+              //     ),
+              //   ],
+              // ),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                      image: NetworkImage(data[index].licenceimageId),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    data[index].vehiclename,
+                    style: GoogleFonts.sourceSansPro(
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF0E0D0D),
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  Text(
+                    data[index].bikemodel,
+                    style: GoogleFonts.sourceSansPro(
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF0E0D0D),
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Rs.${data[index].rentprice.toString()}',
+                    style: GoogleFonts.sourceSansPro(
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF0E0D0D),
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  Container(
+                    height: 30.0,
+                    width: 30.0,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFA28764),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.add,
+                        size: 11.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 }

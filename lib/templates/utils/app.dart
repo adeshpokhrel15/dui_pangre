@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:two_wheelers/templates/screens/map_screen.dart';
 import 'package:two_wheelers/templates/screens/status_screen.dart';
 
 class MyApp extends StatefulWidget {
@@ -25,7 +26,8 @@ class _MyAppState extends State<MyApp> {
                 KhaltiLocalizations.delegate,
               ],
               debugShowCheckedModeBanner: false,
-              home: const StatusScreen());
+              // home: const StatusScreen());
+              home: const MapSample());
         });
   }
 }

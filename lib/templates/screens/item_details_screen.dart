@@ -124,53 +124,53 @@ class _ItemDetailsState extends State<ItemDetails> {
                               const SizedBox(height: 10.0),
                               Row(
                                 children: [
-                                  const Icon(
-                                    Icons.star,
-                                  ),
-                                  const SizedBox(height: 15.0),
-                                  Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Duration',
-                                            style: GoogleFonts.sourceSansPro(
-                                                color: Colors.white,
-                                                fontSize: 15.0),
-                                          ),
-                                          const SizedBox(height: 5.0),
-                                          Text(
-                                            '2 Days',
-                                            style: GoogleFonts.sourceSansPro(
-                                                color: Colors.grey,
-                                                fontSize: 14.0),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(width: 25.0),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Distance',
-                                            style: GoogleFonts.sourceSansPro(
-                                                color: Colors.white,
-                                                fontSize: 15.0),
-                                          ),
-                                          const SizedBox(height: 5.0),
-                                          Text(
-                                            '65 KM',
-                                            style: GoogleFonts.sourceSansPro(
-                                                color: Colors.grey,
-                                                fontSize: 14.0),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )
+                                  // const Icon(
+                                  //   Icons.star,
+                                  // ),
+                                  // const SizedBox(height: 15.0),
+                                  // Row(
+                                  //   children: [
+                                  //     Column(
+                                  //       crossAxisAlignment:
+                                  //           CrossAxisAlignment.start,
+                                  //       children: [
+                                  //         Text(
+                                  //           'Duration',
+                                  //           style: GoogleFonts.sourceSansPro(
+                                  //               color: Colors.white,
+                                  //               fontSize: 15.0),
+                                  //         ),
+                                  //         const SizedBox(height: 5.0),
+                                  //         Text(
+                                  //           '2 Days',
+                                  //           style: GoogleFonts.sourceSansPro(
+                                  //               color: Colors.grey,
+                                  //               fontSize: 14.0),
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //     const SizedBox(width: 25.0),
+                                  //     Column(
+                                  //       crossAxisAlignment:
+                                  //           CrossAxisAlignment.start,
+                                  //       children: [
+                                  //         Text(
+                                  //           'Distance',
+                                  //           style: GoogleFonts.sourceSansPro(
+                                  //               color: Colors.white,
+                                  //               fontSize: 15.0),
+                                  //         ),
+                                  //         const SizedBox(height: 5.0),
+                                  //         Text(
+                                  //           '65 KM',
+                                  //           style: GoogleFonts.sourceSansPro(
+                                  //               color: Colors.grey,
+                                  //               fontSize: 14.0),
+                                  //         ),
+                                  //       ],
+                                  //     )
+                                  //   ],
+                                  // )
                                 ],
                               ),
                             ]))
@@ -378,9 +378,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                 controller: priceController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  labelText: 'Price',
+                  labelText: 'How many days?',
                 ),
               ),
+
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {

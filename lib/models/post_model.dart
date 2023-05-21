@@ -1,3 +1,10 @@
+
+
+import 'dart:convert';
+
+// List<Post> postsFromJson(String str)=> List<Post>.from(json.decode(str).map((x) => Post.fromJson(x)));
+Post postFromJson(String str)=> Post.fromJson(json.decode(str));
+
 class Post {
   late String id;
   late String citizenshipno;
@@ -29,17 +36,20 @@ class Post {
      this.isreserved = false,
   });
 
-  // factory Post.fromJson(Map<String, dynamic> json) {
-  //   return Post(
-  //     citizenshipno: json['citizenshipno'],
-  //     phonenumber: json['phonenumber'],
-  //     bikeCC: json['bikeCC'],
-  //     bikemodel: json['bikemodel'],
-  //     licenceimageId: json['licenceimageId'],
-  //     vehicledetail: json['vehicledetail'],
-  //     bikecolor: json['bikecolor'],
-  //     rentprice: json['rentprice'],
-  //     bikepic: json['bikepic'],
-  //   );
-  // }
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      id: json['userId'],
+      userId: json['userId'],
+      vehiclename: json['vehicleName'],
+      citizenshipno: json['citizenshipno'],
+      phonenumber: json['phonenumber'],
+      bikeCC: json['bikeCC'],
+      bikemodel: json['bikemodel'],
+      licenceimageId: json['licenceimageId'],
+      vehicledetail: json['vehicledetail'],
+      bikecolor: json['bikecolor'],
+      rentprice: json['rentprice'],
+      bikepic: json['bikepic'],
+    );
+  }
 }

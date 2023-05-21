@@ -28,6 +28,7 @@ class PostProvider {
     required int rentprice,
     required XFile bikepic,
     required String vehiclename,
+    required String location,
     bool isReserved = false,
   }) async {
     try {
@@ -59,6 +60,7 @@ class PostProvider {
         'userId': userId,
         'vehicleName': vehiclename,
         'isReserved': isReserved,
+        'location': location,
       };
 
       await dbPost.add(newPost);
@@ -134,6 +136,7 @@ class PostProvider {
         rentprice: data['rentprice'],
         bikepic: data['bikepic'],
         id: e.id,
+        location: data['location'],
         userId: data['userId'],
         vehiclename: data['vehicleName'],
       );

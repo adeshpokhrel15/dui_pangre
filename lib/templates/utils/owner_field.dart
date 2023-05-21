@@ -3,25 +3,47 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:two_wheelers/templates/screens/home_screen.dart';
 
 import '../../providers/image_provider.dart';
 import '../../providers/post_provider.dart';
 
-class OwnerField extends StatelessWidget {
+class OwnerField extends StatefulWidget {
+  const OwnerField({super.key});
+
+  @override
+  State<OwnerField> createState() => _OwnerFieldState();
+}
+
+class _OwnerFieldState extends State<OwnerField> {
   final TextEditingController _citizenshipnumber = TextEditingController();
+
+  String _selectedLocationOrder = 'Chabel';
+
+  final List<String> _locationOrderOptions = [
+    'Chabel',
+    'Koteshwor',
+    'New Road',
+    'Thapathali'
+  ];
 
   final TextEditingController vehicledetailsController =
       TextEditingController();
-  final TextEditingController bikemodelController = TextEditingController();
-  final TextEditingController bikeccController = TextEditingController();
-  final TextEditingController bikecolorController = TextEditingController();
-  final TextEditingController rentpriceController = TextEditingController();
-  final TextEditingController phonenumberController = TextEditingController();
-  final TextEditingController vehiclenameController = TextEditingController();
-  final _form = GlobalKey<FormState>();
 
-  OwnerField({super.key});
+  final TextEditingController bikemodelController = TextEditingController();
+
+  final TextEditingController bikeccController = TextEditingController();
+
+  final TextEditingController bikecolorController = TextEditingController();
+
+  final TextEditingController rentpriceController = TextEditingController();
+
+  final TextEditingController phonenumberController = TextEditingController();
+
+  final TextEditingController vehiclenameController = TextEditingController();
+
+  final _form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +91,51 @@ class OwnerField extends StatelessWidget {
           height: 10,
         ),
         textField(hintText: 'Vehicle Model', controller: bikemodelController),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: Text(
+                'Place near to you',
+                style: GoogleFonts.sourceSansPro(
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF0E0D0D),
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+            const SizedBox(width: 20),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(color: Colors.grey),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: DropdownButton<String>(
+                value: _selectedLocationOrder,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedLocationOrder = newValue!;
+                  });
+                },
+                items: _locationOrderOptions
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -190,102 +257,103 @@ class OwnerField extends StatelessWidget {
           height: 10,
         ),
         SizedBox(
-  height: 56,
-  child: MaterialButton(
-    color: Colors.green,
-    onPressed: () async {
-      _form.currentState!.save();
-      _form.currentState!.validate();
-      FocusScope.of(context).unfocus();
+          height: 56,
+          child: MaterialButton(
+            color: Colors.green,
+            onPressed: () async {
+              _form.currentState!.save();
+              _form.currentState!.validate();
+              FocusScope.of(context).unfocus();
 
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const AlertDialog(
-            title: const Text('Loading'),
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return const AlertDialog(
+                    title: Text('Loading'),
+                  );
+                },
+              );
 
-          );
-        },
-      );
+              try {
+                String value = await ref.read(postCRUDprovider).addPost(
+                      userId: auth,
+                      citizenshipno: _citizenshipnumber.text.trim(),
+                      phonenumber: int.parse(phonenumberController.text.trim()),
+                      bikeCC: bikeccController.text.trim(),
+                      bikemodel: bikemodelController.text.trim(),
+                      bikecolor: bikecolorController.text.trim(),
+                      vehicledetail: vehicledetailsController.text.trim(),
+                      rentprice: int.parse(rentpriceController.text.trim()),
+                      licenceimageId: dbimage1.image!,
+                      bikepic: dbimage2.image!,
+                      vehiclename: vehiclenameController.text.trim(),
+                      location: _selectedLocationOrder,
+                    );
 
-      try {
-        String value = await ref.read(postCRUDprovider).addPost(
-          userId: auth,
-          citizenshipno: _citizenshipnumber.text.trim(),
-          phonenumber: int.parse(phonenumberController.text.trim()),
-          bikeCC: bikeccController.text.trim(),
-          bikemodel: bikemodelController.text.trim(),
-          bikecolor: bikecolorController.text.trim(),
-          vehicledetail: vehicledetailsController.text.trim(),
-          rentprice: int.parse(rentpriceController.text.trim()),
-          licenceimageId: dbimage1.image!,
-          bikepic: dbimage2.image!,
-          vehiclename: vehiclenameController.text.trim(),
-        );
+                Navigator.of(context).pop(); // Close the loading dialog
 
-        Navigator.of(context).pop(); // Close the loading dialog
-
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Success'),
-              content: const Text('Your post has been added'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
-                    ));
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Success'),
+                      content: const Text('Your post has been added'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ));
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
                   },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      } catch (error) {
-        Navigator.of(context).pop(); // Close the loading dialog
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Error'),
-              content: Text('An error occurred: $error'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
+                );
+              } catch (error) {
+                Navigator.of(context).pop(); // Close the loading dialog
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Error'),
+                      content: Text('An error occurred: $error'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
                   },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    },
-    // ButtonStyle configuration
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-    elevation: 5,
-    highlightElevation: 10,
-    hoverElevation: 10,
-    disabledElevation: 0,
-    splashColor: Colors.white,
-    highlightColor: Colors.white,
-    child: const Text(
-      "Submit",
-      style: TextStyle(fontSize: 16, color: Colors.white),
-    ),
-    // You can also use other properties like minimumSize, maximumSize, etc.
-  ),
-),
+                );
+              }
+            },
+            // ButtonStyle configuration
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            elevation: 5,
+            highlightElevation: 10,
+            hoverElevation: 10,
+            disabledElevation: 0,
+            splashColor: Colors.white,
+            highlightColor: Colors.white,
+            child: const Text(
+              "Submit",
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+            // You can also use other properties like minimumSize, maximumSize, etc.
+          ),
+        ),
 
         // SizedBox(
         //   height: 56,

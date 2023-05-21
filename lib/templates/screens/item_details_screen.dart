@@ -123,7 +123,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               ),
                               const SizedBox(height: 10.0),
                               Row(
-                                children: [
+                                children: const [
                                   // const Icon(
                                   //   Icons.star,
                                   // ),
@@ -263,7 +263,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                         child: SizedBox(
                           width: screenWidth - 60.0,
                           child: Text(
-                            'pickup location',
+                            widget.vItem.location,
                             style: GoogleFonts.sourceSansPro(
                                 color: Colors.grey, fontSize: 16.0),
                           ),
@@ -303,7 +303,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                         child: SizedBox(
                           width: screenWidth - 60.0,
                           child: Text(
-                            'Rs. ${widget.vItem.rentprice}',
+                            'Rs. ${widget.vItem.rentprice} .per day',
                             style: GoogleFonts.sourceSansPro(
                                 color: Colors.grey, fontSize: 16.0),
                           ),
@@ -381,7 +381,6 @@ class _ItemDetailsState extends State<ItemDetails> {
                   labelText: 'How many days?',
                 ),
               ),
-
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {

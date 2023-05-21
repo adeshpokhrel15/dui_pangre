@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:two_wheelers/models/post_model.dart';
 
 import '../../../providers/post_provider.dart';
 import '../managers/global_variables.dart';
 import '../widgets/courser_image.dart';
 import 'item_details_screen.dart';
-import 'package:two_wheelers/models/post_model.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -28,6 +28,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String _selectedPriceOrder = 'Low to High';
   final List<String> _priceOrderOptions = ['Low to High', 'High to Low'];
+  String _selectedLocationOrder = 'All';
+  // final List<String> _locationOrderOptions = [
+  //   'Chabel',
+  //   'Koteshwor',
+  //   'New Road',
+  //   'Thapathali'
+  // ];
+  final List<String> _locationOrderOptions = <String>[];
 
   void searchFromFirebase(String query) async {
     final result = await FirebaseFirestore.instance
@@ -40,9 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // });
     var temp = result.docs;
     List<Post> res = [];
-    temp.forEach((element) {
-      res.add(Post.fromJson(element.data() as Map<String, dynamic>));
-    });
+    for (var element in temp) {
+      res.add(Post.fromJson(element.data()));
+    }
 
     setState(() {
       searchResult = res;
@@ -147,6 +155,95 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SingleChildScrollView(
                     child: Column(children: [
                       const CarouselImage(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: Text(
+                              'Place near to you',
+                              style: GoogleFonts.sourceSansPro(
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF0E0D0D),
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(30),
+                          //     border: Border.all(color: Colors.grey),
+                          //   ),
+                          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                          //   child: DropdownButton<String>(
+                          //     value: _selectedLocationOrder,
+                          //     onChanged: (String? newValue) {
+                          //       setState(() {
+                          //         _selectedLocationOrder = newValue!;
+                          //       });
+                          //     },
+                          //     items: _locationOrderOptions
+                          //         .map<DropdownMenuItem<String>>(
+                          //             (String value) {
+                          //       return DropdownMenuItem<String>(
+                          //         value: value,
+                          //         child: Text(
+                          //           value,
+                          //           style: const TextStyle(fontSize: 14),
+                          //         ),
+                          //       );
+                          //     }).toList(),
+                          //   ),
+                          // ),
+                          poststream.when(
+                            data: (data) {
+                              List<String> locationOrderOptions = <String>[];
+                              locationOrderOptions.add('All');
+                              for (var post in data) {
+                                locationOrderOptions.contains(post.location)
+                                    ? null
+                                    : locationOrderOptions.add(post.location);
+                              }
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(color: Colors.grey),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: DropdownButton<String>(
+                                  value: _selectedLocationOrder,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedLocationOrder = newValue!;
+                                    });
+                                  },
+                                  items: locationOrderOptions
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              );
+                            },
+                            loading: () => const CircularProgressIndicator(),
+                            error: (e, s) => Text(e.toString()),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -162,9 +259,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Container(
-                            color: Colors.transparent,
-                            height: 42,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(color: Colors.grey),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            // color: Colors.transparent,
+                            // height: 42,
+                            // margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: DropdownButton<String>(
                               value: _selectedPriceOrder,
                               onChanged: (String? newValue) {
@@ -190,36 +292,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: searchResult != null
                                 ? searchResult!.isNotEmpty
                                     ? GestureDetector(
-                                      onTap: (){
-                                         Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ItemDetails(
-                                                              vItem: searchResult!.first,
-                                                              postProvider:
-                                                                  ref.read(
-                                                                      postCRUDprovider),
-                                                            )));
-                                      },
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: searchResult!.length,
-                                          itemBuilder: (context, index) {
-                                            final result = searchResult![index];
-                                            //   return ListTile(
-                                            //     title: Text(result['vehicleName']),
-                                            //   );
-                                            // },)
-                                            return ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: searchResult!.length,
-                                                itemBuilder: (context, index) {
-                                                  return itemdetails(
-                                                      searchResult as List<Post>,
-                                                      index);
-                                                });
-                                          }),
-                                    )
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ItemDetails(
+                                                        vItem:
+                                                            searchResult!.first,
+                                                        postProvider: ref.read(
+                                                            postCRUDprovider),
+                                                      )));
+                                        },
+                                        child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: searchResult!.length,
+                                            itemBuilder: (context, index) {
+                                              final result =
+                                                  searchResult![index];
+
+                                              return ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      searchResult!.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return itemdetails(
+                                                        searchResult
+                                                            as List<Post>,
+                                                        index);
+                                                  });
+                                            }),
+                                      )
                                     : const Text('No content found')
                                 : poststream.when(
                                     data: (data) {
@@ -230,6 +333,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       } else {
                                         data.sort((a, b) =>
                                             b.rentprice.compareTo(a.rentprice));
+                                      }
+                                      if (_selectedLocationOrder != 'All') {
+                                        data = data
+                                            .where((element) =>
+                                                element.location ==
+                                                _selectedLocationOrder)
+                                            .toList();
                                       }
 
                                       return GridView.builder(

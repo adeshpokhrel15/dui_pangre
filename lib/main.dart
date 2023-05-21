@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:two_wheelers/templates/screens/map_screen.dart';
 import 'package:two_wheelers/templates/utils/app.dart';
 import 'package:two_wheelers/templates/utils/notifiaction_service.dart';
 

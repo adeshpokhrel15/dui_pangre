@@ -5,6 +5,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../managers/global_variables.dart';
+
 class MapSample extends StatefulWidget {
   const MapSample({super.key});
 
@@ -29,9 +31,9 @@ class MapSampleState extends State<MapSample> {
 
   // static final Marker _kMarker = Marker(markerId: MarkerId( '_testMarker'),
   static final Marker _firstOfficeMarker = Marker(
-    markerId: MarkerId('_firstMarker'),
-    position: LatLng(27.700769, 85.300140),
-    infoWindow: InfoWindow(
+    markerId: const MarkerId('_firstMarker'),
+    position: const LatLng(27.700769, 85.300140),
+    infoWindow: const InfoWindow(
       title: 'First Office',
       snippet: 'Marker Snippet',
     ),
@@ -41,9 +43,9 @@ class MapSampleState extends State<MapSample> {
   );
 
   static final Marker _secondOfficeMarker = Marker(
-    markerId: MarkerId('_secondMarker'),
-    position: LatLng(27.70476, 85.30240),
-    infoWindow: InfoWindow(
+    markerId: const MarkerId('_secondMarker'),
+    position: const LatLng(27.70476, 85.30240),
+    infoWindow: const InfoWindow(
       title: 'Second Office',
       snippet: 'Marker Snippet',
     ),
@@ -52,9 +54,9 @@ class MapSampleState extends State<MapSample> {
     },
   );
   static final Marker _thirdOfficeMarker = Marker(
-    markerId: MarkerId('_thirdMarker'),
-    position: LatLng(27.800769, 85.302240),
-    infoWindow: InfoWindow(
+    markerId: const MarkerId('_thirdMarker'),
+    position: const LatLng(27.800769, 85.302240),
+    infoWindow: const InfoWindow(
       title: 'Third Office',
       snippet: 'Marker Snippet',
     ),
@@ -94,10 +96,18 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    markers[MarkerId('_firstMarker')] = _firstOfficeMarker;
-    markers[MarkerId('_secondMarker')] = _secondOfficeMarker;
-    markers[MarkerId('_thirdMarker')] = _thirdOfficeMarker;
+    markers[const MarkerId('_firstMarker')] = _firstOfficeMarker;
+    markers[const MarkerId('_secondMarker')] = _secondOfficeMarker;
+    markers[const MarkerId('_thirdMarker')] = _thirdOfficeMarker;
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('See our Outlets'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: GlobalVariables.appBarGradient,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           GoogleMap(
@@ -112,14 +122,14 @@ class MapSampleState extends State<MapSample> {
           if (isLoading)
             Center(
                 child: Container(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
               height: 75,
               width: 75,
-              child: CircularProgressIndicator(
+              child: const CircularProgressIndicator(
                 strokeWidth: 5,
               ),
             )),
@@ -128,7 +138,7 @@ class MapSampleState extends State<MapSample> {
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         activeIcon: Icons.close,
-        buttonSize: Size(56, 56),
+        buttonSize: const Size(56, 56),
         visible: true,
         closeManually: false,
         renderOverlay: false,
@@ -137,16 +147,16 @@ class MapSampleState extends State<MapSample> {
         overlayOpacity: 0.5,
         backgroundColor: Colors.blue,
         elevation: 8.0,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         children: [
           SpeedDialChild(
-            child: Icon(Icons.location_searching),
+            child: const Icon(Icons.location_searching),
             backgroundColor: Colors.blue,
             label: 'See your location',
             onTap: _goToUser,
           ),
           SpeedDialChild(
-            child: Icon(Icons.fmd_bad),
+            child: const Icon(Icons.fmd_bad),
             backgroundColor: Colors.red,
             label: 'Find nearest outlet',
             onTap: () async {
@@ -166,19 +176,19 @@ class MapSampleState extends State<MapSample> {
                 userPos = LatLng(latitude, longitude);
               }
 
-              double distanceWithFirst = await Geolocator.distanceBetween(
+              double distanceWithFirst = Geolocator.distanceBetween(
                 userPos!.latitude,
                 userPos!.longitude,
                 _firstOfficeMarker.position.latitude,
                 _firstOfficeMarker.position.longitude,
               );
-              double distanceWithSecond = await Geolocator.distanceBetween(
+              double distanceWithSecond = Geolocator.distanceBetween(
                 userPos!.latitude,
                 userPos!.longitude,
                 _secondOfficeMarker.position.latitude,
                 _secondOfficeMarker.position.longitude,
               );
-              double distanceWithThird = await Geolocator.distanceBetween(
+              double distanceWithThird = Geolocator.distanceBetween(
                 userPos!.latitude,
                 userPos!.longitude,
                 _thirdOfficeMarker.position.latitude,
@@ -203,7 +213,7 @@ class MapSampleState extends State<MapSample> {
 
               if (smallestDistance == distanceWithFirst) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  duration: Duration(days: 1),
+                  duration: const Duration(days: 1),
                   content: Container(
                     // height: 50,
                     decoration: BoxDecoration(
@@ -213,7 +223,7 @@ class MapSampleState extends State<MapSample> {
                     // height: 10,
                     child: Column(
                       children: [
-                        Center(
+                        const Center(
                           child: Text(
                             'First office is the nearest from your location',
                             style: TextStyle(
@@ -233,7 +243,7 @@ class MapSampleState extends State<MapSample> {
                                     zoom: 19.151926040649414)));
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           },
-                          child: Text('See office location'),
+                          child: const Text('See office location'),
                         ),
                       ],
                     ),
@@ -241,9 +251,9 @@ class MapSampleState extends State<MapSample> {
                 ));
               } else if (smallestDistance == distanceWithSecond) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  duration: Duration(days: 1),
+                  duration: const Duration(days: 1),
                   content: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     // height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -251,7 +261,7 @@ class MapSampleState extends State<MapSample> {
                     ),
                     child: Column(
                       children: [
-                        Center(
+                        const Center(
                           child: Text(
                             'Second office is the nearest from your location',
                             style: TextStyle(
@@ -271,7 +281,7 @@ class MapSampleState extends State<MapSample> {
                                     zoom: 19.151926040649414)));
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           },
-                          child: Text('See office location'),
+                          child: const Text('See office location'),
                         ),
                       ],
                     ),
@@ -279,7 +289,7 @@ class MapSampleState extends State<MapSample> {
                 ));
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  duration: Duration(days: 1),
+                  duration: const Duration(days: 1),
                   content: Container(
                     // height: 50,
                     decoration: BoxDecoration(
@@ -288,7 +298,7 @@ class MapSampleState extends State<MapSample> {
                     ),
                     child: Column(
                       children: [
-                        Center(
+                        const Center(
                           child: Text(
                             'Third office is the nearest from your location',
                             style: TextStyle(
@@ -308,7 +318,7 @@ class MapSampleState extends State<MapSample> {
                                     zoom: 19.151926040649414)));
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           },
-                          child: Text('See office location'),
+                          child: const Text('See office location'),
                         ),
                       ],
                     ),
@@ -371,7 +381,7 @@ class MapSampleState extends State<MapSample> {
       isLoading = false;
     });
     setState(() {
-      markers[MarkerId('_userMarker')] = _userMarker;
+      markers[const MarkerId('_userMarker')] = _userMarker;
     });
 
     final GoogleMapController controller = await _controller.future;

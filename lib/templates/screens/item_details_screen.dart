@@ -11,6 +11,7 @@ import '../../providers/post_provider.dart';
 class ItemDetails extends StatefulWidget {
   final Post vItem;
   final PostProvider postProvider;
+
   const ItemDetails({
     Key? key,
     required this.vItem,

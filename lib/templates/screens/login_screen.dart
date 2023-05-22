@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _form = GlobalKey<FormState>();
 
   bool _isObscure = true;
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {

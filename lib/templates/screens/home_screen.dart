@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:two_wheelers/models/post_model.dart';
+import 'package:two_wheelers/templates/screens/map_screen.dart';
 
 import '../../../providers/post_provider.dart';
 import '../managers/global_variables.dart';
@@ -43,9 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
         .where('vehicleName', isEqualTo: query)
         .get();
 
-    // setState(() {
-    //   searchResult = result.docs;
-    // });
     var temp = result.docs;
     List<Post> res = [];
     for (var element in temp) {
@@ -55,8 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       searchResult = res;
     });
-
-    // print(searchResult);
   }
 
   @override
@@ -147,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
+                 
                 ),
               ),
               body: Padding(
@@ -154,7 +151,45 @@ class _HomeScreenState extends State<HomeScreen> {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: SingleChildScrollView(
                     child: Column(children: [
-                      const CarouselImage(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>  const MapSample()));
+                        },
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 200,
+                              width: 400,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    GlobalVariables.image,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 200,
+                              width: 400,
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Tap to see our Store',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -286,6 +321,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       SafeArea(
                         child: SizedBox(
                             height: 463,
@@ -300,7 +338,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         vItem:
                                                             searchResult!.first,
                                                         postProvider: ref.read(
-                                                            postCRUDprovider),
+                                                          postCRUDprovider,
+                                                        ),
                                                       )));
                                         },
                                         child: ListView.builder(

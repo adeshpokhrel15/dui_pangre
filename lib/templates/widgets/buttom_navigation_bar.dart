@@ -40,7 +40,7 @@ class _BottomNavigationBarWidgetsState
           }),
       bottomNavigationBar: SafeArea(
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 30),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(100)),

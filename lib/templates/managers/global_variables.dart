@@ -18,6 +18,8 @@ class GlobalVariables {
   static var selectedNavBarColor = Colors.cyan[800]!;
   static const unselectedNavBarColor = Colors.black87;
 
+  static const image = 'https://th.bing.com/th/id/R.de48bbefa2648cef167d08f1c22d4b07?rik=AGpvVD2GYtPmbw&riu=http%3a%2f%2fmappery.com%2fmaps%2fKathmandu-City-Tourist-Map.jpg&ehk=FHYqdOMnDUlQXqsNQjyuvQ4SlmalOsdbec17Jw%2f2AVY%3d&risl=&pid=ImgRaw&r=0';
+
   // STATIC IMAGES
   static const List<String> carouselImages = [
     'https://th.bing.com/th/id/OIP.B6_agOaV4xNBom3ouVoSggHaE7?pid=ImgDet&rs=1',

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:two_wheelers/templates/screens/vehicle_requests_screen.dart';
 import 'package:two_wheelers/templates/widgets/drawer_widgets.dart';
 
+import '../screens/cart_screen.dart';
 import '../screens/home_screen.dart';
 
 var tstyle = TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 50);
@@ -20,7 +22,7 @@ class _BottomNavigationBarWidgetsState
   double gap = 6;
 
   int _index = 0;
-  List pages = [const HomeScreen(), DrawerWidgets()];
+  List pages = [const HomeScreen(),  CartScreen(), VehicleRequestsScreen(), DrawerWidgets()];
   PageController controller = PageController();
 
   @override
@@ -28,7 +30,7 @@ class _BottomNavigationBarWidgetsState
     return Scaffold(
       extendBody: true,
       body: PageView.builder(
-          itemCount: 2,
+          itemCount: 4,
           controller: controller,
           onPageChanged: (page) {
             setState(() {
@@ -64,6 +66,28 @@ class _BottomNavigationBarWidgetsState
                   iconColor: Colors.black,
                   iconActiveColor: Colors.purple,
                   text: 'Home',
+                  textColor: Colors.purple,
+                  backgroundColor: Colors.purple.withOpacity(0.2),
+                  iconSize: 24,
+                  padding: padding,
+                ),
+                GButton(
+                  gap: gap,
+                  icon: Icons.home,
+                  iconColor: Colors.black,
+                  iconActiveColor: Colors.purple,
+                  text: 'Cart',
+                  textColor: Colors.purple,
+                  backgroundColor: Colors.purple.withOpacity(0.2),
+                  iconSize: 24,
+                  padding: padding,
+                ),
+                GButton(
+                  gap: gap,
+                  icon: Icons.home,
+                  iconColor: Colors.black,
+                  iconActiveColor: Colors.purple,
+                  text: 'Requests',
                   textColor: Colors.purple,
                   backgroundColor: Colors.purple.withOpacity(0.2),
                   iconSize: 24,

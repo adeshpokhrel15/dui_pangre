@@ -243,7 +243,7 @@ class _SettingPageState extends State<SettingPage> {
             width: 120,
             child: MaterialButton(
               onPressed: () async {
-                String value = await ref.read(logSignProvider).logOut();
+                String value = await ref.read(logSignProvider).logOutFromApi();
                 if (value == 'success') {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: ((context) => const LoginScreen())));

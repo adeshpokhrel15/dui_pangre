@@ -7,21 +7,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:two_wheelers/templates/screens/home_screen.dart';
 
 import '../../models/cart_model.dart';
+import '../../models/post_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/image_provider.dart';
 import '../../providers/post_provider.dart';
 import '../screens/cart_screen.dart';
 import '../widgets/buttom_navigation_bar.dart';
 
-class OwnerField extends StatefulWidget {
-  const OwnerField({super.key});
+class EditPostScreen extends StatefulWidget {
+  EditPostScreen({super.key, required this.post});
+
+  Post post ;
 
   @override
-  State<OwnerField> createState() => _OwnerFieldState();
+  State<EditPostScreen> createState() => _EditPostScreenState();
 }
 
-class _OwnerFieldState extends State<OwnerField> {
-  final TextEditingController _citizenshipnumber = TextEditingController();
+class _EditPostScreenState extends State<EditPostScreen> {
+  
 
   String _selectedLocationOrder = 'Chabel';
 
@@ -32,6 +35,7 @@ class _OwnerFieldState extends State<OwnerField> {
     'Thapathali'
   ];
 
+  final TextEditingController _citizenshipnumber = TextEditingController();
   final TextEditingController vehicledetailsController =
       TextEditingController();
 
@@ -51,6 +55,17 @@ class _OwnerFieldState extends State<OwnerField> {
 
   @override
   Widget build(BuildContext context) {
+    
+    Post _selectedPost = widget.post;
+    _citizenshipnumber.text = _selectedPost.citizenshipno;
+    vehicledetailsController.text = _selectedPost.vehicledetail;
+    bikemodelController.text = _selectedPost.bikemodel;
+    bikeccController.text = _selectedPost.bikeCC;
+    bikecolorController.text = _selectedPost.bikecolor;
+    rentpriceController.text = _selectedPost.rentprice.toString();
+    phonenumberController.text = _selectedPost.phonenumber.toString();
+    vehiclenameController.text = _selectedPost.vehiclename;
+
     return Consumer(builder: (contet, ref, child) {
       final dbimage1 = ref.watch(imageProvider);
       final dbimage2 = ref.watch(imageProvider1);
@@ -78,23 +93,119 @@ class _OwnerFieldState extends State<OwnerField> {
         const SizedBox(
           height: 20,
         ),
-        textField(hintText: 'Citizenship No.', controller: _citizenshipnumber),
+        TextFormField(
+          // initialValue: _selectedPost.citizenshipno,
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
+      controller: _citizenshipnumber,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Citizenship No.'),
+    ),
+       
         const SizedBox(
           height: 10,
         ),
-        textField(hintText: 'Phone number', controller: phonenumberController),
+        TextFormField(
+          // initialValue: _selectedPost.phonenumber.toString(),
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
+      controller: phonenumberController,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Phone number'),
+    ),
+        // textField(hintText: 'Phone number', controller: phonenumberController),
         const SizedBox(
           height: 10,
         ),
-        textField(hintText: 'Vehicle Name', controller: vehiclenameController),
+        TextFormField(
+          // initialValue: _selectedPost.vehiclename,
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
+      controller: vehiclenameController,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Vehicle Name'),
+    ),
+        // textField(hintText: 'Vehicle Name', controller: vehiclenameController),
         const SizedBox(
           height: 10,
         ),
-        textField(hintText: 'Vehicle CC', controller: bikeccController),
+        TextFormField(
+          // initialValue: _selectedPost.phonenumber.toString(),
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
+      controller: phonenumberController,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Phone number'),
+    ),
+    TextFormField(
+          // initialValue: _selectedPost.bikeCC,
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
+      controller: bikeccController,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Vehicle CC'),
+    ),
+        // textField(hintText: 'Vehicle CC', controller: bikeccController),
         const SizedBox(
           height: 10,
         ),
-        textField(hintText: 'Vehicle Model', controller: bikemodelController),
+        TextFormField(
+          // initialValue: _selectedPost.bikemodel,
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
+      controller: bikemodelController,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Vehicle Model'),
+    ),
+        // textField(hintText: 'Vehicle Model', controller: bikemodelController),
         const SizedBox(
           height: 10,
         ),
@@ -179,7 +290,7 @@ class _OwnerFieldState extends State<OwnerField> {
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.file(
+                            child: _selectedPost.licenceimageId != null ? Image.network(_selectedPost.licenceimageId): Image.file(
                               File(dbimage1.image!.path),
                               fit: BoxFit.cover,
                             ),
@@ -193,22 +304,70 @@ class _OwnerFieldState extends State<OwnerField> {
         const SizedBox(
           height: 10,
         ),
-        textField(
-            controller: vehicledetailsController, hintText: 'Vehicle Details'),
+        TextFormField(
+          // initialValue: _selectedPost.vehicledetail,
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
+      controller: vehicledetailsController,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Vehicle Details'),
+    ),
+        // textField(
+        //     controller: vehicledetailsController, hintText: 'Vehicle Details'),
         const SizedBox(
           height: 10,
         ),
-        textField(
-          controller: bikecolorController,
-          hintText: 'Vehicle Color',
-        ),
+        TextFormField(
+          // initialValue: _selectedPost.bikecolor,
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
+      controller: bikecolorController,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Vehicle Color'),
+    ),
+        // textField(
+        //   controller: bikecolorController,
+        //   hintText: 'Vehicle Color',
+        // ),
         const SizedBox(
           height: 10,
         ),
-        textField(
-          controller: rentpriceController,
-          hintText: 'Rent Price',
-        ),
+        TextFormField(
+          // initialValue: _selectedPost.rentprice.toString(),
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'This field is required';
+        }
+        return null;
+      },
+      controller: rentpriceController,
+      textCapitalization: TextCapitalization.words,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: 'Rent Price'),
+    ),
+        // textField(
+        //   controller: rentpriceController,
+        //   hintText: 'Rent Price',
+        // ),
         const SizedBox(height: 10),
         Container(
           height: 140,
@@ -246,7 +405,9 @@ class _OwnerFieldState extends State<OwnerField> {
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.file(
+                            child: _selectedPost.bikepic != null
+                                ? Image.network(_selectedPost.bikepic)
+                                : Image.file(
                               File(dbimage2.image!.path),
                               fit: BoxFit.cover,
                             ),
@@ -280,95 +441,54 @@ class _OwnerFieldState extends State<OwnerField> {
               );
 
               try {
-                String value = await ref.read(postCRUDprovider).addPostToApi(
-                      {'userId': '11',
-                      'citizenshipno': _citizenshipnumber.text.trim(),
-                      
-                      'phonenumber': phonenumberController.text.trim(),
-                      'bikeCC': bikeccController.text.trim(),
-                      'bikemodel': bikemodelController.text.trim(),
-                      'bikecolor': bikecolorController.text.trim(),
-                      'vehicledetail': vehicledetailsController.text.trim(),
-                      'rentprice': rentpriceController.text.trim(),
-                      // 'licenceimageId': dbimage1.image!,
-                      // 'bikepic': dbimage2.image!,
-                      'vehicleName': vehiclenameController.text.trim(),
-                      'location': _selectedLocationOrder,},
-                      [
-                        dbimage1.image!,
-                        dbimage2.image!,
-                      ],
-                      
-                    );
-
-                    // I, krishna commented below code because i didn't get the purpose of this code
-
-// // Create a new CartPost object with the post data
-//                 CartPost cartPost = CartPost(
-//                   userId: auth,
-//                   citizenshipNo: _citizenshipnumber.text.trim(),
-//                   phoneNumber: int.parse(phonenumberController.text.trim()),
-//                   bikeCC: bikeccController.text.trim(),
-//                   bikeModel: bikemodelController.text.trim(),
-//                   bikeColor: bikecolorController.text.trim(),
-//                   vehicleDetail: vehicledetailsController.text.trim(),
-//                   rentPrice: int.parse(rentpriceController.text.trim()),
-//                   licenseImageId: dbimage1.image! as String ,
-//                   bikePic: dbimage2.image! as String,
-//                   vehicleName: vehiclenameController.text.trim(),
-//                   location: _selectedLocationOrder,
-//                 );
-
-// // Add the cart post to the Cart_Post
-//                 ref.read(cartPostProvider).addCartPost(cartPost);
+                String value = await ref.read(postCRUDprovider).updatePostFromApi( _selectedPost.id,
+                  {
+                    'userId': '11',
+                    'citizenshipno': _citizenshipnumber.text.trim(),
+                    'phonenumber': phonenumberController.text.trim(),
+                    'bikeCC': bikeccController.text.trim(),
+                    'bikemodel': bikemodelController.text.trim(),
+                    'bikecolor': bikecolorController.text.trim(),
+                    'vehicledetail': vehicledetailsController.text.trim(),
+                    'rentprice': rentpriceController.text.trim(),
+                    'vehicleName': vehiclenameController.text.trim(),
+                    'location': _selectedLocationOrder,
+                  },
+                  dbimage1.image == null && dbimage2.image == null
+                      ? null
+                      : [
+                          dbimage1.image!,
+                          dbimage2.image!,
+                        ],
+                 
+                );
 
                 Navigator.of(context).pop(); // Close the loading dialog
 
                 showDialog(
-  context: context,
-  barrierDismissible: false,
-  builder: (BuildContext context) {
-    return AlertDialog(
-      title: const Text('Success'),
-      content: const Text('Your post has been submitted for approval'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              // builder: (context) => CartScreen(),
-              builder: (context) => BottomNavigationBarWidgets(),
-            ));
-          },
-          child: const Text('OK'),
-        ),
-      ],
-    );
-  },
-);
-
-
-                // showDialog(
-                //   context: context,
-                //   barrierDismissible: false,
-                //   builder: (BuildContext context) {
-                //     return AlertDialog(
-                //       title: const Text('Success'),
-                //       content: const Text('Your post has been added'),
-                //       actions: [
-                //         TextButton(
-                //           onPressed: () {
-                //             Navigator.of(context)
-                //                 .pushReplacement(MaterialPageRoute(
-                //               builder: (context) => const HomeScreen(),
-                //             ));
-                //           },
-                //           child: const Text('OK'),
-                //         ),
-                //       ],
-                //     );
-                //   },
-                // );
-              } catch (error) {
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Success'),
+                      content: const Text(
+                          'Information updated successfully'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              // builder: (context) => CartScreen(),
+                              builder: (context) =>
+                                  BottomNavigationBarWidgets(),
+                            ));
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );              } catch (error) {
                 Navigator.of(context).pop(); // Close the loading dialog
                 showDialog(
                   context: context,
@@ -402,7 +522,7 @@ class _OwnerFieldState extends State<OwnerField> {
             splashColor: Colors.white,
             highlightColor: Colors.white,
             child: const Text(
-              "Submit",
+              "Update",
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             // You can also use other properties like minimumSize, maximumSize, etc.
@@ -479,27 +599,5 @@ class _OwnerFieldState extends State<OwnerField> {
         ),
       );
     });
-  }
-
-  TextFormField textField({
-    required String hintText,
-    required TextEditingController controller,
-  }) {
-    return TextFormField(
-      validator: (val) {
-        if (val!.isEmpty) {
-          return 'This field is required';
-        }
-
-        return null;
-      },
-      controller: controller,
-      textCapitalization: TextCapitalization.words,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          hintText: hintText),
-    );
   }
 }

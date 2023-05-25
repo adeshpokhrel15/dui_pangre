@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:two_wheelers/templates/screens/edit_post_screen.dart';
 
 import '../../models/post_model.dart';
 import '../../providers/post_provider.dart';
@@ -82,6 +83,9 @@ class _ItemDetailsState extends State<ItemDetails> {
                         ),
                       ),
                     ),
+                    IconButton(onPressed: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditPostScreen(post: widget.vItem, )));
+                    }, icon: Icon(Icons.edit)),
                   ],
                 ),
               )),

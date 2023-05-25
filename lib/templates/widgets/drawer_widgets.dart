@@ -53,7 +53,7 @@ class DrawerWidgets extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.25,
                       width: double.infinity,
                       decoration: const BoxDecoration(
-                        color: Colors.purple,
+                        color: Color.fromARGB(255, 29, 201, 192),
                         borderRadius:
                             BorderRadius.only(bottomLeft: Radius.circular(30)),
                       ),
@@ -151,7 +151,7 @@ class DrawerWidgets extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
-              String value = await ref.read(logSignProvider).logOut();
+              String value = await ref.read(logSignProvider).logOutFromApi();
               if (value == 'success') {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: ((context) => const LoginScreen())));
@@ -169,7 +169,7 @@ class DrawerWidgets extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: MaterialButton(
               height: 50,
-              color: Colors.green,
+              color: Color.fromARGB(255, 29, 201, 192),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: ((context) => OwnerField())),

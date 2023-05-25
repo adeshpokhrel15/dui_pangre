@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-// List<Post> postsFromJson(String str)=> List<Post>.from(json.decode(str).map((x) => Post.fromJson(x)));
+List<Post> postsFromJson(String str)=> List<Post>.from(json.decode(str).map((x) => Post.fromJson(x)));
 Post postFromJson(String str) => Post.fromJson(json.decode(str));
 
 class Post {
@@ -38,17 +38,17 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      id: json['userId'],
-      userId: json['userId'],
+      id: json['_id'],
+      userId: json['userId'].toString(),
       vehiclename: json['vehicleName'],
-      citizenshipno: json['citizenshipno'],
-      phonenumber: json['phonenumber'],
-      bikeCC: json['bikeCC'],
-      bikemodel: json['bikemodel'],
+      citizenshipno: json['citizenshipno'].toString(),
+      phonenumber: int.parse(json['phonenumber']),
+      bikeCC: json['bikeCC'].toString(),
+      bikemodel: json['bikemodel'].toString(),
       licenceimageId: json['licenceimageId'],
       vehicledetail: json['vehicledetail'],
       bikecolor: json['bikecolor'],
-      rentprice: json['rentprice'],
+      rentprice: int.parse(json['rentprice']),
       location: json['location'],
       bikepic: json['bikepic'],
     );

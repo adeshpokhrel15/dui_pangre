@@ -246,6 +246,47 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50,
                       width: double.infinity,
                       child: MaterialButton(
+                        // onPressed: () async {
+                        //   _form.currentState!.save();
+
+                        //   FocusScope.of(context).unfocus();
+                        //   if (_form.currentState!.validate()) {
+                        //     if (isLogin) {
+                        //       String value = await ref
+                        //           .read(logSignProvider)
+                        //           .logIn(
+                        //             email: mailController.text.trim(),
+                        //             password: passwordController.text.trim(),
+                        //           );
+                        //       if (value == 'success') {
+                        //         Navigator.of(context).pushReplacement(
+                        //             MaterialPageRoute(
+                        //                 builder: ((context) =>
+                        //                     const BottomNavigationBarWidgets())));
+                        //       }
+                        //     } else {
+                        //       if (dbimage1.image == null) {}
+                        //       String value = await ref
+                        //           .read(logSignProvider)
+                        //           .signUp(
+                        //             userName: usernameController.text.trim(),
+                        //             email: mailController.text.trim(),
+                        //             password: passwordController.text.trim(),
+                        //             image1: dbimage1.image!,
+                        //             image2: dbimage2.image!,
+                        //             address: addressController.text.trim(),
+                        //           );
+
+                        //       if (value == 'success') {
+                        //         ref.read(loginProvider.notifier).toggle();
+                        //         Navigator.of(context).pushReplacement(
+                        //             MaterialPageRoute(
+                        //                 builder: ((context) =>
+                        //                     const StatusScreen())));
+                        //       }
+                        //     }
+                        //   }
+                        // },
                         onPressed: () async {
                           _form.currentState!.save();
 
@@ -254,7 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (isLogin) {
                               String value = await ref
                                   .read(logSignProvider)
-                                  .logIn(
+                                  .logInFromApi(
                                     email: mailController.text.trim(),
                                     password: passwordController.text.trim(),
                                   );
@@ -266,16 +307,30 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             } else {
                               if (dbimage1.image == null) {}
+                              // String value = await ref
+                              //     .read(logSignProvider)
+                              //     .signUp(
+                              //       userName: usernameController.text.trim(),
+                              //       email: mailController.text.trim(),
+                              //       password: passwordController.text.trim(),
+                              //       image1: dbimage1.image!,
+                              //       image2: dbimage2.image!,
+                              //       address: addressController.text.trim(),
+                              //     );
                               String value = await ref
                                   .read(logSignProvider)
-                                  .signUp(
-                                    userName: usernameController.text.trim(),
-                                    email: mailController.text.trim(),
-                                    password: passwordController.text.trim(),
-                                    image1: dbimage1.image!,
-                                    image2: dbimage2.image!,
-                                    address: addressController.text.trim(),
+                                  .signUpFromApi(
+                                    {
+                                    'userName': usernameController.text.trim(),
+                                    'email': mailController.text.trim(),
+                                    'password': passwordController.text.trim(),
+                                    },
+                                    [
+                                      dbimage1.image!,
+                                      dbimage2.image!,
+                                    ]
                                   );
+                              
 
                               if (value == 'success') {
                                 ref.read(loginProvider.notifier).toggle();
@@ -283,6 +338,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     MaterialPageRoute(
                                         builder: ((context) =>
                                             const StatusScreen())));
+                              }
+                              else{
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: const Text('Something went wrong'),
+                                  ),
+                                );
                               }
                             }
                           }
@@ -292,7 +354,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         elevation: 5.0,
                         color: const Color(0xFF00a2e8),
                         textColor: Colors.black,
-                        child: const Text('Login'),
+                        child: const  Text('Login'),
                       ),
                     ),
                     TextButton(

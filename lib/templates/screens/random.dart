@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:two_wheelers/providers/post_provider.dart';
 
 class RandomPage extends StatelessWidget {
-  const RandomPage({super.key});
-
+  const RandomPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {

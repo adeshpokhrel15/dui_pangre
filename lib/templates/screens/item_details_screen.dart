@@ -83,9 +83,14 @@ class _ItemDetailsState extends State<ItemDetails> {
                         ),
                       ),
                     ),
-                    IconButton(onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditPostScreen(post: widget.vItem, )));
-                    }, icon: Icon(Icons.edit)),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => EditPostScreen(
+                                    post: widget.vItem,
+                                  )));
+                        },
+                        icon: Icon(Icons.edit)),
                   ],
                 ),
               )),

@@ -11,7 +11,7 @@ import '../../providers/login_provider.dart';
 import '../widgets/buttom_navigation_bar.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -319,18 +319,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               //     );
                               String value = await ref
                                   .read(logSignProvider)
-                                  .signUpFromApi(
-                                    {
-                                    'userName': usernameController.text.trim(),
-                                    'email': mailController.text.trim(),
-                                    'password': passwordController.text.trim(),
-                                    },
-                                    [
-                                      dbimage1.image!,
-                                      dbimage2.image!,
-                                    ]
-                                  );
-                              
+                                  .signUpFromApi({
+                                'userName': usernameController.text.trim(),
+                                'email': mailController.text.trim(),
+                                'password': passwordController.text.trim(),
+                              }, [
+                                dbimage1.image!,
+                                dbimage2.image!,
+                              ]);
 
                               if (value == 'success') {
                                 ref.read(loginProvider.notifier).toggle();
@@ -338,8 +334,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     MaterialPageRoute(
                                         builder: ((context) =>
                                             const StatusScreen())));
-                              }
-                              else{
+                              } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: const Text('Something went wrong'),
@@ -354,7 +349,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         elevation: 5.0,
                         color: const Color(0xFF00a2e8),
                         textColor: Colors.black,
-                        child: const  Text('Login'),
+                        child: const Text('Login'),
                       ),
                     ),
                     TextButton(

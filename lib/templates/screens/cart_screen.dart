@@ -5,8 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../providers/cart_provider.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
-
+  const CartScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
@@ -81,9 +80,7 @@ class CartScreen extends StatelessWidget {
                                   Row(
                                     children: [
                                       InkWell(
-                                        onTap: () {
-                                          
-                                        },
+                                        onTap: () {},
                                         child: Container(
                                           height: 30.0,
                                           width: 30.0,

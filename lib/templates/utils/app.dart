@@ -3,7 +3,7 @@ import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:two_wheelers/templates/screens/status_screen.dart';
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();

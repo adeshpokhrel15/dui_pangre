@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 
 class RandomPage1 extends StatelessWidget {
-  const RandomPage1({super.key});
-
+  const RandomPage1({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -10,7 +10,7 @@ import '../utils/owner_field.dart';
 class DrawerWidgets extends StatelessWidget {
   final auth = FirebaseAuth.instance.currentUser!.uid;
 
-  DrawerWidgets({super.key});
+  DrawerWidgets({Key? key}) : super(key: key);
 
   Widget listTile({
     required String title,
@@ -125,23 +125,23 @@ class DrawerWidgets extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-           const ListTile(
+          const ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
           ),
-           const ListTile(
+          const ListTile(
             leading: Icon(Icons.notifications),
             title: Text('Notification'),
           ),
-           const ListTile(
+          const ListTile(
             leading: Icon(Icons.account_circle_outlined),
             title: Text('Account'),
           ),
-           const ListTile(
+          const ListTile(
             leading: Icon(Icons.privacy_tip_outlined),
             title: Text('Privacy'),
           ),
-           const ListTile(
+          const ListTile(
             leading: Icon(Icons.help_outline_outlined),
             title: Text('Help and Support'),
           ),
@@ -176,7 +176,7 @@ class DrawerWidgets extends StatelessWidget {
                 );
               },
               // ButtonStyle configuration
-               shape: RoundedRectangleBorder(
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 30),

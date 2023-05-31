@@ -4,17 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:two_wheelers/templates/screens/home_screen.dart';
 
-import '../../models/cart_model.dart';
-import '../../providers/cart_provider.dart';
 import '../../providers/image_provider.dart';
 import '../../providers/post_provider.dart';
-import '../screens/cart_screen.dart';
 import '../widgets/buttom_navigation_bar.dart';
 
 class OwnerField extends StatefulWidget {
-  const OwnerField({super.key});
+  const OwnerField({Key? key}) : super(key: key);
 
   @override
   State<OwnerField> createState() => _OwnerFieldState();
@@ -281,27 +277,28 @@ class _OwnerFieldState extends State<OwnerField> {
 
               try {
                 String value = await ref.read(postCRUDprovider).addPostToApi(
-                      {'userId': '11',
-                      'citizenshipno': _citizenshipnumber.text.trim(),
-                      
-                      'phonenumber': phonenumberController.text.trim(),
-                      'bikeCC': bikeccController.text.trim(),
-                      'bikemodel': bikemodelController.text.trim(),
-                      'bikecolor': bikecolorController.text.trim(),
-                      'vehicledetail': vehicledetailsController.text.trim(),
-                      'rentprice': rentpriceController.text.trim(),
-                      // 'licenceimageId': dbimage1.image!,
-                      // 'bikepic': dbimage2.image!,
-                      'vehicleName': vehiclenameController.text.trim(),
-                      'location': _selectedLocationOrder,},
-                      [
-                        dbimage1.image!,
-                        dbimage2.image!,
-                      ],
-                      
-                    );
+                  {
+                    'userId': '11',
+                    'citizenshipno': _citizenshipnumber.text.trim(),
 
-                    // I, krishna commented below code because i didn't get the purpose of this code
+                    'phonenumber': phonenumberController.text.trim(),
+                    'bikeCC': bikeccController.text.trim(),
+                    'bikemodel': bikemodelController.text.trim(),
+                    'bikecolor': bikecolorController.text.trim(),
+                    'vehicledetail': vehicledetailsController.text.trim(),
+                    'rentprice': rentpriceController.text.trim(),
+                    // 'licenceimageId': dbimage1.image!,
+                    // 'bikepic': dbimage2.image!,
+                    'vehicleName': vehiclenameController.text.trim(),
+                    'location': _selectedLocationOrder,
+                  },
+                  [
+                    dbimage1.image!,
+                    dbimage2.image!,
+                  ],
+                );
+
+                // I, krishna commented below code because i didn't get the purpose of this code
 
 // // Create a new CartPost object with the post data
 //                 CartPost cartPost = CartPost(
@@ -325,27 +322,29 @@ class _OwnerFieldState extends State<OwnerField> {
                 Navigator.of(context).pop(); // Close the loading dialog
 
                 showDialog(
-  context: context,
-  barrierDismissible: false,
-  builder: (BuildContext context) {
-    return AlertDialog(
-      title: const Text('Success'),
-      content: const Text('Your post has been submitted for approval'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              // builder: (context) => CartScreen(),
-              builder: (context) => BottomNavigationBarWidgets(),
-            ));
-          },
-          child: const Text('OK'),
-        ),
-      ],
-    );
-  },
-);
-
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Success'),
+                      content: const Text(
+                          'Your post has been submitted for approval'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              // builder: (context) => CartScreen(),
+                              builder: (context) =>
+                                  BottomNavigationBarWidgets(),
+                            ));
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
 
                 // showDialog(
                 //   context: context,

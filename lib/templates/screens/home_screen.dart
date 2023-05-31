@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +6,6 @@ import 'package:two_wheelers/templates/screens/map_screen.dart';
 
 import '../../../providers/post_provider.dart';
 import '../managers/global_variables.dart';
-import '../widgets/courser_image.dart';
 import 'item_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -314,7 +312,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   List<String> locationOrderOptions =
                                       <String>[];
                                   locationOrderOptions.add('All');
-                                  for (var post in snapshot.data!) {
+                                  var iterableData = snapshot.data! as List;
+                                  for (var post in iterableData) {
                                     locationOrderOptions.contains(post.location)
                                         ? null
                                         : locationOrderOptions
@@ -574,23 +573,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                             crossAxisSpacing: 5,
                                             mainAxisExtent: 300,
                                           ),
-                                          itemCount: snapshot.data!.length,
+                                          itemCount:
+                                              (snapshot.data! as List).length,
                                           itemBuilder: (context, index) {
                                             return GestureDetector(
                                               onTap: () {
                                                 Navigator.of(context).push(
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ItemDetails(
-                                                              vItem: snapshot
-                                                                  .data![index],
-                                                              postProvider:
-                                                                  ref.read(
-                                                                      postCRUDprovider),
-                                                            )));
+                                                        builder:
+                                                            (context) =>
+                                                                ItemDetails(
+                                                                  vItem: (snapshot
+                                                                          .data!
+                                                                      as List)[index],
+                                                                  postProvider:
+                                                                      ref.read(
+                                                                          postCRUDprovider),
+                                                                )));
                                               },
                                               child: itemdetails(
-                                                  snapshot.data!, index),
+                                                  snapshot.data! as List<Post>,
+                                                  index),
                                             );
                                           });
                                     }
@@ -598,7 +601,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }),
                     ),
                   ),
-                  
                 ],
               ),
             ),

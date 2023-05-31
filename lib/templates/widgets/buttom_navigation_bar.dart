@@ -9,7 +9,7 @@ import '../screens/home_screen.dart';
 var tstyle = TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 50);
 
 class BottomNavigationBarWidgets extends StatefulWidget {
-  const BottomNavigationBarWidgets({super.key});
+  const BottomNavigationBarWidgets({Key? key}) : super(key: key);
 
   @override
   _BottomNavigationBarWidgetsState createState() =>
@@ -22,7 +22,12 @@ class _BottomNavigationBarWidgetsState
   double gap = 6;
 
   int _index = 0;
-  List pages = [const HomeScreen(),  CartScreen(), VehicleRequestsScreen(), DrawerWidgets()];
+  List pages = [
+    const HomeScreen(),
+    CartScreen(),
+    VehicleRequestsScreen(),
+    DrawerWidgets()
+  ];
   PageController controller = PageController();
 
   @override

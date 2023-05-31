@@ -6,7 +6,7 @@ import 'package:two_wheelers/templates/screens/login_screen.dart';
 import '../../providers/auth_provider.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({super.key});
+  const SettingPage({Key? key}) : super(key: key);
 
   @override
   State<SettingPage> createState() => _SettingPageState();

@@ -62,7 +62,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     return Consumer(builder: (contet, ref, child) {
       final dbimage1 = ref.watch(imageProvider);
       final dbimage2 = ref.watch(imageProvider1);
-      final auth = FirebaseAuth.instance.currentUser!.uid;
+      // final auth = FirebaseAuth.instance.currentUser!.uid;
       var children2 = [
         Row(
           children: [

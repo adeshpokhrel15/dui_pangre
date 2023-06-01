@@ -82,8 +82,8 @@ class PostProvider {
   }
 
 // for sign up using api
-  Future<String> updatePostFromApi( String postId,
-      Map<String, dynamic> postBody, List<XFile>? images) async {
+  Future<String> updatePostFromApi(
+      String postId, Map<String, dynamic> postBody, List<XFile>? images) async {
     try {
       var url = Uri.parse("${GlobalVariables.BASE_URI}/api/bikeinfo/$postId/");
       var request = http.MultipartRequest("PUT", url);
@@ -99,21 +99,20 @@ class PostProvider {
       request.fields['bikecolor'] = postBody['bikecolor'];
       request.fields['rentprice'] = postBody['rentprice'];
 
-      if(images != null){
+      if (images != null) {
+        // Add image files to the request body
+        for (var i = 0; i < images.length; i++) {
+          var imageFile = File(images[i].path);
+          var stream = http.ByteStream(imageFile.openRead());
+          var length = await imageFile.length();
 
-      // Add image files to the request body
-      for (var i = 0; i < images.length; i++) {
-        var imageFile = File(images[i].path);
-        var stream = http.ByteStream(imageFile.openRead());
-        var length = await imageFile.length();
+          var multipartFile = await http.MultipartFile.fromPath(
+            'images',
+            imageFile.path,
+          );
 
-        var multipartFile = await http.MultipartFile.fromPath(
-          'images',
-          imageFile.path,
-        );
-
-        request.files.add(multipartFile);
-      }
+          request.files.add(multipartFile);
+        }
       }
 
       var response = await request.send();
@@ -124,6 +123,33 @@ class PostProvider {
       var responseData = await response.stream.toBytes();
       var responseBody = String.fromCharCodes(responseData);
 
+      // print(responseBody);
+
+      if (response.statusCode == 200) {
+        // print('User registered successfully');
+        return 'success';
+      }
+
+      return '';
+    } on HttpException catch (e) {
+      return '';
+    } on FormatException catch (e) {
+      return '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  Future<String> changeReservedStatus(
+      String postId, bool reservedStatus) async {
+    try {
+      Map<String, dynamic> postBody = {
+        'isreserved': reservedStatus.toString(),
+      };
+
+      var url = Uri.parse("${GlobalVariables.BASE_URI}/api/bikeinfo/$postId/");
+      var response = await http.patch(url, body: postBody);
+      
       // print(responseBody);
 
       if (response.statusCode == 200) {

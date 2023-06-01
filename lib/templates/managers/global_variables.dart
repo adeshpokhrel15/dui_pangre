@@ -4,7 +4,7 @@ String uri = 'http://<yourip>:3000';
 
 class GlobalVariables {
 
-  static const BASE_URI = 'http://192.168.16.100:3001';
+  static const BASE_URI = 'http://192.168.1.96:3001';
   // COLORS
   static const appBarGradient = LinearGradient(
     colors: [

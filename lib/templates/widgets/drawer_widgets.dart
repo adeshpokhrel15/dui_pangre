@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,9 +9,10 @@ import '../screens/login_screen.dart';
 import '../utils/owner_field.dart';
 
 class DrawerWidgets extends StatelessWidget {
-  final auth = FirebaseAuth.instance.currentUser!.uid;
-
-  DrawerWidgets({Key? key}) : super(key: key);
+// final auth = FirebaseAuth.instance.currentUser!.uid;
+  DrawerWidgets({
+    Key? key,
+  }) : super(key: key);
 
   Widget listTile({
     required String title,
@@ -36,7 +38,8 @@ class DrawerWidgets extends StatelessWidget {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     final loginUserProvider =
-        FutureProvider((ref) => UserProvider().getLoginUserData(auth));
+        // FutureProvider((ref) => UserProvider().getLoginUserData(auth));
+        FutureProvider((ref) => UserProvider().getCurrentUser());
     return Consumer(builder: (context, ref, child) {
       final userData = ref.watch(loginUserProvider);
       return Scaffold(
@@ -78,11 +81,12 @@ class DrawerWidgets extends StatelessWidget {
                                         offset: const Offset(0, 10))
                                   ],
                                   shape: BoxShape.circle,
-                                  image: DecorationImage(
+                                  // image: null,
+                                  image: data!.userImage1 != null ? DecorationImage(
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
                                         data.userImage1,
-                                      ))),
+                                      )): null),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 18.0),
@@ -93,7 +97,7 @@ class DrawerWidgets extends StatelessWidget {
                                     height: 40,
                                   ),
                                   Text(
-                                    data.username,
+                                    data!.username,
                                     style: const TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold,

@@ -17,8 +17,9 @@ final authProvider =
 final logSignProvider = Provider((ref) => LoginSignUpProvider());
 
 class LoginSignUpProvider {
-  CollectionReference dbUsers =
-      FirebaseFirestore.instance.collection('users'); //connection to firestore
+  CollectionReference dbUsers = FirebaseFirestore.instance.collection('users');
+
+  get uid => null; //connection to firestore
 
   // // for sign up from firebase
   Future<String> signUp({
@@ -73,6 +74,7 @@ class LoginSignUpProvider {
       var url = Uri.parse("${GlobalVariables.BASE_URI}/api/users/register/");
       var request = http.MultipartRequest("POST", url);
 
+
       // Add text fields to the request body
       request.fields['username'] = postBody['userName'];
       request.fields['email'] = postBody['email'];
@@ -81,15 +83,7 @@ class LoginSignUpProvider {
       // Add image files to the request body
       for (var i = 0; i < images.length; i++) {
         var imageFile = File(images[i].path);
-        var stream = http.ByteStream(imageFile.openRead());
-        var length = await imageFile.length();
 
-        // var multipartFile = http.MultipartFile(
-        //   'images',
-        //   stream,
-        //   length,
-        //   // filename: basename(imageFile.path),
-        // );
         var multipartFile = await http.MultipartFile.fromPath(
           'images',
           imageFile.path,
@@ -98,9 +92,16 @@ class LoginSignUpProvider {
         request.files.add(multipartFile);
       }
 
+       request.headers.addAll({
+        "Content-Type": "multipart/form-data",
+        "Accept": "multipart/form-data; charset=utf-8",
+        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+        // "Access-Control-Allow-Methods": "POST, OPTIONS",
+      });
+
       var response = await request.send();
 
-      // print(response);
+      print(response);
 
       // Get the response from the server
       var responseData = await response.stream.toBytes();

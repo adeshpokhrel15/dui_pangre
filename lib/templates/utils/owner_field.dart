@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../providers/image_provider.dart';
 import '../../providers/post_provider.dart';
@@ -50,7 +51,7 @@ class _OwnerFieldState extends State<OwnerField> {
     return Consumer(builder: (contet, ref, child) {
       final dbimage1 = ref.watch(imageProvider);
       final dbimage2 = ref.watch(imageProvider1);
-      final auth = FirebaseAuth.instance.currentUser!.uid;
+      // final auth = FirebaseAuth.instance.currentUser!.uid;
       var children2 = [
         Row(
           children: [
@@ -276,9 +277,11 @@ class _OwnerFieldState extends State<OwnerField> {
               );
 
               try {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+  String uid = prefs.getString('userId') as String;
                 String value = await ref.read(postCRUDprovider).addPostToApi(
                   {
-                    'userId': '11',
+                    'userId': uid,
                     'citizenshipno': _citizenshipnumber.text.trim(),
 
                     'phonenumber': phonenumberController.text.trim(),
@@ -300,8 +303,8 @@ class _OwnerFieldState extends State<OwnerField> {
 
                 // I, krishna commented below code because i didn't get the purpose of this code
 
-// // Create a new CartPost object with the post data
-//                 CartPost cartPost = CartPost(
+// Create a new CartPost object with the post data
+//                 CartScreen cartPost = CartScreen(
 //                   userId: auth,
 //                   citizenshipNo: _citizenshipnumber.text.trim(),
 //                   phoneNumber: int.parse(phonenumberController.text.trim()),
@@ -316,8 +319,8 @@ class _OwnerFieldState extends State<OwnerField> {
 //                   location: _selectedLocationOrder,
 //                 );
 
-// // Add the cart post to the Cart_Post
-//                 ref.read(cartPostProvider).addCartPost(cartPost);
+// // // Add the cart post to the Cart_Post
+//             ref.read(cartPostProvider).addCartPost(cartPost);
 
                 Navigator.of(context).pop(); // Close the loading dialog
 

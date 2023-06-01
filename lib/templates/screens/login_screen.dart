@@ -1,10 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:two_wheelers/templates/screens/status_screen.dart';
 
+import '../../data/user_model_data_source.dart';
+import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/image_provider.dart';
 import '../../providers/login_provider.dart';
@@ -34,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final isLogin = ref.watch(loginProvider);
         final dbimage1 = ref.watch(imageProvider);
         final dbimage2 = ref.watch(imageProvider1);
+        final userProvider = ref.watch(currentUserProvider);
 
         return Form(
             key: _form,
@@ -300,6 +305,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                     password: passwordController.text.trim(),
                                   );
                               if (value == 'success') {
+                                User? currentUser = await ref
+                                    .read(currentUserProvider)
+                                    .getCurrentUser();
+                                if (currentUser != null){
+                                  
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setString('userId',
+                                    currentUser.id.toString());
+                                }
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                         builder: ((context) =>

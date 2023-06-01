@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:two_wheelers/templates/screens/edit_post_screen.dart';
 
 import '../../models/post_model.dart';
@@ -23,12 +25,24 @@ class ItemDetails extends StatefulWidget {
   State<ItemDetails> createState() => _ItemDetailsState();
 }
 
+_isPostUser(Post vechicle) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String uid = prefs.getString('userId') as String;
+
+  if (uid == vechicle.userId) {
+    return true;
+  }
+  
+  return false;
+}
+
 class _ItemDetailsState extends State<ItemDetails> {
   int selectedIndex = 0;
   final Color _iconColor = Colors.grey;
   TextEditingController pickupLocationController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   // bool isAvailable = true;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +97,31 @@ class _ItemDetailsState extends State<ItemDetails> {
                         ),
                       ),
                     ),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditPostScreen(
-                                    post: widget.vItem,
-                                  )));
-                        },
-                        icon: Icon(Icons.edit)),
+                    FutureBuilder( future: _isPostUser(widget.vItem),
+                    builder: (context, snapshot) {
+                      if(snapshot.hasData){
+                        return snapshot.data as bool ? IconButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => EditPostScreen(
+                                      post: widget.vItem,
+                                    )));
+                          },
+                          icon: Icon(Icons.edit)) : Container();
+                        // IconButton(
+                        //   onPressed: () {
+                        //     Navigator.of(context).push(MaterialPageRoute(
+                        //         builder: (context) => EditPostScreen(
+                        //               post: widget.vItem,
+                        //             )));
+                        //   },
+                        //   icon: Icon(Icons.edit));
+                      }
+                      return Container();
+                    },
+                    ),
+                    
+                      
                   ],
                 ),
               )),
@@ -320,6 +351,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                         ),
                       ),
                       const SizedBox(height: 20.0),
+                      
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
@@ -381,7 +413,7 @@ class _ItemDetailsState extends State<ItemDetails> {
               TextField(
                 controller: pickupLocationController,
                 decoration: const InputDecoration(
-                  labelText: 'Pickup Location',
+                  labelText: 'Shop near to you',
                 ),
               ),
               TextField(
@@ -410,26 +442,42 @@ class _ItemDetailsState extends State<ItemDetails> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text('Payment Successful'),
-          actions: [
-            SimpleDialogOption(
-              child: const Text('OK'),
-              onPressed: () async {
-                // Update Firestore document
-                final infoToUpdate = {
-                  'isReserved': true,
-                };
-                await widget.postProvider
-                    .updatePost(widget.vItem.id, infoToUpdate);
+        return Consumer(builder: (context, ref, child) {
+          return AlertDialog(
+            title: const Text('Payment Successful'),
+            actions: [
+              SimpleDialogOption(
+                child: const Text('OK'),
+                onPressed: () async {
+                  
+                  
+                  // await widget.postProvider
+                  //     .updatePost(widget.vItem.id, infoToUpdate);
 
-                // Update the local widget data
-                setState(() {
-                  widget.vItem.isreserved = true;
-                });
-              },
-            ),
-          ],
+                 var result = await ref.watch(postCRUDprovider).changeReservedStatus(widget.vItem.id, true);
+        
+                  
+                  // var result =await widget.postProvider
+                  //     .changeReservedStatus(widget.vItem.id, true);
+        
+                      
+                  if(result == 'success'){
+                  setState(() {
+                    widget.vItem.isreserved = true;
+                  });
+                  }
+        
+                  // Change status bar color to red
+                  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                    statusBarColor: Colors.red, // Set the desired color here
+                  ));
+        
+                  Navigator.pop(context); // Close the dialog
+                },
+              ),
+            ],
+          );
+        }
         );
       },
     );

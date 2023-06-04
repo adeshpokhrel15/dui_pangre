@@ -68,7 +68,7 @@ class DrawerWidgets extends StatelessWidget {
                             Container(
                               height: MediaQuery.of(context).size.height * 0.12,
                               width: 100,
-                              decoration: BoxDecoration(
+                             decoration: BoxDecoration(
                                   border: Border.all(
                                       width: 4,
                                       color: Theme.of(context)

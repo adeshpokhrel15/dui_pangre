@@ -2,14 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:path/path.dart' as path;
 import '../templates/managers/global_variables.dart';
+
 
 final authProvider =
     StreamProvider((ref) => FirebaseAuth.instance.authStateChanges());
@@ -68,61 +70,79 @@ class LoginSignUpProvider {
   }
 
 // for sign up using api
-  Future<String> signUpFromApi(
-      Map<String, dynamic> postBody, List<XFile> images) async {
-    try {
-      var url = Uri.parse("${GlobalVariables.BASE_URI}/api/users/register/");
-      var request = http.MultipartRequest("POST", url);
-
-
-      // Add text fields to the request body
-      request.fields['username'] = postBody['userName'];
-      request.fields['email'] = postBody['email'];
-      request.fields['password'] = postBody['password'];
-
-      // Add image files to the request body
-      for (var i = 0; i < images.length; i++) {
-        var imageFile = File(images[i].path);
-
-        var multipartFile = await http.MultipartFile.fromPath(
-          'images',
-          imageFile.path,
-        );
-
-        request.files.add(multipartFile);
-      }
-
-       request.headers.addAll({
-        "Content-Type": "multipart/form-data",
-        "Accept": "multipart/form-data; charset=utf-8",
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        // "Access-Control-Allow-Methods": "POST, OPTIONS",
-      });
-
-      var response = await request.send();
-
-      print(response);
-
-      // Get the response from the server
-      var responseData = await response.stream.toBytes();
-      var responseBody = String.fromCharCodes(responseData);
-
-      // print(responseBody);
-
-      if (response.statusCode == 201) {
-        // print('User registered successfully');
-        return 'success';
-      }
-
-      return '';
-    } on HttpException catch (e) {
-      return '';
-    } on FormatException catch (e) {
-      return '';
-    } catch (e) {
-      return '';
-    }
+ Future<String> signUpFromApi(Map<String, dynamic> postBody, List<XFile> images) async {
+  Dio dio = Dio();
+ 
+  var formData = FormData.fromMap({
+    'email': postBody['email'],
+    'password': postBody['password'],
+    'username': postBody['userName'],
+    'firstName': "hey",
+    'lastName': "hi"
+  });
+ 
+  for (int i = 0; i < images.length; i++) {
+    formData.files.add(MapEntry("images", await MultipartFile.fromFile(images[i].path, filename: path.basename(images[i].path))));
   }
+ 
+  final response = await dio.post("http://10.0.12.225:3001/api/users/register", data: formData);
+  return response.data['_id'];
+}
+  // Future<String> signUpFromApi(
+  //     Map<String, dynamic> postBody, List<XFile> images) async {
+  //   try {
+  //     var url = Uri.parse("${GlobalVariables.BASE_URI}/api/users/register/");
+  //     var request = http.MultipartRequest("POST", url);
+
+
+  //     // Add text fields to the request body
+  //     request.fields['username'] = postBody['userName'];
+  //     request.fields['email'] = postBody['email'];
+  //     request.fields['password'] = postBody['password'];
+
+  //     // Add image files to the request body
+  //     for (var i = 0; i < images.length; i++) {
+  //       var imageFile = File(images[i].path);
+
+  //       var multipartFile = await http.MultipartFile.fromPath(
+  //         'images',
+  //         imageFile.path,
+  //       );
+
+  //       request.files.add(multipartFile);
+  //     }
+
+  //      request.headers.addAll({
+  //       "Content-Type": "multipart/form-data",
+  //       "Accept": "multipart/form-data; charset=utf-8",
+  //       "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+  //       // "Access-Control-Allow-Methods": "POST, OPTIONS",
+  //     });
+
+  //     var response = await request.send();
+
+  //     print(response);
+
+  //     // Get the response from the server
+  //     var responseData = await response.stream.toBytes();
+  //     var responseBody = String.fromCharCodes(responseData);
+
+  //     // print(responseBody);
+
+  //     if (response.statusCode == 200) {
+  //       // print('User registered successfully');
+  //       return 'success';
+  //     }
+
+  //     return '';
+  //   } on HttpException catch (e) {
+  //     return '';
+  //   } on FormatException catch (e) {
+  //     return '';
+  //   } catch (e) {
+  //     return '';
+  //   }
+  // }
 
 // for log in from firebase
   Future<String> logIn({

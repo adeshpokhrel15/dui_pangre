@@ -378,7 +378,7 @@ class _OwnerFieldState extends State<OwnerField> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('Error'),
-                      content: Text('An error occurred: $error'),
+                      content: Text('An error occurred: Need to put the values'),
                       actions: [
                         TextButton(
                           onPressed: () {

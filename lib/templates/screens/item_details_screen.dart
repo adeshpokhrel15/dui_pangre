@@ -100,14 +100,23 @@ class _ItemDetailsState extends State<ItemDetails> {
                     FutureBuilder( future: _isPostUser(widget.vItem),
                     builder: (context, snapshot) {
                       if(snapshot.hasData){
-                        return snapshot.data as bool ? IconButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => EditPostScreen(
-                                      post: widget.vItem,
-                                    )));
-                          },
-                          icon: Icon(Icons.edit)) : Container();
+                        return snapshot.data as bool ? Container(
+                           height: 45.0,
+                        width: 45.0,
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(118, 224, 228, 233),
+                            border: Border.all(
+                                color: const Color(0xFF322B2E), width: 1.0),
+                            borderRadius: BorderRadius.circular(15.0)),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => EditPostScreen(
+                                        post: widget.vItem,
+                                      )));
+                            },
+                            icon: Icon(Icons.edit)),
+                        ) : Container();
                         // IconButton(
                         //   onPressed: () {
                         //     Navigator.of(context).push(MaterialPageRoute(
@@ -351,8 +360,26 @@ class _ItemDetailsState extends State<ItemDetails> {
                         ),
                       ),
                       const SizedBox(height: 20.0),
-                      
-                      Center(
+                       FutureBuilder( future: _isPostUser(widget.vItem),
+                    builder: (context, snapshot) {
+                      if(snapshot.hasData){
+                        return snapshot.data as bool ? Container(
+                        //    height: 45.0,
+                        // width: 45.0,
+                        // decoration: BoxDecoration(
+                        //     color: const Color.fromARGB(118, 224, 228, 233),
+                        //     border: Border.all(
+                        //         color: const Color(0xFF322B2E), width: 1.0),
+                        //     borderRadius: BorderRadius.circular(15.0)),
+                        //   child: IconButton(
+                        //     onPressed: () {
+                        //       Navigator.of(context).push(MaterialPageRoute(
+                        //           builder: (context) => EditPostScreen(
+                        //                 post: widget.vItem,
+                        //               )));
+                        //     },
+                        //     icon: Icon(Icons.edit)),
+                        ) : Center(
                         child: ElevatedButton(
                           onPressed: () {
                             showOrderBottomSheet();
@@ -372,12 +399,46 @@ class _ItemDetailsState extends State<ItemDetails> {
                             ),
                           ),
                         ),
-                      ),
+                      );
+                        // IconButton(
+                        //   onPressed: () {
+                        //     Navigator.of(context).push(MaterialPageRoute(
+                        //         builder: (context) => EditPostScreen(
+                        //               post: widget.vItem,
+                        //             )));
+                        //   },
+                        //   icon: Icon(Icons.edit));
+                      }
+                      return Container();
+                    },
+                    ),
+                      // Center(
+                      //   child: ElevatedButton(
+                      //     onPressed: () {
+                      //       showOrderBottomSheet();
+                      //     },
+                      //     style: ElevatedButton.styleFrom(
+                      //         backgroundColor:
+                      //             const Color.fromARGB(255, 255, 140, 0)),
+                      //     child: const Padding(
+                      //       padding: EdgeInsets.symmetric(
+                      //           horizontal: 40.0, vertical: 15.0),
+                      //       child: Text(
+                      //         'Order Now',
+                      //         style: TextStyle(
+                      //             color: Colors.white,
+                      //             fontSize: 18.0,
+                      //             fontWeight: FontWeight.bold),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(height: 30.0),
                     ],
                   ),
                 ),
-              ))
+              )),
+              
         ],
       ));
     });
@@ -420,7 +481,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                 controller: priceController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  labelText: 'How many days?',
+                  labelText: 'Phone Number',
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -437,51 +498,91 @@ class _ItemDetailsState extends State<ItemDetails> {
       },
     );
   }
+ 
+ void onSuccess(PaymentSuccessModel success) async {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Consumer(builder: (context, ref, child) {
+        return AlertDialog(
+          title: const Text('Payment Successful'),
+          actions: [
+            SimpleDialogOption(
+              child: const Text('OK'),
+              onPressed: () async {
+                // Update the status and availability of the post
+                widget.vItem.isreserved = true;
 
-  void onSuccess(PaymentSuccessModel success) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Consumer(builder: (context, ref, child) {
-          return AlertDialog(
-            title: const Text('Payment Successful'),
-            actions: [
-              SimpleDialogOption(
-                child: const Text('OK'),
-                onPressed: () async {
-                  
-                  
-                  // await widget.postProvider
-                  //     .updatePost(widget.vItem.id, infoToUpdate);
-
-                 var result = await ref.watch(postCRUDprovider).changeReservedStatus(widget.vItem.id, true);
-        
-                  
-                  // var result =await widget.postProvider
-                  //     .changeReservedStatus(widget.vItem.id, true);
-        
-                      
-                  if(result == 'success'){
+                // Update the post using the PostProvider
+                var result = await ref.watch(postCRUDprovider).changeReservedStatus(widget.vItem.id, true);
+                if (result == 'success') {
+                  // Trigger a rebuild of the widget with the updated values
                   setState(() {
                     widget.vItem.isreserved = true;
                   });
-                  }
-        
-                  // Change status bar color to red
-                  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                    statusBarColor: Colors.red, // Set the desired color here
-                  ));
-        
-                  Navigator.pop(context); // Close the dialog
-                },
-              ),
-            ],
-          );
-        }
+                }
+
+                // Change status bar color to red
+                SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                  statusBarColor: Colors.red, // Set the desired color here
+                ));
+
+                Navigator.pop(context); // Close the dialog
+              },
+            ),
+          ],
         );
-      },
-    );
-  }
+      });
+    },
+  );
+}
+
+
+
+  // void onSuccess(PaymentSuccessModel success) async {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return Consumer(builder: (context, ref, child) {
+  //         return AlertDialog(
+  //           title: const Text('Payment Successful'),
+  //           actions: [
+  //             SimpleDialogOption(
+  //               child: const Text('OK'),
+  //               onPressed: () async {
+                  
+                  
+  //                 // await widget.postProvider
+  //                 //     .updatePost(widget.vItem.id, infoToUpdate);
+
+  //                var result = await ref.watch(postCRUDprovider).changeReservedStatus(widget.vItem.id, true);
+        
+                  
+  //                 // var result =await widget.postProvider
+  //                 //     .changeReservedStatus(widget.vItem.id, true);
+        
+                      
+  //                 if(result == 'success'){
+  //                 setState(() {
+  //                   widget.vItem.isreserved = true;
+  //                 });
+  //                 }
+        
+  //                 // Change status bar color to red
+  //                 SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //                   statusBarColor: Colors.red, // Set the desired color here
+  //                 ));
+        
+  //                 Navigator.pop(context); // Close the dialog
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       }
+  //       );
+  //     },
+  //   );
+  // }
 
   void onFailure(PaymentFailureModel failure) {
     debugPrint(

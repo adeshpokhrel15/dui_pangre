@@ -221,47 +221,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(width: 20),
 
-                      // poststream.when(
-                      //   data: (data) {
-                      //     List<String> locationOrderOptions = <String>[];
-                      //     locationOrderOptions.add('All');
-                      //     for (var post in data) {
-                      //       locationOrderOptions.contains(post.location)
-                      //           ? null
-                      //           : locationOrderOptions.add(post.location);
-                      //     }
-                      //     return Container(
-                      //       decoration: BoxDecoration(
-                      //         borderRadius: BorderRadius.circular(30),
-                      //         border: Border.all(color: Colors.grey),
-                      //       ),
-                      //       padding:
-                      //           const EdgeInsets.symmetric(horizontal: 16),
-                      //       child: DropdownButton<String>(
-                      //         value: _selectedLocationOrder,
-                      //         onChanged: (String? newValue) {
-                      //           setState(() {
-                      //             _selectedLocationOrder = newValue!;
-                      //           });
-                      //         },
-                      //         items: locationOrderOptions
-                      //             .map<DropdownMenuItem<String>>(
-                      //                 (String value) {
-                      //           return DropdownMenuItem<String>(
-                      //             value: value,
-                      //             child: Text(
-                      //               value,
-                      //               style: const TextStyle(fontSize: 14),
-                      //             ),
-                      //           );
-                      //         }).toList(),
-                      //       ),
-                      //     );
-                      //   },
-                      //   loading: () => const CircularProgressIndicator(),
-                      //   error: (e, s) => Text(e.toString()),
-                      // ),
-
                       _locationOrderOptions.isNotEmpty
                           ? Container(
                               decoration: BoxDecoration(
@@ -441,30 +400,33 @@ class _HomeScreenState extends State<HomeScreen> {
                               //               });
                               //         }),
                               //   )
-                              ? GridView.builder(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 5,
-                                    mainAxisExtent: 300,
-                                  ),
-                                  itemCount: searchResult!.length,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ItemDetails(
-                                                      vItem:
-                                                          searchResult![index],
-                                                      postProvider: ref.read(
-                                                          postCRUDprovider),
-                                                    )));
-                                      },
-                                      child: itemdetails(searchResult!, index),
-                                    );
-                                  })
+                              ? Padding(
+                                padding: const EdgeInsets.only(bottom: 100.0),
+                                child: GridView.builder(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 5,
+                                      mainAxisExtent: 300,
+                                    ),
+                                    itemCount: searchResult!.length,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ItemDetails(
+                                                        vItem:
+                                                            searchResult![index],
+                                                        postProvider: ref.read(
+                                                            postCRUDprovider),
+                                                      )));
+                                        },
+                                        child: itemdetails(searchResult!, index),
+                                      );
+                                    }),
+                              )
                               : const Text('No content found')
                           // : poststream.when(
                           //     data: (data) {
@@ -513,40 +475,43 @@ class _HomeScreenState extends State<HomeScreen> {
                           //     loading: () =>
                           //         const CircularProgressIndicator())),
                           : _allPosts.isNotEmpty
-                              ? GridView.builder(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 5,
-                                    mainAxisExtent: 300,
-                                  ),
-                                  itemCount: _filteredPosts.isNotEmpty
-                                      ? _filteredPosts.length
-                                      : _allPosts.length,
-                                  itemBuilder: (context, index) {
-                                    List<Post> _posts =
-                                        _filteredPosts.isNotEmpty
-                                            ? _filteredPosts
-                                            : _allPosts;
-                                    _selectedPriceOrder == 'Low to High'
-                                        ? _posts.sort((a, b) =>
-                                            a.rentprice.compareTo(b.rentprice))
-                                        : _posts.sort((a, b) =>
-                                            b.rentprice.compareTo(a.rentprice));
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ItemDetails(
-                                                      vItem: _posts[index],
-                                                      postProvider: ref.read(
-                                                          postCRUDprovider),
-                                                    )));
-                                      },
-                                      child: itemdetails(_posts, index),
-                                    );
-                                  })
+                              ? Padding(
+                                padding: const EdgeInsets.only(bottom: 100.0),
+                                child: GridView.builder(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 5,
+                                      mainAxisExtent: 300,
+                                    ),
+                                    itemCount: _filteredPosts.isNotEmpty
+                                        ? _filteredPosts.length
+                                        : _allPosts.length,
+                                    itemBuilder: (context, index) {
+                                      List<Post> _posts =
+                                          _filteredPosts.isNotEmpty
+                                              ? _filteredPosts
+                                              : _allPosts;
+                                      _selectedPriceOrder == 'Low to High'
+                                          ? _posts.sort((a, b) =>
+                                              a.rentprice.compareTo(b.rentprice))
+                                          : _posts.sort((a, b) =>
+                                              b.rentprice.compareTo(a.rentprice));
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ItemDetails(
+                                                        vItem: _posts[index],
+                                                        postProvider: ref.read(
+                                                            postCRUDprovider),
+                                                      )));
+                                        },
+                                        child: itemdetails(_posts, index),
+                                      );
+                                    }),
+                              )
                               : FutureBuilder(
                                   future:
                                       ref.watch(apiProvider).getPostFromApi(),
@@ -566,36 +531,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                       // locationOrderOptions.add('All');
                                       _allPosts = snapshot.data as List<Post>;
 
-                                      return GridView.builder(
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            crossAxisSpacing: 5,
-                                            mainAxisExtent: 300,
-                                          ),
-                                          itemCount:
-                                              (snapshot.data! as List).length,
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
-                                                                ItemDetails(
-                                                                  vItem: (snapshot
-                                                                          .data!
-                                                                      as List)[index],
-                                                                  postProvider:
-                                                                      ref.read(
-                                                                          postCRUDprovider),
-                                                                )));
-                                              },
-                                              child: itemdetails(
-                                                  snapshot.data! as List<Post>,
-                                                  index),
-                                            );
-                                          });
+                                      return Padding(
+                                        padding: const EdgeInsets.only(bottom: 100.0),
+                                        child: GridView.builder(
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              crossAxisSpacing: 5,
+                                              mainAxisExtent: 300,
+                                            ),
+                                            itemCount:
+                                                (snapshot.data! as List).length,
+                                            itemBuilder: (context, index) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder:
+                                                              (context) =>
+                                                                  ItemDetails(
+                                                                    vItem: (snapshot
+                                                                            .data!
+                                                                        as List)[index],
+                                                                    postProvider:
+                                                                        ref.read(
+                                                                            postCRUDprovider),
+                                                                  )));
+                                                },
+                                                child: itemdetails(
+                                                    snapshot.data! as List<Post>,
+                                                    index),
+                                              );
+                                            }),
+                                      );
                                     }
                                     return const Text('Something went wrong');
                                   }),

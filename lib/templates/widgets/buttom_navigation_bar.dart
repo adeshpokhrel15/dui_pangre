@@ -24,8 +24,8 @@ class _BottomNavigationBarWidgetsState
   int _index = 0;
   List pages = [
     const HomeScreen(),
-    CartScreen(),
-    VehicleRequestsScreen(),
+    // CartScreen(),
+    // VehicleRequestsScreen(),
     DrawerWidgets()
   ];
   PageController controller = PageController();
@@ -76,28 +76,28 @@ class _BottomNavigationBarWidgetsState
                   iconSize: 24,
                   padding: padding,
                 ),
-                GButton(
-                  gap: gap,
-                  icon: Icons.home,
-                  iconColor: Colors.black,
-                  iconActiveColor: Colors.purple,
-                  text: 'Cart',
-                  textColor: Colors.purple,
-                  backgroundColor: Colors.purple.withOpacity(0.2),
-                  iconSize: 24,
-                  padding: padding,
-                ),
-                GButton(
-                  gap: gap,
-                  icon: Icons.home,
-                  iconColor: Colors.black,
-                  iconActiveColor: Colors.purple,
-                  text: 'Requests',
-                  textColor: Colors.purple,
-                  backgroundColor: Colors.purple.withOpacity(0.2),
-                  iconSize: 24,
-                  padding: padding,
-                ),
+                // GButton(
+                //   gap: gap,
+                //   icon: Icons.home,
+                //   iconColor: Colors.black,
+                //   iconActiveColor: Colors.purple,
+                //   text: 'Cart',
+                //   textColor: Colors.purple,
+                //   backgroundColor: Colors.purple.withOpacity(0.2),
+                //   iconSize: 24,
+                //   padding: padding,
+                // ),
+                // GButton(
+                //   gap: gap,
+                //   icon: Icons.home,
+                //   iconColor: Colors.black,
+                //   iconActiveColor: Colors.purple,
+                //   text: 'Requests',
+                //   textColor: Colors.purple,
+                //   backgroundColor: Colors.purple.withOpacity(0.2),
+                //   iconSize: 24,
+                //   padding: padding,
+                // ),
                 GButton(
                   gap: gap,
                   icon: Icons.people,

@@ -308,12 +308,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 User? currentUser = await ref
                                     .read(currentUserProvider)
                                     .getCurrentUser();
-                                if (currentUser != null){
-                                  
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setString('userId',
-                                    currentUser.id.toString());
+                                if (currentUser != null) {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setString(
+                                      'userId', currentUser.id.toString());
                                 }
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
@@ -343,7 +342,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 dbimage2.image!,
                               ]);
 
-                              if (value == 'success') {
+                              if (value != "") {
                                 ref.read(loginProvider.notifier).toggle();
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
@@ -364,7 +363,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         elevation: 5.0,
                         color: const Color(0xFF00a2e8),
                         textColor: Colors.black,
-                        child: const Text('Login'),
+                        child: isLogin? Text('Login') : Text('Register'),
                       ),
                     ),
                     TextButton(

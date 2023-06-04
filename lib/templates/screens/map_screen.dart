@@ -55,9 +55,21 @@ class MapSampleState extends State<MapSample> {
   );
   static final Marker _thirdOfficeMarker = Marker(
     markerId: const MarkerId('_thirdMarker'),
-    position: const LatLng(27.800769, 85.302240),
+    position: const LatLng(27.70276, 85.30345),
     infoWindow: const InfoWindow(
       title: 'Third Office',
+      snippet: 'Marker Snippet',
+    ),
+    onTap: () {
+      // Handle marker tap, if needed
+    },
+  );
+
+   static final Marker _fourthOfficeMarker = Marker(
+    markerId: const MarkerId('_thirdMarker'),
+    position: const LatLng(27.70276, 85.30945),
+    infoWindow: const InfoWindow(
+      title: 'Fourth Office',
       snippet: 'Marker Snippet',
     ),
     onTap: () {
@@ -99,6 +111,7 @@ class MapSampleState extends State<MapSample> {
     markers[const MarkerId('_firstMarker')] = _firstOfficeMarker;
     markers[const MarkerId('_secondMarker')] = _secondOfficeMarker;
     markers[const MarkerId('_thirdMarker')] = _thirdOfficeMarker;
+    markers[const MarkerId('_fourthMarker')] = _fourthOfficeMarker;
     return Scaffold(
       appBar: AppBar(
         title: const Text('See our Outlets'),
@@ -194,6 +207,12 @@ class MapSampleState extends State<MapSample> {
                 _thirdOfficeMarker.position.latitude,
                 _thirdOfficeMarker.position.longitude,
               );
+              double distanceWithFourth = Geolocator.distanceBetween(
+                userPos!.latitude,
+                userPos!.longitude,
+                _fourthOfficeMarker.position.latitude,
+                _fourthOfficeMarker.position.longitude,
+              );
 
               double smallestDistance;
 
@@ -287,7 +306,7 @@ class MapSampleState extends State<MapSample> {
                     ),
                   ),
                 ));
-              } else {
+              } else if (smallestDistance == distanceWithSecond){
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   duration: const Duration(days: 1),
                   content: Container(
@@ -314,6 +333,44 @@ class MapSampleState extends State<MapSample> {
                                     target: LatLng(
                                         _thirdOfficeMarker.position.latitude,
                                         _thirdOfficeMarker.position.longitude),
+                                    tilt: 59.440717697143555,
+                                    zoom: 19.151926040649414)));
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          },
+                          child: const Text('See office location'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ));
+              }
+              else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  duration: const Duration(days: 1),
+                  content: Container(
+                    // height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.red,
+                    ),
+                    child: Column(
+                      children: [
+                        const Center(
+                          child: Text(
+                            'Fourth office is the nearest from your location',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            controller.animateCamera(
+                                CameraUpdate.newCameraPosition(CameraPosition(
+                                    bearing: 192.8334901395799,
+                                    target: LatLng(
+                                        _fourthOfficeMarker.position.latitude,
+                                        _fourthOfficeMarker.position.longitude),
                                     tilt: 59.440717697143555,
                                     zoom: 19.151926040649414)));
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
